@@ -236,149 +236,74 @@
     </div>
 
     <script>
-        // Tes 140 photos avec toutes les données exactes
-        const allData = [
-            { id: "1", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
-            { id: "2", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
-            { id: "3", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "4", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
-            { id: "5", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
-            { id: "6", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
-            { id: "7", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "8", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathias", cheval: "Haidy", equipe: "Les Last Minute" },
-            { id: "9", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex Mathyas", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "10", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathias", cheval: "Haidy", equipe: "Les Last Minute" },
-            { id: "11", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
-            { id: "12", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack Ombeline Hald", cheval: "Hacienda Morena", equipe: "Les Last Minute" },
-            { id: "13", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
-            { id: "14", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "15", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
-            { id: "16", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
-            { id: "17", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
-            { id: "18", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald Mathyas", cheval: "Hacienda", equipe: "Les Last Minute" },
-            { id: "19", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
-            { id: "20", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
-            { id: "21", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
-            { id: "22", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald Violette Novack Alex M", cheval: "Hacienda Morena Elite Kiara Haidy", equipe: "Les Last Minute" },
-            { id: "23", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
-            { id: "24", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
-            { id: "25", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
-            { id: "26", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
-            { id: "27", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
-            { id: "28", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "29", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "30", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "31", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
-            { id: "32", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
-            { id: "33", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
-            { id: "34", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
-            { id: "35", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
-            { id: "36", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
-            { id: "37", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
-            { id: "38", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
-            { id: "39", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "40", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "41", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "42", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "43", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "44", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "45", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "46", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "47", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
-            { id: "48", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
-            { id: "49", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
-            { id: "50", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
-            { id: "51", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
-            { id: "52", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
-            { id: "53", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
-            { id: "54", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
-            { id: "55", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
-            { id: "56", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "57", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "58", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "59", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "60", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "61", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "62", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "63", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "64", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "65", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "66", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "67", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "68", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "69", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "70", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "71", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "72", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "73", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "74", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "75", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "76", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "77", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "78", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "79", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "80", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "81", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "82", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "83", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "84", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "85", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "86", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "87", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "88", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "89", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "90", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "91", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "92", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "93", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "94", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "95", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "96", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "97", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "98", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "99", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "100", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "101", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "102", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "103", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "104", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "105", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "106", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "107", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "108", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "109", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "110", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "111", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "112", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "113", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "114", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "115", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "116", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "117", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "118", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "119", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "120", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "121", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "122", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "123", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "124", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "125", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "126", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "127", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "128", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "129", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "130", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "131", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "132", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "133", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "134", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "135", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "136", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "137", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "138", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "139", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
-            { id: "140", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" }
-        ];
+        // Les données des photos sont maintenant chargées depuis data.csv
+        // (plus besoin de modifier ce fichier HTML pour ajouter des photos :
+        // il suffit d'ajouter des lignes dans data.csv)
+        let allData = [];
+
+        function parseCSV(text) {
+            // Parseur CSV simple (gère les guillemets et les virgules dans les champs)
+            const rows = [];
+            let row = [];
+            let field = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                if (inQuotes) {
+                    if (char === '"') {
+                        if (text[i + 1] === '"') { field += '"'; i++; }
+                        else { inQuotes = false; }
+                    } else {
+                        field += char;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                    } else if (char === ',') {
+                        row.push(field);
+                        field = '';
+                    } else if (char === '\n' || char === '\r') {
+                        if (char === '\r' && text[i + 1] === '\n') i++;
+                        row.push(field);
+                        field = '';
+                        if (row.some(f => f.trim() !== '')) rows.push(row);
+                        row = [];
+                    } else {
+                        field += char;
+                    }
+                }
+            }
+            if (field !== '' || row.length > 0) {
+                row.push(field);
+                if (row.some(f => f.trim() !== '')) rows.push(row);
+            }
+            return rows;
+        }
+
+        async function loadPhotoData() {
+            const response = await fetch('data.csv');
+            const text = await response.text();
+            const rows = parseCSV(text);
+            const header = rows[0].map(h => h.trim().toLowerCase());
+            const idxId = header.indexOf('id');
+            const idxLieu = header.indexOf('lieu');
+            const idxEpreuve = header.indexOf('epreuve');
+            const idxSession = header.indexOf('session');
+            const idxCavalier = header.indexOf('cavalier');
+            const idxCheval = header.indexOf('cheval');
+            const idxEquipe = header.indexOf('equipe');
+
+            allData = rows.slice(1).map(r => ({
+                id: (r[idxId] || '').trim(),
+                lieu: (r[idxLieu] || '').trim(),
+                epreuve: (r[idxEpreuve] || '').trim(),
+                session: (r[idxSession] || '').trim(),
+                cavalier: (r[idxCavalier] || '').trim(),
+                cheval: (r[idxCheval] || '').trim(),
+                equipe: (r[idxEquipe] || '').trim()
+            })).filter(item => item.id);
+        }
 
         let currentLevel = 'home';
         let selectedLieu = '';
@@ -389,7 +314,18 @@
         let currentIndex = 0;
         let selectedPhotoIds = new Set();
 
-        window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', async () => {
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">Chargement des photos...</div>';
+
+            try {
+                await loadPhotoData();
+            } catch (err) {
+                console.error('Impossible de charger data.csv', err);
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #c0392b;">Erreur : impossible de charger data.csv. Vérifie qu\'il est bien dans le même dossier que ce fichier HTML et que le site est servi via un serveur web (pas ouvert en double-clic).</div>';
+                return;
+            }
+
             renderHome();
 
             document.getElementById('search-input').addEventListener('input', (e) => {
@@ -481,7 +417,7 @@
             });
             grid.innerHTML = html;
         }
-function renderSessions(epreuve) {
+        function renderSessions(epreuve) {
             selectedEpreuve = epreuve;
             currentLevel = 'sessions';
             updateBreadcrumb([
@@ -491,14 +427,17 @@ function renderSessions(epreuve) {
             hideSelectionBar();
             const grid = document.getElementById('gallery-grid');
 
-            const sessions = [...new Set(allData.filter(item => item.lieu === selectedLieu && item.epreuve === epreuve).map(item => item.session))].filter(Boolean);
+            // Trie pour que "Session 3" apparaisse avant "Final"
+            const sessions = [...new Set(allData.filter(item => item.lieu === selectedLieu && item.epreuve === epreuve).map(item => item.session))]
+                .filter(Boolean)
+                .sort((a, b) => (a.toLowerCase() === 'final' ? 1 : b.toLowerCase() === 'final' ? -1 : 0));
 
             let html = '';
             sessions.forEach(session => {
                 // Utilise 175.jpg pour le dossier Final, et 12.jpg pour Session 3
                 const coverImage = (session.toLowerCase() === 'final') ? 'image/175.jpg' : 'image/12.jpg';
                 const placeholderText = (session.toLowerCase() === 'final') ? 'Final' : 'Session+3';
-                
+
                 html += `
                     <div class="folder-card banner-card" onclick="renderPhotos('${session}')">
                         <div class="folder-image-container">
@@ -534,12 +473,10 @@ function renderSessions(epreuve) {
             updateBreadcrumb([{ name: `Recherche : "${query}"`, action: '' }]);
             const grid = document.getElementById('gallery-grid');
 
-            // Découpe la recherche en plusieurs mots-clés (ex: "violette novack" -> cherche "violette" ET "novack")
             const searchTerms = query.split(/\s+/).filter(Boolean);
 
             const results = allData.filter(item => {
                 const combined = `${item.cavalier} ${item.cheval} ${item.equipe} ${item.lieu} ${item.epreuve}`.toLowerCase();
-                // La photo correspond si TOUS les termes tapés se trouvent dans les données combinées
                 return searchTerms.every(term => combined.includes(term));
             });
 
@@ -629,16 +566,6 @@ function renderSessions(epreuve) {
             document.getElementById('selection-bar').style.display = 'none';
         }
 
-        // ---------------------------------------------------------------
-        // Téléchargement groupé des photos sélectionnées (remplace l'email)
-        // ---------------------------------------------------------------
-        //
-        // Principe : on récupère chaque photo sélectionnée (fetch en local
-        // depuis le dossier image/), on les ajoute à une archive ZIP créée
-        // avec JSZip, puis on déclenche le téléchargement de l'archive.
-        // Ça marche aussi bien sur téléphone que sur ordinateur, sans
-        // dépendre d'un envoi par mail.
-
         async function downloadSelectedPhotos() {
             if (selectedPhotoIds.size === 0) return;
 
@@ -659,8 +586,6 @@ function renderSessions(epreuve) {
                 const zip = new JSZip();
                 let done = 0;
 
-                // Téléchargement en parallèle (limité par le navigateur), mais
-                // on met à jour la barre de progression au fur et à mesure.
                 await Promise.all(ids.map(async (id) => {
                     const fileName = id + '.jpg';
                     try {
@@ -680,12 +605,10 @@ function renderSessions(epreuve) {
                 label.innerText = 'Compression du fichier ZIP...';
 
                 const zipBlob = await zip.generateAsync({ type: 'blob' }, (metadata) => {
-                    // Pendant la compression, on peut aussi afficher un % si besoin
                     const percent = Math.round(metadata.percent);
                     fill.style.width = percent + '%';
                 });
 
-                // Déclenche le téléchargement du fichier ZIP sur l'appareil
                 const zipUrl = URL.createObjectURL(zipBlob);
                 const a = document.createElement('a');
                 a.href = zipUrl;
