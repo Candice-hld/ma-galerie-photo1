@@ -481,8 +481,7 @@
             });
             grid.innerHTML = html;
         }
-
-        function renderSessions(epreuve) {
+function renderSessions(epreuve) {
             selectedEpreuve = epreuve;
             currentLevel = 'sessions';
             updateBreadcrumb([
@@ -496,10 +495,14 @@
 
             let html = '';
             sessions.forEach(session => {
+                // Utilise 175.jpg pour le dossier Final, et 12.jpg pour Session 3
+                const coverImage = (session.toLowerCase() === 'final') ? 'image/175.jpg' : 'image/12.jpg';
+                const placeholderText = (session.toLowerCase() === 'final') ? 'Final' : 'Session+3';
+                
                 html += `
                     <div class="folder-card banner-card" onclick="renderPhotos('${session}')">
                         <div class="folder-image-container">
-                            <img src="image/12.jpg" alt="${session}" onerror="this.src='https://via.placeholder.com/1200x400?text=Session'">
+                            <img src="${coverImage}" alt="${session}" onerror="this.src='https://via.placeholder.com/1200x400?text=${placeholderText}'">
                         </div>
                         <div class="folder-info-box">
                             <span class="folder-title">${session}</span>
