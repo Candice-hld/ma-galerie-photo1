@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- JSZip : permet de créer un fichier .zip côté navigateur pour le téléchargement groupé -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galerie Photo</title>
@@ -58,11 +61,21 @@
         .selection-bar button:hover {
             background: #5dade2;
         }
+        .selection-bar button:disabled {
+            background: #7f8c8d;
+            cursor: not-allowed;
+        }
         .btn-deselect {
             background: #e74c3c !important;
         }
         .btn-deselect:hover {
             background: #ec7063 !important;
+        }
+        .btn-download {
+            background: #27ae60 !important;
+        }
+        .btn-download:hover {
+            background: #2ecc71 !important;
         }
 
         /* Style de la Lightbox (visionneuse en grand) */
@@ -126,11 +139,11 @@
         }
         .lightbox-download:hover { background-color: #5dade2; }
 
-        /* Fenêtre modale pour l'e-mail */
-        .modal-email {
+        /* Overlay de progression pendant la préparation du ZIP */
+        .download-overlay {
             display: none;
             position: fixed;
-            z-index: 1100;
+            z-index: 1200;
             top: 0;
             left: 0;
             width: 100%;
@@ -139,40 +152,37 @@
             justify-content: center;
             align-items: center;
         }
-        .modal-content {
+        .download-overlay-content {
             background: white;
-            padding: 30px;
+            padding: 30px 35px;
             border-radius: 8px;
-            width: 400px;
+            width: 320px;
             max-width: 90%;
             text-align: center;
             font-family: sans-serif;
         }
-        .modal-content h3 { margin-top: 0; color: #2c3e50; }
-        .modal-content input[type="email"] {
+        .download-overlay-content h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .progress-track {
             width: 100%;
-            padding: 10px;
-            margin: 15px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 14px;
+            height: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 15px 0 10px;
         }
-        .modal-buttons {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #27ae60;
+            transition: width 0.2s ease;
         }
-        .modal-buttons button {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
+        .progress-label {
+            font-size: 13px;
+            color: #555;
         }
-        .btn-cancel { background: #e0e0e0; color: #333; }
-        .btn-send { background: #3498db; color: white; }
-        .btn-send:hover { background: #5dade2; }
     </style>
 </head>
 <body>
@@ -202,7 +212,7 @@
         <span id="selection-count">0 photo(s)</span>
         <button onclick="selectAllPhotos()">Tout sélectionner</button>
         <button class="btn-deselect" onclick="deselectAllPhotos()">Tout désélectionner</button>
-        <button onclick="openEmailModal()">Recevoir par mail</button>
+        <button class="btn-download" onclick="downloadSelectedPhotos()">Télécharger</button>
     </div>
 
     <!-- Fenêtre modale (Lightbox) -->
@@ -214,16 +224,14 @@
         <span class="lightbox-nav lightbox-next" onclick="changeImage(1)">&#10095;</span>
     </div>
 
-    <!-- Fenêtre modale pour l'e-mail -->
-    <div id="email-modal" class="modal-email">
-        <div class="modal-content">
-            <h3>Recevoir vos photos par e-mail</h3>
-            <p>Entrez votre adresse e-mail pour recevoir la sélection de vos photos :</p>
-            <input type="email" id="user-email" placeholder="votremail@exemple.com">
-            <div class="modal-buttons">
-                <button class="btn-cancel" onclick="closeEmailModal()">Annuler</button>
-                <button class="btn-send" onclick="sendPhotosByEmail()">Envoyer</button>
+    <!-- Overlay de progression pendant la préparation du ZIP -->
+    <div id="download-overlay" class="download-overlay">
+        <div class="download-overlay-content">
+            <h3>Préparation du téléchargement</h3>
+            <div class="progress-track">
+                <div id="progress-fill" class="progress-fill"></div>
             </div>
+            <div id="progress-label" class="progress-label">0 / 0 photos</div>
         </div>
     </div>
 
@@ -376,7 +384,7 @@
         let selectedLieu = '';
         let selectedEpreuve = '';
         let selectedSession = '';
-        
+
         let currentPhotosList = [];
         let currentIndex = 0;
         let selectedPhotoIds = new Set();
@@ -429,7 +437,7 @@
             updateBreadcrumb([]);
             hideSelectionBar();
             const grid = document.getElementById('gallery-grid');
-            
+
             const lieux = [...new Set(allData.map(item => item.lieu))].filter(Boolean);
 
             let html = '';
@@ -548,7 +556,7 @@
                 const fileName = item.id + '.jpg';
                 const isChecked = selectedPhotoIds.has(item.id) ? 'checked' : '';
                 const cardSelectedClass = selectedPhotoIds.has(item.id) ? 'selected' : '';
-                
+
                 html += `
                     <div class="photo-card ${cardSelectedClass}" id="card-${item.id}">
                         <input type="checkbox" ${isChecked} onclick="toggleSelectPhoto(event, '${item.id}')">
@@ -618,28 +626,79 @@
             document.getElementById('selection-bar').style.display = 'none';
         }
 
-        function openEmailModal() {
+        // ---------------------------------------------------------------
+        // Téléchargement groupé des photos sélectionnées (remplace l'email)
+        // ---------------------------------------------------------------
+        //
+        // Principe : on récupère chaque photo sélectionnée (fetch en local
+        // depuis le dossier image/), on les ajoute à une archive ZIP créée
+        // avec JSZip, puis on déclenche le téléchargement de l'archive.
+        // Ça marche aussi bien sur téléphone que sur ordinateur, sans
+        // dépendre d'un envoi par mail.
+
+        async function downloadSelectedPhotos() {
             if (selectedPhotoIds.size === 0) return;
-            document.getElementById('email-modal').style.display = 'flex';
-        }
 
-        function closeEmailModal() {
-            document.getElementById('email-modal').style.display = 'none';
-        }
+            const overlay = document.getElementById('download-overlay');
+            const fill = document.getElementById('progress-fill');
+            const label = document.getElementById('progress-label');
+            const downloadBtn = document.querySelector('.btn-download');
 
-        function sendPhotosByEmail() {
-            const emailInput = document.getElementById('user-email');
-            const email = emailInput.value.trim();
+            const ids = Array.from(selectedPhotoIds);
+            const total = ids.length;
 
-            if (!email || !email.includes('@')) {
-                alert('Veuillez entrer une adresse e-mail valide.');
-                return;
+            overlay.style.display = 'flex';
+            fill.style.width = '0%';
+            label.innerText = `0 / ${total} photos`;
+            downloadBtn.disabled = true;
+
+            try {
+                const zip = new JSZip();
+                let done = 0;
+
+                // Téléchargement en parallèle (limité par le navigateur), mais
+                // on met à jour la barre de progression au fur et à mesure.
+                await Promise.all(ids.map(async (id) => {
+                    const fileName = id + '.jpg';
+                    try {
+                        const response = await fetch(`image/${fileName}`);
+                        const blob = await response.blob();
+                        zip.file(fileName, blob);
+                    } catch (err) {
+                        console.error(`Impossible de récupérer la photo ${fileName}`, err);
+                    } finally {
+                        done++;
+                        const percent = Math.round((done / total) * 100);
+                        fill.style.width = percent + '%';
+                        label.innerText = `${done} / ${total} photos`;
+                    }
+                }));
+
+                label.innerText = 'Compression du fichier ZIP...';
+
+                const zipBlob = await zip.generateAsync({ type: 'blob' }, (metadata) => {
+                    // Pendant la compression, on peut aussi afficher un % si besoin
+                    const percent = Math.round(metadata.percent);
+                    fill.style.width = percent + '%';
+                });
+
+                // Déclenche le téléchargement du fichier ZIP sur l'appareil
+                const zipUrl = URL.createObjectURL(zipBlob);
+                const a = document.createElement('a');
+                a.href = zipUrl;
+                a.download = `photos-selection-${Date.now()}.zip`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(zipUrl);
+
+            } catch (err) {
+                console.error('Erreur lors de la préparation du téléchargement :', err);
+                alert("Une erreur est survenue pendant la préparation du téléchargement. Réessaie.");
+            } finally {
+                overlay.style.display = 'none';
+                downloadBtn.disabled = false;
             }
-
-            alert(`Succès ! Un e-mail contenant les liens de téléchargement de vos ${selectedPhotoIds.size} photos a été simulé et envoyé à : ${email}`);
-            
-            closeEmailModal();
-            emailInput.value = '';
         }
 
         function openLightbox(index) {
@@ -667,9 +726,9 @@
                 const item = currentPhotosList[currentIndex];
                 const fileName = item.id + '.jpg';
                 const filePath = `image/${fileName}`;
-                
+
                 document.getElementById('lightbox-img').src = filePath;
-                
+
                 const downloadBtn = document.getElementById('lightbox-download-btn');
                 downloadBtn.href = filePath;
                 downloadBtn.download = fileName;
@@ -683,6 +742,5 @@
             else if (currentLevel === 'photos') renderPhotos(selectedSession);
         }
     </script>
-
 </body>
 </html>
