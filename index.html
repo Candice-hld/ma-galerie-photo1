@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie Photo</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .photo-info { display: none; }
+
+        /* Styles pour la sélection de photos */
+        .photo-card {
+            position: relative;
+            cursor: pointer;
+        }
+        .photo-card input[type="checkbox"] {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 22px;
+            height: 22px;
+            z-index: 10;
+            cursor: pointer;
+        }
+        .photo-card.selected {
+            border: 3px solid #3498db;
+            border-radius: 6px;
+        }
+
+        /* Barre d'actions flottante pour la sélection */
+        .selection-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c3e50;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            display: none;
+            align-items: center;
+            gap: 15px;
+            z-index: 900;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-family: sans-serif;
+            font-size: 14px;
+        }
+        .selection-bar button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .selection-bar button:hover {
+            background: #5dade2;
+        }
+        .btn-deselect {
+            background: #e74c3c !important;
+        }
+        .btn-deselect:hover {
+            background: #ec7063 !important;
+        }
+
+        /* Style de la Lightbox (visionneuse en grand) */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 50px;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 5px;
+            user-select: none;
+        }
+        .lightbox-prev { left: 30px; }
+        .lightbox-next { right: 30px; }
+        .lightbox-nav:hover, .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+
+        .lightbox-download {
+            position: absolute;
+            top: 25px;
+            right: 90px;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-family: sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: background-color 0.2s ease;
+        }
+        .lightbox-download:hover { background-color: #5dade2; }
+
+        /* Fenêtre modale pour l'e-mail */
+        .modal-email {
+            display: none;
+            position: fixed;
+            z-index: 1100;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 400px;
+            max-width: 90%;
+            text-align: center;
+            font-family: sans-serif;
+        }
+        .modal-content h3 { margin-top: 0; color: #2c3e50; }
+        .modal-content input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        .modal-buttons button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-cancel { background: #e0e0e0; color: #333; }
+        .btn-send { background: #3498db; color: white; }
+        .btn-send:hover { background: #5dade2; }
+    </style>
+</head>
+<body>
+
+    <!-- Bandeau supérieur -->
+    <header class="top-banner">
+        <h1 id="home-title" style="cursor: pointer;">Galerie Photo</h1>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Rechercher (Cavalier, Cheval, Équipe)...">
+        </div>
+    </header>
+
+    <!-- Fil d'Ariane -->
+    <div class="breadcrumb-container">
+        <div class="breadcrumb" id="breadcrumb">
+            <span onclick="resetNavigation()" style="cursor: pointer;">Accueil</span>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <main class="main-container">
+        <div class="grid-view" id="gallery-grid"></div>
+    </main>
+
+    <!-- Barre d'actions flottante -->
+    <div id="selection-bar" class="selection-bar">
+        <span id="selection-count">0 photo(s)</span>
+        <button onclick="selectAllPhotos()">Tout sélectionner</button>
+        <button class="btn-deselect" onclick="deselectAllPhotos()">Tout désélectionner</button>
+        <button onclick="openEmailModal()">Recevoir par mail</button>
+    </div>
+
+    <!-- Fenêtre modale (Lightbox) -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <a id="lightbox-download-btn" class="lightbox-download" href="" download target="_blank">Télécharger</a>
+        <span class="lightbox-nav lightbox-prev" onclick="changeImage(-1)">&#10094;</span>
+        <img id="lightbox-img" src="" alt="Agrandissement">
+        <span class="lightbox-nav lightbox-next" onclick="changeImage(1)">&#10095;</span>
+    </div>
+
+    <!-- Fenêtre modale pour l'e-mail -->
+    <div id="email-modal" class="modal-email">
+        <div class="modal-content">
+            <h3>Recevoir vos photos par e-mail</h3>
+            <p>Entrez votre adresse e-mail pour recevoir la sélection de vos photos :</p>
+            <input type="email" id="user-email" placeholder="votremail@exemple.com">
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeEmailModal()">Annuler</button>
+                <button class="btn-send" onclick="sendPhotosByEmail()">Envoyer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tes 140 photos avec toutes les données exactes
+        const allData = [
+            { id: "1", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
+            { id: "2", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
+            { id: "3", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "4", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
+            { id: "5", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
+            { id: "6", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
+            { id: "7", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "8", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathias", cheval: "Haidy", equipe: "Les Last Minute" },
+            { id: "9", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex Mathyas", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "10", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathias", cheval: "Haidy", equipe: "Les Last Minute" },
+            { id: "11", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
+            { id: "12", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack Ombeline Hald", cheval: "Hacienda Morena", equipe: "Les Last Minute" },
+            { id: "13", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
+            { id: "14", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "15", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
+            { id: "16", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
+            { id: "17", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
+            { id: "18", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald Mathyas", cheval: "Hacienda", equipe: "Les Last Minute" },
+            { id: "19", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
+            { id: "20", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
+            { id: "21", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
+            { id: "22", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald Violette Novack Alex M", cheval: "Hacienda Morena Elite Kiara Haidy", equipe: "Les Last Minute" },
+            { id: "23", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
+            { id: "24", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
+            { id: "25", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
+            { id: "26", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
+            { id: "27", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Ombeline Hald", cheval: "Hacienda", equipe: "Les Last Minute" },
+            { id: "28", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "29", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "30", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "31", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
+            { id: "32", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
+            { id: "33", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
+            { id: "34", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
+            { id: "35", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
+            { id: "36", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
+            { id: "37", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
+            { id: "38", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
+            { id: "39", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "40", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "41", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "42", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "43", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "44", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "45", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "46", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "47", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Alex", cheval: "Kiara", equipe: "Les Last Minute" },
+            { id: "48", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
+            { id: "49", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
+            { id: "50", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
+            { id: "51", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Violette Novack", cheval: "Morena", equipe: "Les Last Minute" },
+            { id: "52", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
+            { id: "53", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
+            { id: "54", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
+            { id: "55", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Mathyas", cheval: "Haidy", equipe: "Les Last Minute" },
+            { id: "56", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "57", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "58", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "59", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "60", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "61", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "62", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "63", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "64", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "65", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "66", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "67", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "68", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "69", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "70", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "71", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "72", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "73", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "74", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "75", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "76", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "77", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "78", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "79", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "80", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "81", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "82", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "83", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "84", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "85", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "86", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "87", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "88", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "89", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "90", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "91", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "92", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "93", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "94", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "95", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "96", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "97", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "98", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "99", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "100", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "101", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "102", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "103", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "104", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "105", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "106", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "107", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "108", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "109", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "110", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "111", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "112", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "113", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "114", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "115", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "116", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "117", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "118", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "119", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "120", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "121", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "122", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "123", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "124", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "125", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "126", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "127", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "128", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "129", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "130", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "131", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "132", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "133", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "134", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "135", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "136", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "137", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "138", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "139", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" },
+            { id: "140", lieu: "Ghlin", epreuve: "Open Elite", session: "Session", cavalier: "Rayan", cheval: "Elite", equipe: "Les Last Minute" }
+        ];
+
+        let currentLevel = 'home';
+        let selectedLieu = '';
+        let selectedEpreuve = '';
+        let selectedSession = '';
+        
+        let currentPhotosList = [];
+        let currentIndex = 0;
+        let selectedPhotoIds = new Set();
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderHome();
+
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                if (query.length > 0) {
+                    renderSearch(query);
+                } else {
+                    if (currentLevel === 'search') {
+                        resetNavigation();
+                    } else {
+                        reRenderCurrentView();
+                    }
+                }
+            });
+
+            document.getElementById('home-title').addEventListener('click', resetNavigation);
+
+            document.addEventListener('keydown', (e) => {
+                const lb = document.getElementById('lightbox');
+                if (lb.style.display === 'flex') {
+                    if (e.key === 'ArrowLeft') changeImage(-1);
+                    if (e.key === 'ArrowRight') changeImage(1);
+                    if (e.key === 'Escape') closeLightbox();
+                }
+            });
+        });
+
+        function updateBreadcrumb(items) {
+            const bc = document.getElementById('breadcrumb');
+            let html = '<span onclick="resetNavigation()" style="cursor: pointer;">Accueil</span>';
+            items.forEach(item => {
+                html += ` <span class="separator">/</span> <span onclick="${item.action}" style="cursor: pointer;">${item.name}</span>`;
+            });
+            bc.innerHTML = html;
+        }
+
+        function resetNavigation() {
+            document.getElementById('search-input').value = '';
+            currentLevel = 'home';
+            renderHome();
+        }
+
+        function renderHome() {
+            currentLevel = 'home';
+            updateBreadcrumb([]);
+            hideSelectionBar();
+            const grid = document.getElementById('gallery-grid');
+            
+            const lieux = [...new Set(allData.map(item => item.lieu))].filter(Boolean);
+
+            let html = '';
+            lieux.forEach(lieu => {
+                html += `
+                    <div class="folder-card banner-card" onclick="renderEpreuves('${lieu}')">
+                        <div class="folder-image-container">
+                            <img src="image/6.jpg" alt="${lieu}" onerror="this.src='https://via.placeholder.com/1200x400?text=Ghlin'">
+                        </div>
+                        <div class="folder-info-box">
+                            <span class="folder-title">${lieu.charAt(0).toUpperCase() + lieu.slice(1)}</span>
+                            <span class="flag-badge">🇧🇪</span>
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+
+        function renderEpreuves(lieu) {
+            selectedLieu = lieu;
+            currentLevel = 'epreuves';
+            updateBreadcrumb([{ name: lieu, action: `renderEpreuves('${lieu}')` }]);
+            hideSelectionBar();
+            const grid = document.getElementById('gallery-grid');
+
+            const epreuves = [...new Set(allData.filter(item => item.lieu === lieu).map(item => item.epreuve))].filter(Boolean);
+
+            let html = '';
+            epreuves.forEach(epreuve => {
+                html += `
+                    <div class="folder-card banner-card" onclick="renderSessions('${epreuve}')">
+                        <div class="folder-image-container">
+                            <img src="image/15.jpg" alt="${epreuve}" onerror="this.src='https://via.placeholder.com/1200x400?text=Open+Elite'">
+                        </div>
+                        <div class="folder-info-box">
+                            <span class="folder-title">${epreuve}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+
+        function renderSessions(epreuve) {
+            selectedEpreuve = epreuve;
+            currentLevel = 'sessions';
+            updateBreadcrumb([
+                { name: selectedLieu, action: `renderEpreuves('${selectedLieu}')` },
+                { name: epreuve, action: `renderSessions('${epreuve}')` }
+            ]);
+            hideSelectionBar();
+            const grid = document.getElementById('gallery-grid');
+
+            const sessions = [...new Set(allData.filter(item => item.lieu === selectedLieu && item.epreuve === epreuve).map(item => item.session))].filter(Boolean);
+
+            let html = '';
+            sessions.forEach(session => {
+                html += `
+                    <div class="folder-card banner-card" onclick="renderPhotos('${session}')">
+                        <div class="folder-image-container">
+                            <img src="image/12.jpg" alt="${session}" onerror="this.src='https://via.placeholder.com/1200x400?text=Session'">
+                        </div>
+                        <div class="folder-info-box">
+                            <span class="folder-title">${session}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+
+        function renderPhotos(session) {
+            selectedSession = session;
+            currentLevel = 'photos';
+            updateBreadcrumb([
+                { name: selectedLieu, action: `renderEpreuves('${selectedLieu}')` },
+                { name: selectedEpreuve, action: `renderSessions('${selectedEpreuve}')` },
+                { name: session, action: `renderPhotos('${session}')` }
+            ]);
+            const grid = document.getElementById('gallery-grid');
+
+            const photos = allData.filter(item => item.lieu === selectedLieu && item.epreuve === selectedEpreuve && item.session === selectedSession);
+            currentPhotosList = photos;
+
+            displayPhotoCards(photos, grid);
+        }
+
+        function renderSearch(query) {
+            currentLevel = 'search';
+            updateBreadcrumb([{ name: `Recherche : "${query}"`, action: '' }]);
+            const grid = document.getElementById('gallery-grid');
+
+            // Découpe la recherche en plusieurs mots-clés (ex: "violette novack" -> cherche "violette" ET "novack")
+            const searchTerms = query.split(/\s+/).filter(Boolean);
+
+            const results = allData.filter(item => {
+                const combined = `${item.cavalier} ${item.cheval} ${item.equipe} ${item.lieu} ${item.epreuve}`.toLowerCase();
+                // La photo correspond si TOUS les termes tapés se trouvent dans les données combinées
+                return searchTerms.every(term => combined.includes(term));
+            });
+
+            if (results.length === 0) {
+                grid.innerHTML = `<div class="no-results" style="grid-column: 1/-1; text-align: center; padding: 40px; font-size: 18px; color: #666;">Aucune photo ne correspond à "${query}".</div>`;
+                hideSelectionBar();
+                return;
+            }
+
+            currentPhotosList = results;
+            displayPhotoCards(results, grid);
+        }
+
+        function displayPhotoCards(photos, grid) {
+            let html = '';
+            photos.forEach((item, index) => {
+                const fileName = item.id + '.jpg';
+                const isChecked = selectedPhotoIds.has(item.id) ? 'checked' : '';
+                const cardSelectedClass = selectedPhotoIds.has(item.id) ? 'selected' : '';
+                
+                html += `
+                    <div class="photo-card ${cardSelectedClass}" id="card-${item.id}">
+                        <input type="checkbox" ${isChecked} onclick="toggleSelectPhoto(event, '${item.id}')">
+                        <img src="image/${fileName}" alt="Photo ${item.id}" loading="lazy" onclick="openLightbox(${index})" onerror="this.src='https://via.placeholder.com/300x220?text=Image+' + '${item.id}'">
+                        <div class="photo-info" style="padding: 10px; text-align: center; font-size: 14px;">
+                            <strong>${item.cavalier} & ${item.cheval}</strong>
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+            updateSelectionBar();
+        }
+
+        function toggleSelectPhoto(event, id) {
+            event.stopPropagation();
+            if (selectedPhotoIds.has(id)) {
+                selectedPhotoIds.delete(id);
+                document.getElementById(`card-${id}`).classList.remove('selected');
+            } else {
+                selectedPhotoIds.add(id);
+                document.getElementById(`card-${id}`).classList.add('selected');
+            }
+            updateSelectionBar();
+        }
+
+        function selectAllPhotos() {
+            currentPhotosList.forEach(item => {
+                selectedPhotoIds.add(item.id);
+                const card = document.getElementById(`card-${item.id}`);
+                if (card) {
+                    card.classList.add('selected');
+                    const cb = card.querySelector('input[type="checkbox"]');
+                    if (cb) cb.checked = true;
+                }
+            });
+            updateSelectionBar();
+        }
+
+        function deselectAllPhotos() {
+            currentPhotosList.forEach(item => {
+                selectedPhotoIds.delete(item.id);
+                const card = document.getElementById(`card-${item.id}`);
+                if (card) {
+                    card.classList.remove('selected');
+                    const cb = card.querySelector('input[type="checkbox"]');
+                    if (cb) cb.checked = false;
+                }
+            });
+            updateSelectionBar();
+        }
+
+        function updateSelectionBar() {
+            const bar = document.getElementById('selection-bar');
+            const countSpan = document.getElementById('selection-count');
+            const count = selectedPhotoIds.size;
+
+            if (count > 0 && (currentLevel === 'photos' || currentLevel === 'search')) {
+                bar.style.display = 'flex';
+                countSpan.innerText = `${count} photo${count > 1 ? 's' : ''}`;
+            } else {
+                bar.style.display = 'none';
+            }
+        }
+
+        function hideSelectionBar() {
+            document.getElementById('selection-bar').style.display = 'none';
+        }
+
+        function openEmailModal() {
+            if (selectedPhotoIds.size === 0) return;
+            document.getElementById('email-modal').style.display = 'flex';
+        }
+
+        function closeEmailModal() {
+            document.getElementById('email-modal').style.display = 'none';
+        }
+
+        function sendPhotosByEmail() {
+            const emailInput = document.getElementById('user-email');
+            const email = emailInput.value.trim();
+
+            if (!email || !email.includes('@')) {
+                alert('Veuillez entrer une adresse e-mail valide.');
+                return;
+            }
+
+            alert(`Succès ! Un e-mail contenant les liens de téléchargement de vos ${selectedPhotoIds.size} photos a été simulé et envoyé à : ${email}`);
+            
+            closeEmailModal();
+            emailInput.value = '';
+        }
+
+        function openLightbox(index) {
+            currentIndex = index;
+            updateLightboxImage();
+            document.getElementById('lightbox').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        function changeImage(direction) {
+            currentIndex += direction;
+            if (currentIndex < 0) {
+                currentIndex = currentPhotosList.length - 1;
+            } else if (currentIndex >= currentPhotosList.length) {
+                currentIndex = 0;
+            }
+            updateLightboxImage();
+        }
+
+        function updateLightboxImage() {
+            if (currentPhotosList.length > 0) {
+                const item = currentPhotosList[currentIndex];
+                const fileName = item.id + '.jpg';
+                const filePath = `image/${fileName}`;
+                
+                document.getElementById('lightbox-img').src = filePath;
+                
+                const downloadBtn = document.getElementById('lightbox-download-btn');
+                downloadBtn.href = filePath;
+                downloadBtn.download = fileName;
+            }
+        }
+
+        function reRenderCurrentView() {
+            if (currentLevel === 'home') renderHome();
+            else if (currentLevel === 'epreuves') renderEpreuves(selectedLieu);
+            else if (currentLevel === 'sessions') renderSessions(selectedEpreuve);
+            else if (currentLevel === 'photos') renderPhotos(selectedSession);
+        }
+    </script>
+
+</body>
+</html>
