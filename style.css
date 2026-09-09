@@ -25,6 +25,21 @@ header.top-banner h1 {
     letter-spacing: 1px;
 }
 
+/* Bannière d'accueil sous le bandeau bleu */
+.home-banner {
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+}
+
+.home-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top; /* cadrée vers le haut de la photo */
+    display: block;
+}
+
 /* Barre de recherche épurée (sans loupe) */
 .search-container input[type="text"] {
     padding: 10px 16px;
