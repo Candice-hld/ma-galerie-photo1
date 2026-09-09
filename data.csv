@@ -1,265 +1,722 @@
-id,lieu,epreuve,session,cavalier,cheval,equipe
-1,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-2,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-3,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-4,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-5,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-6,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-7,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-8,Ghlin,Open Elite,Session 3,Mathias,Haidy,Les Last Minute
-9,Ghlin,Open Elite,Session 3,Alex Mathyas,Kiara,Les Last Minute
-10,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-11,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-12,Ghlin,Open Elite,Session 3,Violette Novack Ombeline Hald,Hacienda Morena,Les Last Minute
-13,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-14,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-15,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-16,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-17,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-18,Ghlin,Open Elite,Session 3,Ombeline Hald Mathyas,Hacienda,Les Last Minute
-19,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-20,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-21,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-22,Ghlin,Open Elite,Session 3,Ombeline Hald Violette Novack Alex Mathyas,Hacienda Morena Elite Kiara Haidy,Les Last Minute
-23,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-24,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-25,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-26,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-27,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-28,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-29,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-30,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-31,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-32,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-33,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-34,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-35,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-36,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-37,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-38,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-39,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-40,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-41,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-42,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-43,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-44,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-45,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-46,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-47,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-48,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-49,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-50,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-51,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-52,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-53,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-54,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-55,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-56,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-57,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-58,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-59,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-60,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-61,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-62,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-63,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-64,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-65,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-66,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-67,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-68,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-69,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-70,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-71,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-72,Ghlin,Open Elite,Session 3,Alex Violette Novack,Morena,Les Last Minute
-73,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-74,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-75,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-76,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-77,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-78,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-79,Ghlin,Open Elite,Session 3,Auxane Chanez,Hacienda,Les Last Minute
-80,Ghlin,Open Elite,Session 3,Violette Novack Alex,Morena Kiara,Les Last Minute
-81,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-82,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-83,Ghlin,Open Elite,Session 3,Rayan Alex,Elite Kiara,Les Last Minute
-84,Ghlin,Open Elite,Session 3,Rayan Alex,Elite Kiara,Les Last Minute
-85,Ghlin,Open Elite,Session 3,Rayan Alex,Elite Kiara,Les Last Minute
-86,Ghlin,Open Elite,Session 3,Alex Ombeline Hald,Hacienda Kiara,Les Last Minute
-87,Ghlin,Open Elite,Session 3,Alex Ombeline Hald,Hacienda Kiara,Les Last Minute
-88,Ghlin,Open Elite,Session 3,Alex Ombeline Hald,Hacienda Kiara,Les Last Minute
-89,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-90,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-91,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-92,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-93,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-94,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-95,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-96,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-97,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-98,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-99,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-100,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-101,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-102,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-103,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-104,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-105,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-106,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-107,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-108,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-109,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-110,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-111,Ghlin,Open Elite,Session 3,Rayan,Elite,Les Last Minute
-112,Ghlin,Open Elite,Session 3,Rayan Ombeline Hald,Hacienda Elite,Les Last Minute
-113,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-114,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-115,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-116,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-117,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-118,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-119,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-120,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-121,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-122,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-123,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-124,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-125,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-126,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-127,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-128,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-129,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-130,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-131,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-132,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-133,Ghlin,Open Elite,Session 3,Ombeline Hald Alex,Hacienda Kiara,Les Last Minute
-134,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-135,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-136,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
-137,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-138,Ghlin,Open Elite,Session 3,Auxane Chanez,Hacienda,Les Last Minute
-139,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
-140,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-141,Ghlin,Open Elite,Final,Manu,Non,Les Last Minute
-142,Ghlin,Open Elite,Final,Ombeline Rayan Violette Alex,Hacienda Elite Morena Kiara,Les Last Minute
-143,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-144,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-145,Ghlin,Open Elite,Final,Manu,Non,Les Last Minute
-146,Ghlin,Open Elite,Final,Alex Rayan,Kiara Elite,Les Last Minute
-147,Ghlin,Open Elite,Final,Alex Rayan,Kiara Elite,Les Last Minute
-148,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-149,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-150,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-151,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-152,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-153,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-154,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-155,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-156,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-157,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-158,Ghlin,Open Elite,Final,Mathyas Rayan,Haidy Elite,Les Last Minute
-159,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-160,Ghlin,Open Elite,Final,Alex Violette Novack,Morena Kiara,Les Last Minute
-161,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-162,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-163,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-164,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-165,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-166,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-167,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-168,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-169,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-170,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-171,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-172,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-173,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-174,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-175,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-176,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-177,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-178,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-179,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-180,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-181,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-182,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-183,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-184,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-185,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-186,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-187,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-188,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-189,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-190,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-191,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-192,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-193,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-194,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-195,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-196,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-197,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-198,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-199,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-200,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-201,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-202,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-203,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-204,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-205,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-206,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-207,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-208,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-209,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-210,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-211,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-212,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-213,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-214,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-215,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-216,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-217,Ghlin,Open Elite,Final,Ombeline,Hacienda,Les Last Minute
-218,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-219,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-220,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-221,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-222,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-223,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-224,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-225,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-226,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-227,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-228,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-229,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-230,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-231,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-232,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-233,Ghlin,Open Elite,Final,Mathyas,Haidy,Les Last Minute
-234,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-235,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-236,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-237,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-238,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-239,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-240,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-241,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-242,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-243,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-244,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-245,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-246,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-247,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-248,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-249,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-250,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-251,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-252,Ghlin,Open Elite,Final,Rayan,Elite,Les Last Minute
-253,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-254,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-255,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-256,Ghlin,Open Elite,Final,Violette Novack,Morena,Les Last Minute
-257,Ghlin,Open Elite,Final,Ombeline,Hacienda Kiara Morena Elite Haidy,Les Last Minute
-258,Ghlin,Open Elite,Final,Ombeline,Hacienda Kiara Morena Elite Haidy,Les Last Minute
-259,Ghlin,Open Elite,Final,Ombeline,Hacienda Kiara Morena Elite Haidy,Les Last Minute
-260,Ghlin,Open Elite,Final,Ombeline,Hacienda Kiara Morena Elite Haidy,Les Last Minute
-261,Ghlin,Open Elite,Final,Ombeline Violette Rayan Mathyas Alex,Hacienda Kiara Morena Elite Haidy,Les Last Minute
-262,Ghlin,Open Elite,Final,Ombeline Violette Rayan Mathyas Alex,Hacienda Kiara Morena Elite Haidy,Les Last Minute
-263,Ghlin,Open Elite,Final,Ombeline Violette Rayan Mathyas Alex,Hacienda Kiara Morena Elite Haidy,Les Last Minute
-264,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- JSZip : permet de créer un fichier .zip côté navigateur pour le téléchargement groupé -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie Photo</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .photo-info { display: none; }
+
+        /* Styles pour la sélection de photos */
+        .photo-card {
+            position: relative;
+            cursor: pointer;
+        }
+        .photo-card input[type="checkbox"] {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 22px;
+            height: 22px;
+            z-index: 10;
+            cursor: pointer;
+        }
+        .photo-card.selected {
+            border: 3px solid #3498db;
+            border-radius: 6px;
+        }
+
+        /* Barre d'actions flottante pour la sélection */
+        .selection-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c3e50;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            display: none;
+            align-items: center;
+            gap: 15px;
+            z-index: 900;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-family: sans-serif;
+            font-size: 14px;
+        }
+        .selection-bar button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .selection-bar button:hover {
+            background: #5dade2;
+        }
+        .selection-bar button:disabled {
+            background: #7f8c8d;
+            cursor: not-allowed;
+        }
+        .btn-deselect {
+            background: #e74c3c !important;
+        }
+        .btn-deselect:hover {
+            background: #ec7063 !important;
+        }
+        .btn-download {
+            background: #27ae60 !important;
+        }
+        .btn-download:hover {
+            background: #2ecc71 !important;
+        }
+
+        /* Style de la Lightbox (visionneuse en grand) */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 50px;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 5px;
+            user-select: none;
+        }
+        .lightbox-prev { left: 30px; }
+        .lightbox-next { right: 30px; }
+        .lightbox-nav:hover, .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+
+        .lightbox-download {
+            position: absolute;
+            top: 25px;
+            right: 90px;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-family: sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: background-color 0.2s ease;
+        }
+        .lightbox-download:hover { background-color: #5dade2; }
+
+        /* Overlay de progression pendant la préparation du ZIP */
+        .download-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1200;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .download-overlay-content {
+            background: white;
+            padding: 30px 35px;
+            border-radius: 8px;
+            width: 320px;
+            max-width: 90%;
+            text-align: center;
+            font-family: sans-serif;
+        }
+        .download-overlay-content h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .progress-track {
+            width: 100%;
+            height: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 15px 0 10px;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #27ae60;
+            transition: width 0.2s ease;
+        }
+        .progress-label {
+            font-size: 13px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bandeau supérieur -->
+    <header class="top-banner">
+        <h1 id="home-title" style="cursor: pointer;">Galerie Photo</h1>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Rechercher (Cavalier, Cheval, Équipe)...">
+        </div>
+    </header>
+
+    <!-- Bannière d'accueil, affichée uniquement sur la page d'accueil -->
+    <div id="home-banner" class="home-banner">
+        <img src="image/banniere.jpeg" alt="Bannière">
+    </div>
+
+    <!-- Fil d'Ariane -->
+    <div class="breadcrumb-container">
+        <div class="breadcrumb" id="breadcrumb">
+            <span onclick="resetNavigation()" style="cursor: pointer;">Accueil</span>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <main class="main-container">
+        <div class="grid-view" id="gallery-grid"></div>
+    </main>
+
+    <!-- Barre d'actions flottante -->
+    <div id="selection-bar" class="selection-bar">
+        <span id="selection-count">0 photo(s)</span>
+        <button onclick="selectAllPhotos()">Tout sélectionner</button>
+        <button class="btn-deselect" onclick="deselectAllPhotos()">Tout désélectionner</button>
+        <button class="btn-download" onclick="downloadSelectedPhotos()">Télécharger</button>
+    </div>
+
+    <!-- Fenêtre modale (Lightbox) -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <a id="lightbox-download-btn" class="lightbox-download" href="" download target="_blank">Télécharger</a>
+        <span class="lightbox-nav lightbox-prev" onclick="changeImage(-1)">&#10094;</span>
+        <img id="lightbox-img" src="" alt="Agrandissement">
+        <span class="lightbox-nav lightbox-next" onclick="changeImage(1)">&#10095;</span>
+    </div>
+
+    <!-- Overlay de progression pendant la préparation du ZIP -->
+    <div id="download-overlay" class="download-overlay">
+        <div class="download-overlay-content">
+            <h3>Préparation du téléchargement</h3>
+            <div class="progress-track">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+            <div id="progress-label" class="progress-label">0 / 0 photos</div>
+        </div>
+    </div>
+
+    <script>
+        // Les données des photos sont maintenant chargées depuis data.csv
+        // (plus besoin de modifier ce fichier HTML pour ajouter des photos :
+        // il suffit d'ajouter des lignes dans data.csv)
+        let allData = [];
+
+        function parseCSV(text) {
+            // Parseur CSV simple (gère les guillemets et les virgules dans les champs)
+            const rows = [];
+            let row = [];
+            let field = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                if (inQuotes) {
+                    if (char === '"') {
+                        if (text[i + 1] === '"') { field += '"'; i++; }
+                        else { inQuotes = false; }
+                    } else {
+                        field += char;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                    } else if (char === ',') {
+                        row.push(field);
+                        field = '';
+                    } else if (char === '\n' || char === '\r') {
+                        if (char === '\r' && text[i + 1] === '\n') i++;
+                        row.push(field);
+                        field = '';
+                        if (row.some(f => f.trim() !== '')) rows.push(row);
+                        row = [];
+                    } else {
+                        field += char;
+                    }
+                }
+            }
+            if (field !== '' || row.length > 0) {
+                row.push(field);
+                if (row.some(f => f.trim() !== '')) rows.push(row);
+            }
+            return rows;
+        }
+
+        async function loadPhotoData() {
+            const response = await fetch('data.csv');
+            const text = await response.text();
+            const rows = parseCSV(text);
+            const header = rows[0].map(h => h.trim().toLowerCase());
+            const idxId = header.indexOf('id');
+            const idxLieu = header.indexOf('lieu');
+            const idxEpreuve = header.indexOf('epreuve');
+            const idxSession = header.indexOf('session');
+            const idxCavalier = header.indexOf('cavalier');
+            const idxCheval = header.indexOf('cheval');
+            const idxEquipe = header.indexOf('equipe');
+
+            allData = rows.slice(1).map(r => ({
+                id: (r[idxId] || '').trim(),
+                lieu: (r[idxLieu] || '').trim(),
+                epreuve: (r[idxEpreuve] || '').trim(),
+                session: (r[idxSession] || '').trim(),
+                cavalier: (r[idxCavalier] || '').trim(),
+                cheval: (r[idxCheval] || '').trim(),
+                equipe: (r[idxEquipe] || '').trim()
+            })).filter(item => item.id);
+        }
+
+        let currentLevel = 'home';
+        let selectedLieu = '';
+        let selectedEpreuve = '';
+        let selectedSession = '';
+
+        let currentPhotosList = [];
+        let currentIndex = 0;
+        let selectedPhotoIds = new Set();
+        const PHOTOS_PER_PAGE = 40;
+        let displayedCount = 0;
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">Chargement des photos...</div>';
+
+            try {
+                await loadPhotoData();
+            } catch (err) {
+                console.error('Impossible de charger data.csv', err);
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #c0392b;">Erreur : impossible de charger data.csv. Vérifie qu\'il est bien dans le même dossier que ce fichier HTML et que le site est servi via un serveur web (pas ouvert en double-clic).</div>';
+                return;
+            }
+
+            renderHome();
+
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                if (query.length > 0) {
+                    renderSearch(query);
+                } else {
+                    if (currentLevel === 'search') {
+                        resetNavigation();
+                    } else {
+                        reRenderCurrentView();
+                    }
+                }
+            });
+
+            document.getElementById('home-title').addEventListener('click', resetNavigation);
+
+            document.addEventListener('keydown', (e) => {
+                const lb = document.getElementById('lightbox');
+                if (lb.style.display === 'flex') {
+                    if (e.key === 'ArrowLeft') changeImage(-1);
+                    if (e.key === 'ArrowRight') changeImage(1);
+                    if (e.key === 'Escape') closeLightbox();
+                }
+            });
+        });
+
+        function updateBreadcrumb(items) {
+            const bc = document.getElementById('breadcrumb');
+            let html = '<span onclick="resetNavigation()" style="cursor: pointer;">Accueil</span>';
+            items.forEach(item => {
+                html += ` <span class="separator">/</span> <span onclick="${item.action}" style="cursor: pointer;">${item.name}</span>`;
+            });
+            bc.innerHTML = html;
+        }
+
+        function resetNavigation() {
+            document.getElementById('search-input').value = '';
+            currentLevel = 'home';
+            renderHome();
+        }
+
+        function showHomeBanner(show) {
+            document.getElementById('home-banner').style.display = show ? 'block' : 'none';
+        }
+
+        function renderHome() {
+            currentLevel = 'home';
+            updateBreadcrumb([]);
+            hideSelectionBar();
+            showHomeBanner(true);
+            const grid = document.getElementById('gallery-grid');
+            grid.className = 'folder-grid';
+
+            const lieux = [...new Set(allData.map(item => item.lieu))].filter(Boolean);
+
+            let html = '';
+            lieux.forEach(lieu => {
+                html += `
+                    <div class="folder-card banner-card" onclick="renderEpreuves('${lieu}')">
+                        <div class="folder-image-container">
+                            <img src="image/6.jpg" alt="${lieu}" onerror="this.src='https://via.placeholder.com/1200x400?text=Ghlin'">
+                        </div>
+                        <div class="folder-info-box">
+                            <span class="folder-title">${lieu.charAt(0).toUpperCase() + lieu.slice(1)} 2026</span>
+                            <span class="flag-badge">🇧🇪</span>
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+
+        function renderEpreuves(lieu) {
+            selectedLieu = lieu;
+            currentLevel = 'epreuves';
+            updateBreadcrumb([{ name: lieu, action: `renderEpreuves('${lieu}')` }]);
+            hideSelectionBar();
+            showHomeBanner(false);
+            const grid = document.getElementById('gallery-grid');
+            grid.className = 'folder-grid';
+
+            const epreuves = [...new Set(allData.filter(item => item.lieu === lieu).map(item => item.epreuve))].filter(Boolean);
+
+            let html = '';
+            epreuves.forEach(epreuve => {
+                html += `
+                    <div class="folder-card banner-card" onclick="renderSessions('${epreuve}')">
+                        <div class="folder-image-container">
+                            <img src="image/15.jpg" alt="${epreuve}" onerror="this.src='https://via.placeholder.com/1200x400?text=Open+Elite'">
+                        </div>
+                        <div class="folder-info-box">
+                            <span class="folder-title">${epreuve}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+        function renderSessions(epreuve) {
+            selectedEpreuve = epreuve;
+            currentLevel = 'sessions';
+            updateBreadcrumb([
+                { name: selectedLieu, action: `renderEpreuves('${selectedLieu}')` },
+                { name: epreuve, action: `renderSessions('${epreuve}')` }
+            ]);
+            hideSelectionBar();
+            showHomeBanner(false);
+            const grid = document.getElementById('gallery-grid');
+            grid.className = 'folder-grid';
+
+            // Trie pour que "Session 3" apparaisse avant "Final"
+            const sessions = [...new Set(allData.filter(item => item.lieu === selectedLieu && item.epreuve === epreuve).map(item => item.session))]
+                .filter(Boolean)
+                .sort((a, b) => (a.toLowerCase() === 'final' ? 1 : b.toLowerCase() === 'final' ? -1 : 0));
+
+            let html = '';
+            sessions.forEach(session => {
+                // Utilise 175.jpg pour le dossier Final, et 12.jpg pour Session 3
+                const coverImage = (session.toLowerCase() === 'final') ? 'image/175.jpg' : 'image/12.jpg';
+                const placeholderText = (session.toLowerCase() === 'final') ? 'Final' : 'Session+3';
+
+                html += `
+                    <div class="folder-card banner-card" onclick="renderPhotos('${session}')">
+                        <div class="folder-image-container">
+                            <img src="${coverImage}" alt="${session}" onerror="this.src='https://via.placeholder.com/1200x400?text=${placeholderText}'">
+                        </div>
+                        <div class="folder-info-box">
+                            <span class="folder-title">${session}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+
+        function renderPhotos(session) {
+            selectedSession = session;
+            currentLevel = 'photos';
+            updateBreadcrumb([
+                { name: selectedLieu, action: `renderEpreuves('${selectedLieu}')` },
+                { name: selectedEpreuve, action: `renderSessions('${selectedEpreuve}')` },
+                { name: session, action: `renderPhotos('${session}')` }
+            ]);
+            showHomeBanner(false);
+            const grid = document.getElementById('gallery-grid');
+
+            const photos = allData.filter(item => item.lieu === selectedLieu && item.epreuve === selectedEpreuve && item.session === selectedSession);
+            currentPhotosList = photos;
+
+            displayPhotoCards(photos, grid);
+        }
+
+        function renderSearch(query) {
+            currentLevel = 'search';
+            updateBreadcrumb([{ name: `Recherche : "${query}"`, action: '' }]);
+            showHomeBanner(false);
+            const grid = document.getElementById('gallery-grid');
+
+            const searchTerms = query.split(/\s+/).filter(Boolean);
+
+            const results = allData.filter(item => {
+                const combined = `${item.cavalier} ${item.cheval} ${item.equipe} ${item.lieu} ${item.epreuve}`.toLowerCase();
+                return searchTerms.every(term => combined.includes(term));
+            });
+
+            if (results.length === 0) {
+                grid.className = 'grid-view';
+                grid.innerHTML = `<div class="no-results" style="grid-column: 1/-1; text-align: center; padding: 40px; font-size: 18px; color: #666;">Aucune photo ne correspond à "${query}".</div>`;
+                hideSelectionBar();
+                return;
+            }
+
+            currentPhotosList = results;
+            displayPhotoCards(results, grid);
+        }
+
+        function displayPhotoCards(photos, grid) {
+            grid.className = 'grid-view';
+            displayedCount = 0;
+            grid.innerHTML = '';
+            renderNextBatch(photos, grid);
+        }
+
+        // Affiche les photos par lots de PHOTOS_PER_PAGE pour éviter de charger
+        // des centaines de photos lourdes en une seule fois (ça évite le ralentissement).
+        function renderNextBatch(photos, grid) {
+            const batch = photos.slice(displayedCount, displayedCount + PHOTOS_PER_PAGE);
+            let html = '';
+
+            batch.forEach((item, i) => {
+                const absoluteIndex = displayedCount + i; // index réel dans currentPhotosList, pour la lightbox
+                const fileName = item.id + '.jpg';
+                const isChecked = selectedPhotoIds.has(item.id) ? 'checked' : '';
+                const cardSelectedClass = selectedPhotoIds.has(item.id) ? 'selected' : '';
+
+                html += `
+                    <div class="photo-card ${cardSelectedClass}" id="card-${item.id}">
+                        <input type="checkbox" ${isChecked} onclick="toggleSelectPhoto(event, '${item.id}')">
+                        <img src="image/${fileName}" alt="Photo ${item.id}" loading="lazy" onclick="openLightbox(${absoluteIndex})" onerror="this.src='https://via.placeholder.com/300x220?text=Image+' + '${item.id}'">
+                        <div class="photo-info" style="padding: 10px; text-align: center; font-size: 14px;">
+                            <strong>${item.cavalier} & ${item.cheval}</strong>
+                        </div>
+                    </div>
+                `;
+            });
+
+            const existingBtn = document.getElementById('load-more-btn');
+            if (existingBtn) existingBtn.remove();
+
+            grid.insertAdjacentHTML('beforeend', html);
+            displayedCount += batch.length;
+
+            if (displayedCount < photos.length) {
+                const remaining = photos.length - displayedCount;
+                grid.insertAdjacentHTML('beforeend', `
+                    <div id="load-more-btn" style="grid-column: 1/-1; text-align: center; padding: 25px;">
+                        <button onclick="renderNextBatch(currentPhotosList, document.getElementById('gallery-grid'))"
+                            style="background:#3182ce; color:white; border:none; padding:12px 28px; border-radius:30px; font-size:15px; font-weight:600; cursor:pointer;">
+                            Charger plus de photos (${remaining} restantes)
+                        </button>
+                    </div>
+                `);
+            }
+
+            updateSelectionBar();
+        }
+
+        function toggleSelectPhoto(event, id) {
+            event.stopPropagation();
+            if (selectedPhotoIds.has(id)) {
+                selectedPhotoIds.delete(id);
+                document.getElementById(`card-${id}`).classList.remove('selected');
+            } else {
+                selectedPhotoIds.add(id);
+                document.getElementById(`card-${id}`).classList.add('selected');
+            }
+            updateSelectionBar();
+        }
+
+        function selectAllPhotos() {
+            currentPhotosList.forEach(item => {
+                selectedPhotoIds.add(item.id);
+                const card = document.getElementById(`card-${item.id}`);
+                if (card) {
+                    card.classList.add('selected');
+                    const cb = card.querySelector('input[type="checkbox"]');
+                    if (cb) cb.checked = true;
+                }
+            });
+            updateSelectionBar();
+        }
+
+        function deselectAllPhotos() {
+            currentPhotosList.forEach(item => {
+                selectedPhotoIds.delete(item.id);
+                const card = document.getElementById(`card-${item.id}`);
+                if (card) {
+                    card.classList.remove('selected');
+                    const cb = card.querySelector('input[type="checkbox"]');
+                    if (cb) cb.checked = false;
+                }
+            });
+            updateSelectionBar();
+        }
+
+        function updateSelectionBar() {
+            const bar = document.getElementById('selection-bar');
+            const countSpan = document.getElementById('selection-count');
+            const count = selectedPhotoIds.size;
+
+            if (count > 0 && (currentLevel === 'photos' || currentLevel === 'search')) {
+                bar.style.display = 'flex';
+                countSpan.innerText = `${count} photo${count > 1 ? 's' : ''}`;
+            } else {
+                bar.style.display = 'none';
+            }
+        }
+
+        function hideSelectionBar() {
+            document.getElementById('selection-bar').style.display = 'none';
+        }
+
+        async function downloadSelectedPhotos() {
+            if (selectedPhotoIds.size === 0) return;
+
+            const overlay = document.getElementById('download-overlay');
+            const fill = document.getElementById('progress-fill');
+            const label = document.getElementById('progress-label');
+            const downloadBtn = document.querySelector('.btn-download');
+
+            const ids = Array.from(selectedPhotoIds);
+            const total = ids.length;
+
+            overlay.style.display = 'flex';
+            fill.style.width = '0%';
+            label.innerText = `0 / ${total} photos`;
+            downloadBtn.disabled = true;
+
+            try {
+                const zip = new JSZip();
+                let done = 0;
+
+                await Promise.all(ids.map(async (id) => {
+                    const fileName = id + '.jpg';
+                    try {
+                        const response = await fetch(`image/${fileName}`);
+                        const blob = await response.blob();
+                        zip.file(fileName, blob);
+                    } catch (err) {
+                        console.error(`Impossible de récupérer la photo ${fileName}`, err);
+                    } finally {
+                        done++;
+                        const percent = Math.round((done / total) * 100);
+                        fill.style.width = percent + '%';
+                        label.innerText = `${done} / ${total} photos`;
+                    }
+                }));
+
+                label.innerText = 'Compression du fichier ZIP...';
+
+                const zipBlob = await zip.generateAsync({ type: 'blob' }, (metadata) => {
+                    const percent = Math.round(metadata.percent);
+                    fill.style.width = percent + '%';
+                });
+
+                const zipUrl = URL.createObjectURL(zipBlob);
+                const a = document.createElement('a');
+                a.href = zipUrl;
+                a.download = `photos-selection-${Date.now()}.zip`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(zipUrl);
+
+            } catch (err) {
+                console.error('Erreur lors de la préparation du téléchargement :', err);
+                alert("Une erreur est survenue pendant la préparation du téléchargement. Réessaie.");
+            } finally {
+                overlay.style.display = 'none';
+                downloadBtn.disabled = false;
+            }
+        }
+
+        function openLightbox(index) {
+            currentIndex = index;
+            updateLightboxImage();
+            document.getElementById('lightbox').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        function changeImage(direction) {
+            currentIndex += direction;
+            if (currentIndex < 0) {
+                currentIndex = currentPhotosList.length - 1;
+            } else if (currentIndex >= currentPhotosList.length) {
+                currentIndex = 0;
+            }
+            updateLightboxImage();
+        }
+
+        function updateLightboxImage() {
+            if (currentPhotosList.length > 0) {
+                const item = currentPhotosList[currentIndex];
+                const fileName = item.id + '.jpg';
+                const filePath = `image/${fileName}`;
+
+                document.getElementById('lightbox-img').src = filePath;
+
+                const downloadBtn = document.getElementById('lightbox-download-btn');
+                downloadBtn.href = filePath;
+                downloadBtn.download = fileName;
+            }
+        }
+
+        function reRenderCurrentView() {
+            if (currentLevel === 'home') renderHome();
+            else if (currentLevel === 'epreuves') renderEpreuves(selectedLieu);
+            else if (currentLevel === 'sessions') renderSessions(selectedEpreuve);
+            else if (currentLevel === 'photos') renderPhotos(selectedSession);
+        }
+    </script>
+</body>
+</html>

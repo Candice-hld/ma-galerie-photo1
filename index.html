@@ -195,6 +195,11 @@
         </div>
     </header>
 
+    <!-- Bannière d'accueil, affichée uniquement sur la page d'accueil -->
+    <div id="home-banner" class="home-banner">
+        <img src="image/banniere.jpeg" alt="Bannière">
+    </div>
+
     <!-- Fil d'Ariane -->
     <div class="breadcrumb-container">
         <div class="breadcrumb" id="breadcrumb">
@@ -370,10 +375,15 @@
             renderHome();
         }
 
+        function showHomeBanner(show) {
+            document.getElementById('home-banner').style.display = show ? 'block' : 'none';
+        }
+
         function renderHome() {
             currentLevel = 'home';
             updateBreadcrumb([]);
             hideSelectionBar();
+            showHomeBanner(true);
             const grid = document.getElementById('gallery-grid');
             grid.className = 'folder-grid';
 
@@ -401,6 +411,7 @@
             currentLevel = 'epreuves';
             updateBreadcrumb([{ name: lieu, action: `renderEpreuves('${lieu}')` }]);
             hideSelectionBar();
+            showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
             grid.className = 'folder-grid';
 
@@ -429,6 +440,7 @@
                 { name: epreuve, action: `renderSessions('${epreuve}')` }
             ]);
             hideSelectionBar();
+            showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
             grid.className = 'folder-grid';
 
@@ -465,6 +477,7 @@
                 { name: selectedEpreuve, action: `renderSessions('${selectedEpreuve}')` },
                 { name: session, action: `renderPhotos('${session}')` }
             ]);
+            showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
 
             const photos = allData.filter(item => item.lieu === selectedLieu && item.epreuve === selectedEpreuve && item.session === selectedSession);
@@ -476,6 +489,7 @@
         function renderSearch(query) {
             currentLevel = 'search';
             updateBreadcrumb([{ name: `Recherche : "${query}"`, action: '' }]);
+            showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
 
             const searchTerms = query.split(/\s+/).filter(Boolean);
