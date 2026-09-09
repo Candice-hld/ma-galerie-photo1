@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galerie Photo</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="style.css">
     <style>
         .photo-info { display: none; }
@@ -30,6 +31,28 @@
             border-radius: 6px;
         }
 
+        /* Petit cœur favori sur chaque carte photo */
+        .card-fav-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            color: #a0aec0;
+        }
+        .card-fav-btn.is-favorite {
+            color: #e91e8c;
+        }
+
         /* Barre d'actions flottante pour la sélection */
         .selection-bar {
             position: fixed;
@@ -38,15 +61,18 @@
             transform: translateX(-50%);
             background: #2c3e50;
             color: white;
-            padding: 12px 25px;
+            padding: 12px 20px;
             border-radius: 30px;
             display: none;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             z-index: 900;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             font-family: sans-serif;
             font-size: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 95vw;
         }
         .selection-bar button {
             background: #3498db;
@@ -57,6 +83,7 @@
             cursor: pointer;
             font-weight: bold;
             transition: background 0.2s;
+            white-space: nowrap;
         }
         .selection-bar button:hover {
             background: #5dade2;
@@ -77,6 +104,12 @@
         .btn-download:hover {
             background: #2ecc71 !important;
         }
+        .btn-fav-bulk {
+            background: #e91e8c !important;
+        }
+        .btn-fav-bulk:hover {
+            background: #f13ea0 !important;
+        }
 
         /* Style de la Lightbox (visionneuse en grand) */
         .lightbox {
@@ -87,57 +120,106 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.92);
             align-items: center;
         }
-        .lightbox img {
-            max-width: 90%;
+        .lightbox-image-area {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 0 340px 0 30px;
+            box-sizing: border-box;
+        }
+        .lightbox-image-area img {
+            max-width: 100%;
             max-height: 85vh;
             object-fit: contain;
             border-radius: 4px;
         }
         .lightbox-close {
             position: absolute;
-            top: 20px;
-            right: 30px;
+            top: 18px;
+            right: 350px;
             color: #fff;
-            font-size: 40px;
+            font-size: 36px;
             cursor: pointer;
             font-weight: bold;
+            z-index: 1100;
         }
         .lightbox-nav {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
             color: #fff;
-            font-size: 50px;
+            font-size: 46px;
             cursor: pointer;
             background: rgba(0,0,0,0.5);
-            padding: 10px 20px;
+            padding: 10px 18px;
             border-radius: 5px;
             user-select: none;
+            z-index: 1050;
         }
-        .lightbox-prev { left: 30px; }
-        .lightbox-next { right: 30px; }
+        .lightbox-prev { left: 20px; }
+        .lightbox-next { right: 360px; }
         .lightbox-nav:hover, .lightbox-close:hover { background: rgba(255,255,255,0.2); }
 
-        .lightbox-download {
-            position: absolute;
-            top: 25px;
-            right: 90px;
-            background-color: #3498db;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-family: sans-serif;
-            font-weight: 500;
-            font-size: 14px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            transition: background-color 0.2s ease;
+        /* Panneau latéral d'informations de la lightbox */
+        .lightbox-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 320px;
+            height: 100%;
+            background: white;
+            padding: 30px 25px;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.25);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            overflow-y: auto;
+            box-sizing: border-box;
+            z-index: 1080;
         }
-        .lightbox-download:hover { background-color: #5dade2; }
+        .panel-btn {
+            border: none;
+            border-radius: 8px;
+            padding: 14px 18px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            color: white;
+        }
+        .panel-btn.btn-primary { background: #3182ce; }
+        .panel-btn.btn-primary:hover { background: #4299e1; }
+        .panel-btn.btn-fav {
+            background: #edf2f7;
+            color: #2d3748;
+            border: 2px solid #e2e8f0;
+        }
+        .panel-btn.btn-fav.is-favorite {
+            background: #fff0f5;
+            color: #d6336c;
+            border-color: #f7a1c4;
+        }
+        .lightbox-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: auto;
+            padding-top: 15px;
+        }
+        .info-tag {
+            background: #edf2f7;
+            color: #2d3748;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
 
         /* Overlay de progression pendant la préparation du ZIP */
         .download-overlay {
@@ -183,6 +265,119 @@
             font-size: 13px;
             color: #555;
         }
+
+        /* Bouton "retour en haut" */
+        .back-to-top {
+            position: fixed;
+            bottom: 90px;
+            right: 25px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #1a365d;
+            color: white;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 800;
+        }
+        .back-to-top:hover { background: #2c5282; }
+
+        /* Bouton favoris dans le bandeau */
+        .fav-nav-btn {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: white;
+            margin-left: 16px;
+        }
+        .fav-count-badge {
+            position: absolute;
+            top: -6px;
+            right: -10px;
+            background: #e91e8c;
+            color: white;
+            font-size: 11px;
+            border-radius: 10px;
+            padding: 1px 6px;
+            font-weight: bold;
+        }
+
+        /* Nombre de photos sous le nom d'un dossier */
+        .folder-count {
+            font-size: 13px;
+            color: #718096;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Autocomplétion de la recherche */
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+        .search-wrapper {
+            position: relative;
+        }
+        #search-suggestions-box {
+            position: absolute;
+            top: 115%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            max-height: 260px;
+            overflow-y: auto;
+            display: none;
+            z-index: 950;
+        }
+        .suggestion-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #2d3748;
+        }
+        .suggestion-item:hover, .suggestion-item.active {
+            background: #edf2f7;
+        }
+
+        /* Bannière d'accueil sous le bandeau bleu */
+        .home-banner {
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
+        }
+        .home-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 50%; /* cadrée vers le haut de la photo */
+            display: block;
+        }
+
+        @media (max-width: 700px) {
+            .lightbox-image-area { padding: 0 10px; }
+            .lightbox-panel {
+                position: fixed;
+                top: auto;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                height: auto;
+                max-height: 45vh;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
+            }
+            .lightbox-close { right: 15px; }
+            .lightbox-next { right: 15px; }
+        }
     </style>
 </head>
 <body>
@@ -190,8 +385,14 @@
     <!-- Bandeau supérieur -->
     <header class="top-banner">
         <h1 id="home-title" style="cursor: pointer;">Galerie Photo</h1>
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Rechercher (Cavalier, Cheval, Équipe)...">
+        <div class="header-right">
+            <div class="search-wrapper">
+                <input type="text" id="search-input" placeholder="Rechercher (Cavalier, Cheval, Équipe)..." autocomplete="off">
+                <div id="search-suggestions-box"></div>
+            </div>
+            <button class="fav-nav-btn" id="fav-nav-btn" onclick="renderFavoris()" title="Mes favoris">
+                ♥<span class="fav-count-badge" id="fav-count-badge" style="display:none;">0</span>
+            </button>
         </div>
     </header>
 
@@ -217,16 +418,27 @@
         <span id="selection-count">0 photo(s)</span>
         <button onclick="selectAllPhotos()">Tout sélectionner</button>
         <button class="btn-deselect" onclick="deselectAllPhotos()">Tout désélectionner</button>
+        <button class="btn-fav-bulk" id="btn-fav-bulk" onclick="handleBulkFavClick()">♥ Ajouter aux favoris</button>
         <button class="btn-download" onclick="downloadSelectedPhotos()">Télécharger</button>
     </div>
+
+    <!-- Bouton retour en haut -->
+    <button id="back-to-top" class="back-to-top" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Retour en haut">&#8593;</button>
 
     <!-- Fenêtre modale (Lightbox) -->
     <div id="lightbox" class="lightbox">
         <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-        <a id="lightbox-download-btn" class="lightbox-download" href="" download target="_blank">Télécharger</a>
         <span class="lightbox-nav lightbox-prev" onclick="changeImage(-1)">&#10094;</span>
-        <img id="lightbox-img" src="" alt="Agrandissement">
+        <div class="lightbox-image-area">
+            <img id="lightbox-img" src="" alt="Agrandissement">
+        </div>
         <span class="lightbox-nav lightbox-next" onclick="changeImage(1)">&#10095;</span>
+
+        <div class="lightbox-panel">
+            <a id="lightbox-download-btn" class="panel-btn btn-primary" href="" download target="_blank">Télécharger</a>
+            <button id="lightbox-favorite-btn" class="panel-btn btn-fav" onclick="toggleFavoriteCurrent()">♡ Ajouter aux favoris</button>
+            <div class="lightbox-info" id="lightbox-info"></div>
+        </div>
     </div>
 
     <!-- Overlay de progression pendant la préparation du ZIP -->
@@ -241,13 +453,13 @@
     </div>
 
     <script>
-        // Les données des photos sont maintenant chargées depuis data.csv
-        // (plus besoin de modifier ce fichier HTML pour ajouter des photos :
-        // il suffit d'ajouter des lignes dans data.csv)
+        // ===================== Données =====================
+        // Les données des photos sont chargées depuis data.csv
+        // (il suffit d'ajouter des lignes dans data.csv pour ajouter des photos)
         let allData = [];
+        let searchSuggestions = [];
 
         function parseCSV(text) {
-            // Parseur CSV simple (gère les guillemets et les virgules dans les champs)
             const rows = [];
             let row = [];
             let field = '';
@@ -308,8 +520,145 @@
                 cheval: (r[idxCheval] || '').trim(),
                 equipe: (r[idxEquipe] || '').trim()
             })).filter(item => item.id);
+
+            const set = new Set();
+            allData.forEach(item => {
+                if (item.cavalier) set.add(item.cavalier);
+                if (item.cheval) set.add(item.cheval);
+                if (item.equipe) set.add(item.equipe);
+            });
+            searchSuggestions = Array.from(set).sort((a, b) => a.localeCompare(b));
         }
 
+        // ===================== Favoris (persistés dans le navigateur) =====================
+        let favoritePhotoIds = new Set();
+        try {
+            favoritePhotoIds = new Set(JSON.parse(localStorage.getItem('favoritePhotoIds') || '[]'));
+        } catch (e) {
+            favoritePhotoIds = new Set();
+        }
+
+        function saveFavorites() {
+            try {
+                localStorage.setItem('favoritePhotoIds', JSON.stringify(Array.from(favoritePhotoIds)));
+            } catch (e) { /* stockage indisponible, on continue sans persister */ }
+        }
+
+        function updateFavCountBadge() {
+            const badge = document.getElementById('fav-count-badge');
+            const count = favoritePhotoIds.size;
+            if (count > 0) {
+                badge.style.display = 'inline-block';
+                badge.innerText = count;
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function refreshVisibleFavoriteIcons() {
+            document.querySelectorAll('.photo-card').forEach(card => {
+                const id = card.id.replace('card-', '');
+                const btn = card.querySelector('.card-fav-btn');
+                if (!btn) return;
+                if (favoritePhotoIds.has(id)) {
+                    btn.classList.add('is-favorite');
+                    btn.innerHTML = '&#9829;';
+                } else {
+                    btn.classList.remove('is-favorite');
+                    btn.innerHTML = '&#9825;';
+                }
+            });
+        }
+
+        function toggleFavorite(event, id) {
+            if (event) event.stopPropagation();
+            if (favoritePhotoIds.has(id)) {
+                favoritePhotoIds.delete(id);
+            } else {
+                favoritePhotoIds.add(id);
+            }
+            saveFavorites();
+            updateFavCountBadge();
+            refreshVisibleFavoriteIcons();
+            updateLightboxFavoriteButtonState();
+        }
+
+        function toggleFavoriteCurrent() {
+            if (currentPhotosList.length === 0) return;
+            const item = currentPhotosList[currentIndex];
+            toggleFavorite(null, item.id);
+        }
+
+        function updateLightboxFavoriteButtonState() {
+            if (currentPhotosList.length === 0) return;
+            const item = currentPhotosList[currentIndex];
+            const btn = document.getElementById('lightbox-favorite-btn');
+            if (!item || !btn) return;
+            if (favoritePhotoIds.has(item.id)) {
+                btn.classList.add('is-favorite');
+                btn.innerHTML = '&#9829; Ajouté aux favoris';
+            } else {
+                btn.classList.remove('is-favorite');
+                btn.innerHTML = '&#9825; Ajouter aux favoris';
+            }
+        }
+
+        function addSelectedToFavorites() {
+            if (selectedPhotoIds.size === 0) return;
+            selectedPhotoIds.forEach(id => favoritePhotoIds.add(id));
+            saveFavorites();
+            updateFavCountBadge();
+            refreshVisibleFavoriteIcons();
+        }
+
+        function removeSelectedFromFavorites() {
+            if (selectedPhotoIds.size === 0) return;
+            selectedPhotoIds.forEach(id => favoritePhotoIds.delete(id));
+            saveFavorites();
+            updateFavCountBadge();
+            selectedPhotoIds.clear();
+            const grid = document.getElementById('gallery-grid');
+            currentPhotosList = allData.filter(item => favoritePhotoIds.has(item.id));
+            displayPhotoCards(currentPhotosList, grid);
+        }
+
+        function handleBulkFavClick() {
+            if (currentLevel === 'favoris') {
+                removeSelectedFromFavorites();
+            } else {
+                addSelectedToFavorites();
+            }
+        }
+
+        function renderFavoris() {
+            currentLevel = 'favoris';
+            setPageTitle('Mes favoris');
+            updateBreadcrumb([{ name: 'Favoris', action: '' }]);
+            showHomeBanner(false);
+            const grid = document.getElementById('gallery-grid');
+
+            currentPhotosList = allData.filter(item => favoritePhotoIds.has(item.id));
+
+            if (currentPhotosList.length === 0) {
+                grid.className = 'grid-view';
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; font-size: 18px; color: #666;">Tu n'as encore aucune photo en favoris.<br>Clique sur le petit cœur d'une photo pour l'ajouter ici.</div>`;
+                hideSelectionBar();
+                return;
+            }
+
+            displayPhotoCards(currentPhotosList, grid);
+        }
+
+        // ===================== Titre de l'onglet =====================
+        function setPageTitle(subtitle) {
+            document.title = subtitle ? `${subtitle} — Galerie Photo` : 'Galerie Photo';
+        }
+
+        function formatLieu(lieu) {
+            return lieu ? `${lieu.charAt(0).toUpperCase() + lieu.slice(1)} 2026` : '';
+        }
+
+        // ===================== Navigation générale =====================
         let currentLevel = 'home';
         let selectedLieu = '';
         let selectedEpreuve = '';
@@ -333,18 +682,36 @@
                 return;
             }
 
+            updateFavCountBadge();
             renderHome();
 
-            document.getElementById('search-input').addEventListener('input', (e) => {
-                const query = e.target.value.toLowerCase().trim();
+            const searchInput = document.getElementById('search-input');
+            const suggestionsBox = document.getElementById('search-suggestions-box');
+
+            searchInput.addEventListener('input', (e) => {
+                const rawQuery = e.target.value;
+                const query = rawQuery.toLowerCase().trim();
                 if (query.length > 0) {
                     renderSearch(query);
+                    showSuggestions(query);
                 } else {
+                    suggestionsBox.style.display = 'none';
                     if (currentLevel === 'search') {
                         resetNavigation();
                     } else {
                         reRenderCurrentView();
                     }
+                }
+            });
+
+            searchInput.addEventListener('focus', () => {
+                const query = searchInput.value.toLowerCase().trim();
+                if (query.length > 0) showSuggestions(query);
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-wrapper')) {
+                    suggestionsBox.style.display = 'none';
                 }
             });
 
@@ -358,7 +725,34 @@
                     if (e.key === 'Escape') closeLightbox();
                 }
             });
+
+            window.addEventListener('scroll', () => {
+                const btn = document.getElementById('back-to-top');
+                btn.style.display = window.scrollY > 400 ? 'flex' : 'none';
+            });
         });
+
+        // ===================== Autocomplétion =====================
+        function showSuggestions(query) {
+            const box = document.getElementById('search-suggestions-box');
+            const matches = searchSuggestions.filter(s => s.toLowerCase().includes(query)).slice(0, 8);
+            if (matches.length === 0) {
+                box.style.display = 'none';
+                box.innerHTML = '';
+                return;
+            }
+            box.innerHTML = matches.map(m =>
+                `<div class="suggestion-item" onclick="selectSuggestion('${m.replace(/'/g, "\\'")}')">${m}</div>`
+            ).join('');
+            box.style.display = 'block';
+        }
+
+        function selectSuggestion(value) {
+            const input = document.getElementById('search-input');
+            input.value = value;
+            document.getElementById('search-suggestions-box').style.display = 'none';
+            renderSearch(value.toLowerCase());
+        }
 
         function updateBreadcrumb(items) {
             const bc = document.getElementById('breadcrumb');
@@ -371,16 +765,19 @@
 
         function resetNavigation() {
             document.getElementById('search-input').value = '';
+            document.getElementById('search-suggestions-box').style.display = 'none';
             currentLevel = 'home';
             renderHome();
         }
 
         function showHomeBanner(show) {
-            document.getElementById('home-banner').style.display = show ? 'block' : 'none';
+            const el = document.getElementById('home-banner');
+            if (el) el.style.display = show ? 'block' : 'none';
         }
 
         function renderHome() {
             currentLevel = 'home';
+            setPageTitle('Accueil');
             updateBreadcrumb([]);
             hideSelectionBar();
             showHomeBanner(true);
@@ -391,13 +788,17 @@
 
             let html = '';
             lieux.forEach(lieu => {
+                const count = allData.filter(item => item.lieu === lieu).length;
                 html += `
                     <div class="folder-card banner-card" onclick="renderEpreuves('${lieu}')">
                         <div class="folder-image-container">
                             <img src="image/6.jpg" alt="${lieu}" onerror="this.src='https://via.placeholder.com/1200x400?text=Ghlin'">
                         </div>
                         <div class="folder-info-box">
-                            <span class="folder-title">${lieu.charAt(0).toUpperCase() + lieu.slice(1)} 2026</span>
+                            <div>
+                                <span class="folder-title">${lieu.charAt(0).toUpperCase() + lieu.slice(1)} 2026</span>
+                                <span class="folder-count">${count} photo${count > 1 ? 's' : ''}</span>
+                            </div>
                             <span class="flag-badge">🇧🇪</span>
                         </div>
                     </div>
@@ -409,6 +810,7 @@
         function renderEpreuves(lieu) {
             selectedLieu = lieu;
             currentLevel = 'epreuves';
+            setPageTitle(formatLieu(lieu));
             updateBreadcrumb([{ name: lieu, action: `renderEpreuves('${lieu}')` }]);
             hideSelectionBar();
             showHomeBanner(false);
@@ -419,22 +821,28 @@
 
             let html = '';
             epreuves.forEach(epreuve => {
+                const count = allData.filter(item => item.lieu === lieu && item.epreuve === epreuve).length;
                 html += `
                     <div class="folder-card banner-card" onclick="renderSessions('${epreuve}')">
                         <div class="folder-image-container">
                             <img src="image/15.jpg" alt="${epreuve}" onerror="this.src='https://via.placeholder.com/1200x400?text=Open+Elite'">
                         </div>
                         <div class="folder-info-box">
-                            <span class="folder-title">${epreuve}</span>
+                            <div>
+                                <span class="folder-title">${epreuve}</span>
+                                <span class="folder-count">${count} photo${count > 1 ? 's' : ''}</span>
+                            </div>
                         </div>
                     </div>
                 `;
             });
             grid.innerHTML = html;
         }
+
         function renderSessions(epreuve) {
             selectedEpreuve = epreuve;
             currentLevel = 'sessions';
+            setPageTitle(`${formatLieu(selectedLieu)} — ${epreuve}`);
             updateBreadcrumb([
                 { name: selectedLieu, action: `renderEpreuves('${selectedLieu}')` },
                 { name: epreuve, action: `renderSessions('${epreuve}')` }
@@ -451,9 +859,9 @@
 
             let html = '';
             sessions.forEach(session => {
-                // Utilise 175.jpg pour le dossier Final, et 12.jpg pour Session 3
                 const coverImage = (session.toLowerCase() === 'final') ? 'image/175.jpg' : 'image/12.jpg';
                 const placeholderText = (session.toLowerCase() === 'final') ? 'Final' : 'Session+3';
+                const count = allData.filter(item => item.lieu === selectedLieu && item.epreuve === epreuve && item.session === session).length;
 
                 html += `
                     <div class="folder-card banner-card" onclick="renderPhotos('${session}')">
@@ -461,7 +869,10 @@
                             <img src="${coverImage}" alt="${session}" onerror="this.src='https://via.placeholder.com/1200x400?text=${placeholderText}'">
                         </div>
                         <div class="folder-info-box">
-                            <span class="folder-title">${session}</span>
+                            <div>
+                                <span class="folder-title">${session}</span>
+                                <span class="folder-count">${count} photo${count > 1 ? 's' : ''}</span>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -472,6 +883,7 @@
         function renderPhotos(session) {
             selectedSession = session;
             currentLevel = 'photos';
+            setPageTitle(`${selectedEpreuve} — ${session}`);
             updateBreadcrumb([
                 { name: selectedLieu, action: `renderEpreuves('${selectedLieu}')` },
                 { name: selectedEpreuve, action: `renderSessions('${selectedEpreuve}')` },
@@ -488,6 +900,7 @@
 
         function renderSearch(query) {
             currentLevel = 'search';
+            setPageTitle(`Recherche : ${query}`);
             updateBreadcrumb([{ name: `Recherche : "${query}"`, action: '' }]);
             showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
@@ -518,20 +931,22 @@
         }
 
         // Affiche les photos par lots de PHOTOS_PER_PAGE pour éviter de charger
-        // des centaines de photos lourdes en une seule fois (ça évite le ralentissement).
+        // des centaines de photos lourdes en une seule fois.
         function renderNextBatch(photos, grid) {
             const batch = photos.slice(displayedCount, displayedCount + PHOTOS_PER_PAGE);
             let html = '';
 
             batch.forEach((item, i) => {
-                const absoluteIndex = displayedCount + i; // index réel dans currentPhotosList, pour la lightbox
+                const absoluteIndex = displayedCount + i;
                 const fileName = item.id + '.jpg';
                 const isChecked = selectedPhotoIds.has(item.id) ? 'checked' : '';
                 const cardSelectedClass = selectedPhotoIds.has(item.id) ? 'selected' : '';
+                const isFav = favoritePhotoIds.has(item.id);
 
                 html += `
                     <div class="photo-card ${cardSelectedClass}" id="card-${item.id}">
                         <input type="checkbox" ${isChecked} onclick="toggleSelectPhoto(event, '${item.id}')">
+                        <div class="card-fav-btn ${isFav ? 'is-favorite' : ''}" onclick="toggleFavorite(event, '${item.id}')">${isFav ? '&#9829;' : '&#9825;'}</div>
                         <img src="image/${fileName}" alt="Photo ${item.id}" loading="lazy" onclick="openLightbox(${absoluteIndex})" onerror="this.src='https://via.placeholder.com/300x220?text=Image+' + '${item.id}'">
                         <div class="photo-info" style="padding: 10px; text-align: center; font-size: 14px;">
                             <strong>${item.cavalier} & ${item.cheval}</strong>
@@ -559,6 +974,18 @@
             }
 
             updateSelectionBar();
+        }
+
+        // S'assure que le lot contenant "index" est bien rendu dans la grille,
+        // pour que la photo reste visible quand on referme la lightbox après
+        // avoir navigué au-delà des photos déjà chargées.
+        function ensureBatchLoaded(index) {
+            const grid = document.getElementById('gallery-grid');
+            let safety = 0;
+            while (index >= displayedCount && displayedCount < currentPhotosList.length && safety < 50) {
+                renderNextBatch(currentPhotosList, grid);
+                safety++;
+            }
         }
 
         function toggleSelectPhoto(event, id) {
@@ -602,9 +1029,12 @@
         function updateSelectionBar() {
             const bar = document.getElementById('selection-bar');
             const countSpan = document.getElementById('selection-count');
+            const favBtn = document.getElementById('btn-fav-bulk');
             const count = selectedPhotoIds.size;
 
-            if (count > 0 && (currentLevel === 'photos' || currentLevel === 'search')) {
+            favBtn.textContent = (currentLevel === 'favoris') ? '♥ Retirer des favoris' : '♥ Ajouter aux favoris';
+
+            if (count > 0 && (currentLevel === 'photos' || currentLevel === 'search' || currentLevel === 'favoris')) {
                 bar.style.display = 'flex';
                 countSpan.innerText = `${count} photo${count > 1 ? 's' : ''}`;
             } else {
@@ -679,6 +1109,7 @@
 
         function openLightbox(index) {
             currentIndex = index;
+            ensureBatchLoaded(index);
             updateLightboxImage();
             document.getElementById('lightbox').style.display = 'flex';
         }
@@ -694,21 +1125,30 @@
             } else if (currentIndex >= currentPhotosList.length) {
                 currentIndex = 0;
             }
+            ensureBatchLoaded(currentIndex);
             updateLightboxImage();
         }
 
         function updateLightboxImage() {
-            if (currentPhotosList.length > 0) {
-                const item = currentPhotosList[currentIndex];
-                const fileName = item.id + '.jpg';
-                const filePath = `image/${fileName}`;
+            if (currentPhotosList.length === 0) return;
 
-                document.getElementById('lightbox-img').src = filePath;
+            const item = currentPhotosList[currentIndex];
+            const fileName = item.id + '.jpg';
+            const filePath = `image/${fileName}`;
 
-                const downloadBtn = document.getElementById('lightbox-download-btn');
-                downloadBtn.href = filePath;
-                downloadBtn.download = fileName;
-            }
+            document.getElementById('lightbox-img').src = filePath;
+
+            const downloadBtn = document.getElementById('lightbox-download-btn');
+            downloadBtn.href = filePath;
+            downloadBtn.download = fileName;
+
+            const tags = [formatLieu(item.lieu), item.epreuve, item.session, item.cavalier, item.cheval]
+                .filter(Boolean)
+                .map(t => `<span class="info-tag">${t}</span>`)
+                .join('');
+            document.getElementById('lightbox-info').innerHTML = tags;
+
+            updateLightboxFavoriteButtonState();
         }
 
         function reRenderCurrentView() {
@@ -716,6 +1156,7 @@
             else if (currentLevel === 'epreuves') renderEpreuves(selectedLieu);
             else if (currentLevel === 'sessions') renderSessions(selectedEpreuve);
             else if (currentLevel === 'photos') renderPhotos(selectedSession);
+            else if (currentLevel === 'favoris') renderFavoris();
         }
     </script>
 </body>

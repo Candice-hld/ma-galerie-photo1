@@ -28,18 +28,18 @@ header.top-banner h1 {
 /* Bannière d'accueil sous le bandeau bleu */
 .home-banner {
     width: 100%;
-    max-height: 450px; /* Empêche la bannière de devenir trop haute sur les grands écrans */
+    height: 400px;
     overflow: hidden;
 }
 
 .home-banner img {
     width: 100%;
-    height: auto; /* Laisse l'image garder ses proportions naturelles */
-    max-height: 450px;
+    height: 100%;
     object-fit: cover;
-    object-position: center 50%;
+    object-position: center 80%; /* cadrée vers le haut de la photo */
     display: block;
 }
+
 /* Barre de recherche épurée (sans loupe) */
 .search-container input[type="text"] {
     padding: 10px 16px;
