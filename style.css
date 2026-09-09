@@ -68,6 +68,15 @@ header.top-banner h1 {
     justify-content: center;
 }
 
+/* Grille des dossiers (lieu / épreuve / session) : bulles alignées à gauche,
+   taille ajustée à la photo plutôt qu'étirées sur toute la largeur */
+.folder-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 25px;
+}
+
 /* Carte cliquable globale */
 .folder-card {
     background: white;
@@ -87,17 +96,17 @@ header.top-banner h1 {
     box-shadow: 0 15px 35px rgba(0,0,0,0.12);
 }
 
-/* Style grand format plein écran pour les dossiers */
+/* Bulle de dossier : taille ajustée à sa photo, pas étirée sur toute la largeur */
 .banner-card {
-    grid-column: 1 / -1; 
-    width: 100%;
     border-radius: 12px;
+    width: auto;
 }
 
-/* Conteneur de l'image de dossier en format rectangulaire sans couper la photo */
+/* Conteneur de l'image de dossier, hauteur fixe et plus petite qu'avant :
+   la largeur s'ajuste automatiquement pour épouser exactement la photo */
 .folder-image-container {
-    width: 100%;
-    height: 420px;
+    height: 220px;
+    width: auto;
     background-color: #f1f5f9;
     display: flex;
     justify-content: center;
@@ -105,11 +114,12 @@ header.top-banner h1 {
     overflow: hidden;
 }
 
-/* Photo affichée EN ENTIER (object-fit: contain) pour éviter toute coupe */
+/* Photo affichée EN ENTIER (object-fit: contain), cadrée au plus près */
 .folder-image-container img {
-    width: 100%;
     height: 100%;
-    object-fit: contain; 
+    width: auto;
+    max-width: 480px;
+    object-fit: contain;
     display: block;
 }
 

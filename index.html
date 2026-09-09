@@ -313,6 +313,8 @@
         let currentPhotosList = [];
         let currentIndex = 0;
         let selectedPhotoIds = new Set();
+        const PHOTOS_PER_PAGE = 40;
+        let displayedCount = 0;
 
         window.addEventListener('DOMContentLoaded', async () => {
             const grid = document.getElementById('gallery-grid');
@@ -373,6 +375,7 @@
             updateBreadcrumb([]);
             hideSelectionBar();
             const grid = document.getElementById('gallery-grid');
+            grid.className = 'folder-grid';
 
             const lieux = [...new Set(allData.map(item => item.lieu))].filter(Boolean);
 
@@ -384,7 +387,7 @@
                             <img src="image/6.jpg" alt="${lieu}" onerror="this.src='https://via.placeholder.com/1200x400?text=Ghlin'">
                         </div>
                         <div class="folder-info-box">
-                            <span class="folder-title">${lieu.charAt(0).toUpperCase() + lieu.slice(1)}</span>
+                            <span class="folder-title">${lieu.charAt(0).toUpperCase() + lieu.slice(1)} 2026</span>
                             <span class="flag-badge">🇧🇪</span>
                         </div>
                     </div>
@@ -399,6 +402,7 @@
             updateBreadcrumb([{ name: lieu, action: `renderEpreuves('${lieu}')` }]);
             hideSelectionBar();
             const grid = document.getElementById('gallery-grid');
+            grid.className = 'folder-grid';
 
             const epreuves = [...new Set(allData.filter(item => item.lieu === lieu).map(item => item.epreuve))].filter(Boolean);
 
@@ -426,6 +430,7 @@
             ]);
             hideSelectionBar();
             const grid = document.getElementById('gallery-grid');
+            grid.className = 'folder-grid';
 
             // Trie pour que "Session 3" apparaisse avant "Final"
             const sessions = [...new Set(allData.filter(item => item.lieu === selectedLieu && item.epreuve === epreuve).map(item => item.session))]
@@ -481,6 +486,7 @@
             });
 
             if (results.length === 0) {
+                grid.className = 'grid-view';
                 grid.innerHTML = `<div class="no-results" style="grid-column: 1/-1; text-align: center; padding: 40px; font-size: 18px; color: #666;">Aucune photo ne correspond à "${query}".</div>`;
                 hideSelectionBar();
                 return;
@@ -491,8 +497,20 @@
         }
 
         function displayPhotoCards(photos, grid) {
+            grid.className = 'grid-view';
+            displayedCount = 0;
+            grid.innerHTML = '';
+            renderNextBatch(photos, grid);
+        }
+
+        // Affiche les photos par lots de PHOTOS_PER_PAGE pour éviter de charger
+        // des centaines de photos lourdes en une seule fois (ça évite le ralentissement).
+        function renderNextBatch(photos, grid) {
+            const batch = photos.slice(displayedCount, displayedCount + PHOTOS_PER_PAGE);
             let html = '';
-            photos.forEach((item, index) => {
+
+            batch.forEach((item, i) => {
+                const absoluteIndex = displayedCount + i; // index réel dans currentPhotosList, pour la lightbox
                 const fileName = item.id + '.jpg';
                 const isChecked = selectedPhotoIds.has(item.id) ? 'checked' : '';
                 const cardSelectedClass = selectedPhotoIds.has(item.id) ? 'selected' : '';
@@ -500,14 +518,32 @@
                 html += `
                     <div class="photo-card ${cardSelectedClass}" id="card-${item.id}">
                         <input type="checkbox" ${isChecked} onclick="toggleSelectPhoto(event, '${item.id}')">
-                        <img src="image/${fileName}" alt="Photo ${item.id}" loading="lazy" onclick="openLightbox(${index})" onerror="this.src='https://via.placeholder.com/300x220?text=Image+' + '${item.id}'">
+                        <img src="image/${fileName}" alt="Photo ${item.id}" loading="lazy" onclick="openLightbox(${absoluteIndex})" onerror="this.src='https://via.placeholder.com/300x220?text=Image+' + '${item.id}'">
                         <div class="photo-info" style="padding: 10px; text-align: center; font-size: 14px;">
                             <strong>${item.cavalier} & ${item.cheval}</strong>
                         </div>
                     </div>
                 `;
             });
-            grid.innerHTML = html;
+
+            const existingBtn = document.getElementById('load-more-btn');
+            if (existingBtn) existingBtn.remove();
+
+            grid.insertAdjacentHTML('beforeend', html);
+            displayedCount += batch.length;
+
+            if (displayedCount < photos.length) {
+                const remaining = photos.length - displayedCount;
+                grid.insertAdjacentHTML('beforeend', `
+                    <div id="load-more-btn" style="grid-column: 1/-1; text-align: center; padding: 25px;">
+                        <button onclick="renderNextBatch(currentPhotosList, document.getElementById('gallery-grid'))"
+                            style="background:#3182ce; color:white; border:none; padding:12px 28px; border-radius:30px; font-size:15px; font-weight:600; cursor:pointer;">
+                            Charger plus de photos (${remaining} restantes)
+                        </button>
+                    </div>
+                `);
+            }
+
             updateSelectionBar();
         }
 
