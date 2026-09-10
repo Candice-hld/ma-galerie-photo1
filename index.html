@@ -843,6 +843,18 @@
             return field.split(/\s+/).some(w => w.toLowerCase() === name.toLowerCase());
         }
 
+        // Construit un texte alternatif descriptif pour l'accessibilité et le référencement
+        // (ex: "Violette Novack sur Morena — Ghlin, Open Elite")
+        function buildAltText(item) {
+            let text = '';
+            if (item.cavalier) text += item.cavalier;
+            if (item.cheval) text += (text ? ' sur ' : '') + item.cheval;
+            if (!text) text = `Photo ${item.id}`;
+            const context = [item.lieu, item.epreuve].filter(Boolean).join(', ');
+            if (context) text += ` — ${context}`;
+            return text;
+        }
+
         // ===================== Photos et couvertures : gestion des extensions et images =====================
         // Certaines photos sont en .jpg, d'autres en .jpeg : on essaie les deux avant d'afficher un placeholder.
         // On vérifie UNE SEULE FOIS au chargement si un dossier "thumbs/" existe (vignettes légères),
@@ -1527,7 +1539,7 @@
                     <div class="photo-card ${cardSelectedClass}" id="card-${item.id}">
                         <input type="checkbox" ${isChecked} onclick="toggleSelectPhoto(event, '${item.id}')">
                         <div class="card-fav-btn ${isFav ? 'is-favorite' : ''}" onclick="toggleFavorite(event, '${item.id}')">${isFav ? '&#9829;' : '&#9825;'}</div>
-                        <img src="${imgSrc}" data-id="${item.id}" data-mode="${imgMode}" data-tried="${imgTried}" alt="Photo ${item.id}" loading="lazy" onclick="openLightbox(${absoluteIndex})" onerror="handleImgError(this)">
+                        <img src="${imgSrc}" data-id="${item.id}" data-mode="${imgMode}" data-tried="${imgTried}" alt="${buildAltText(item)}" loading="lazy" onclick="openLightbox(${absoluteIndex})" onerror="handleImgError(this)">
                         <div class="watermark">@hld_candice</div>
                         <div class="photo-info" style="padding: 10px; text-align: center; font-size: 14px;">
                             <strong>${item.cavalier} & ${item.cheval}</strong>
@@ -1627,6 +1639,27 @@
             document.getElementById('selection-bar').style.display = 'none';
         }
 
+        // Construit un nom de fichier ZIP lisible d'après le dossier actuellement consulté
+        // (ex: "Ghlin-Open-Elite-Final.zip" au lieu d'un nom illisible avec un timestamp)
+        function buildZipFilename() {
+            let parts = [];
+            if (currentLevel === 'photos' || currentLevel === 'sessions' || currentLevel === 'epreuves') {
+                parts = [selectedLieu, selectedEpreuve, selectedSession];
+            } else if (currentLevel === 'search') {
+                parts = ['recherche'];
+            } else if (currentLevel === 'favoris') {
+                parts = ['favoris'];
+            } else if (currentLevel === 'filter') {
+                parts = ['filtre'];
+            }
+            const raw = parts.filter(Boolean).join('-');
+            const safe = raw
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-zA-Z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+            return `${safe || 'photos'}.zip`;
+        }
+
         async function downloadSelectedPhotos() {
             if (selectedPhotoIds.size === 0) return;
 
@@ -1671,7 +1704,7 @@
                 const zipUrl = URL.createObjectURL(zipBlob);
                 const a = document.createElement('a');
                 a.href = zipUrl;
-                a.download = `photos-selection-${Date.now()}.zip`;
+                a.download = buildZipFilename();
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -1730,6 +1763,7 @@
 
             const item = currentPhotosList[currentIndex];
             const imgEl = document.getElementById('lightbox-img');
+            imgEl.alt = buildAltText(item);
             imgEl.dataset.id = item.id;
             imgEl.dataset.mode = 'full';
             imgEl.dataset.tried = 'full-jpg';
