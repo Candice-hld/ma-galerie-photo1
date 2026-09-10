@@ -6,14 +6,57 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galerie Photo</title>
+    <title>Candice Hald</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
         .photo-info { display: none; }
+
+        /* Pied de page */
+        .site-footer {
+            text-align: center;
+            padding: 30px 20px 40px;
+            color: #a0aec0;
+            font-size: 13px;
+            border-top: 1px solid #edf2f7;
+            margin-top: 20px;
+        }
+        .site-footer p {
+            margin: 0 0 6px;
+        }
+        .site-footer a {
+            color: #718096;
+            text-decoration: none;
+        }
+        .site-footer a:hover {
+            color: #3182ce;
+            text-decoration: underline;
+        }
+
+        /* Petit spinner de chargement */
+        .loading-spinner {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            padding: 60px 0;
+            color: #718096;
+        }
+        .spinner {
+            width: 34px;
+            height: 34px;
+            border: 3px solid #e2e8f0;
+            border-top-color: #1a365d;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
 
         /* Filigrane discret en bas des photos */
         .watermark {
@@ -112,7 +155,7 @@
             gap: 12px;
             z-index: 900;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            font-family: sans-serif;
+            font-family: 'Poppins', sans-serif;
             font-size: 14px;
             flex-wrap: wrap;
             justify-content: center;
@@ -288,7 +331,7 @@
             width: 320px;
             max-width: 90%;
             text-align: center;
-            font-family: sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
         .download-overlay-content h3 {
             margin-top: 0;
@@ -525,7 +568,7 @@
     <header class="top-banner">
         <div class="header-left">
             <img id="site-logo" class="site-logo" src="logo.svg" alt="Logo" onerror="this.style.display='none'">
-            <h1 id="home-title" style="cursor: pointer;">Galerie Photo</h1>
+            <h1 id="home-title" style="cursor: pointer;">Candice Hald</h1>
         </div>
         <div class="header-right">
             <a class="instagram-link" href="https://www.instagram.com/hld_candice" target="_blank" rel="noopener" title="Instagram">
@@ -577,6 +620,12 @@
         <div class="grid-view" id="gallery-grid"></div>
     </main>
 
+    <!-- Pied de page -->
+    <footer class="site-footer">
+        <p>&copy; <span id="footer-year"></span> Candice Hald Photographie — Tous droits réservés</p>
+        <a href="https://www.instagram.com/hld_candice" target="_blank" rel="noopener">@hld_candice</a>
+    </footer>
+
     <!-- Barre d'actions flottante -->
     <div id="selection-bar" class="selection-bar">
         <span id="selection-count">0 photo(s)</span>
@@ -595,7 +644,7 @@
         <span class="lightbox-nav lightbox-prev" onclick="changeImage(-1)">&#10094;</span>
         <div class="lightbox-image-area">
             <img id="lightbox-img" src="" alt="Agrandissement">
-            <div id="lightbox-watermark">HALD Candice</div>
+            <div id="lightbox-watermark">@hld_candice</div>
         </div>
         <span class="lightbox-nav lightbox-next" onclick="changeImage(1)">&#10095;</span>
 
@@ -936,9 +985,9 @@
 
         // ===================== Titre de l'onglet + titre affiché en haut =====================
         function setPageTitle(subtitle) {
-            document.title = subtitle ? `${subtitle} — Galerie Photo` : 'Galerie Photo';
+            document.title = subtitle ? `${subtitle} — Candice Hald` : 'Candice Hald';
             const titleEl = document.getElementById('home-title');
-            if (titleEl) titleEl.textContent = subtitle || 'Galerie Photo';
+            if (titleEl) titleEl.textContent = subtitle || 'Candice Hald';
         }
 
         function formatLieu(lieu) {
@@ -1071,8 +1120,11 @@
         let displayedCount = 0;
 
         window.addEventListener('DOMContentLoaded', async () => {
+            const footerYear = document.getElementById('footer-year');
+            if (footerYear) footerYear.textContent = new Date().getFullYear();
+
             const grid = document.getElementById('gallery-grid');
-            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">Chargement des photos...</div>';
+            grid.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><span>Chargement des photos...</span></div>';
 
             try {
                 await loadPhotoData();
@@ -1386,7 +1438,7 @@
                         <input type="checkbox" ${isChecked} onclick="toggleSelectPhoto(event, '${item.id}')">
                         <div class="card-fav-btn ${isFav ? 'is-favorite' : ''}" onclick="toggleFavorite(event, '${item.id}')">${isFav ? '&#9829;' : '&#9825;'}</div>
                         <img src="${thumbSrc(item.id)}" data-id="${item.id}" data-mode="thumb" data-tried="thumb-jpg" alt="Photo ${item.id}" loading="lazy" onclick="openLightbox(${absoluteIndex})" onerror="handleImgError(this)">
-                        <div class="watermark">HALD Candice</div>
+                        <div class="watermark">@hld_candice</div>
                         <div class="photo-info" style="padding: 10px; text-align: center; font-size: 14px;">
                             <strong>${item.cavalier} & ${item.cheval}</strong>
                         </div>
@@ -1566,7 +1618,7 @@
             updateLightboxImage();
         }
 
-        // Positionne "HALD Candice" exactement au bas de la photo affichée,
+        // Positionne "@hld_candice" exactement au bas de la photo affichée,
         // en mesurant sa taille réelle (peu importe qu'elle soit large ou haute).
         function positionLightboxWatermark() {
             const img = document.getElementById('lightbox-img');
