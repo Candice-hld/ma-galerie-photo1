@@ -1194,6 +1194,18 @@
         let selectedPhotoIds = new Set();
         const PHOTOS_PER_PAGE = 40;
         let displayedCount = 0;
+        // Mémorise le dossier consulté avant de commencer une recherche,
+        // pour y revenir quand on efface la recherche (au lieu de retourner à l'accueil).
+        let preSearchLevel = null;
+
+        function restorePreSearchLevel(level) {
+            if (level === 'epreuves') renderEpreuves(selectedLieu);
+            else if (level === 'sessions') renderSessions(selectedEpreuve);
+            else if (level === 'photos') renderPhotos(selectedSession);
+            else if (level === 'favoris') renderFavoris();
+            else if (level === 'filter') applyFilters();
+            else resetNavigation();
+        }
 
         window.addEventListener('DOMContentLoaded', async () => {
             const footerYear = document.getElementById('footer-year');
@@ -1237,15 +1249,16 @@
                 const rawQuery = e.target.value;
                 const query = rawQuery.toLowerCase().trim();
                 if (query.length > 0) {
+                    if (currentLevel !== 'search' && preSearchLevel === null) {
+                        preSearchLevel = currentLevel;
+                    }
                     renderSearch(query);
                     showSuggestions(query);
                 } else {
                     suggestionsBox.style.display = 'none';
-                    if (currentLevel === 'search') {
-                        resetNavigation();
-                    } else {
-                        reRenderCurrentView();
-                    }
+                    const levelToRestore = preSearchLevel;
+                    preSearchLevel = null;
+                    restorePreSearchLevel(levelToRestore);
                 }
             });
 
