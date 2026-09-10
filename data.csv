@@ -338,7 +338,7 @@ id,lieu,epreuve,session,cavalier,cheval,equipe
 372,Alluets 16/03/2025,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
 373,Alluets 16/03/2025,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
 374,Alluets 16/03/2025,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
-375,Alluets 16/03/2025,Junior Elite,Session,Ombeline Hald Maya Legrand,Hold'up Champagne,Les z'abeilles
+375,Alluets 16/03/2025,Junior Elite,Session,Ombeline Hald Maya Legrand,Hod'up Champagne,Les z'abeilles
 376,Alluets 16/03/2025,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
 377,Alluets 16/03/2025,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
 378,Alluets 16/03/2025,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
@@ -565,3 +565,246 @@ id,lieu,epreuve,session,cavalier,cheval,equipe
 631,Mantes St Martin 09/02/2025,Poney Elite,,Violette Novack,Valentino,
 632,Mantes St Martin 09/02/2025,Poney Elite,,Violette Novack,Valentino,
 633,Mantes St Martin 09/02/2025,Poney Elite,,Violette Novack,Valentino,
+634,Brimborion 22/09/2024,Cadet 1,Equipe,Rose Fekete,Top Secret,Les Potes Corn
+635,Brimborion 22/09/2024,Cadet 1,Equipe,Philippe Chanez,Titus,Les Potes Corn
+636,Brimborion 22/09/2024,Cadet 1,Equipe,Rose Fekete,Top Secret,Les Potes Corn
+637,Brimborion 22/09/2024,Cadet 1,Equipe,Rose Fekete,Top Secret,Les Potes Corn
+638,Brimborion 22/09/2024,Cadet 1,Equipe,Rose Fekete,Top Secret,Les Potes Corn
+639,Brimborion 22/09/2024,Cadet 1,Equipe,Philippe Chanez,Titus,Les Potes Corn
+640,Brimborion 22/09/2024,Cadet 1,Equipe,Rose Fekete,Top Secret,Les Potes Corn
+641,Brimborion 22/09/2024,Cadet 1,Equipe,Rose Fekete,Top Secret,Les Potes Corn
+642,Brimborion 22/09/2024,Cadet 1,Equipe,Rose Fekete,Top Secret,Les Potes Corn
+643,Brimborion 22/09/2024,,,,,
+644,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+645,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+646,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack Auxane Chanez Maya Legrand Ombeline Hald,Valkie Hacienda Champagne Vertige,Les Zabeilles
+647,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+648,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+649,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+650,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+651,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+652,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+653,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+654,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack Maya Legrand,Valkie Champagne,Les Zabeilles
+655,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+656,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+657,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+658,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+659,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez Ombeline Hald,Hacienda Vertige,Les Zabeilles
+660,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+661,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+662,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+663,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack Maya Legrand,Valkie Champagne,Les Zabeilles
+664,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+665,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+666,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+667,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+668,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+669,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+670,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+671,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+672,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+673,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+674,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+675,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+676,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez Maya Legrand,Hacienda Champagne,Les Zabeilles
+677,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+678,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+679,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+680,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+682,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Champagne,Les Zabeilles
+683,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+684,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+685,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+686,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+687,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+688,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+689,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+690,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+691,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+692,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+693,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+694,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+695,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+696,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+697,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+698,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+699,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+700,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+701,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+702,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+703,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+704,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+705,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+706,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+707,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+708,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+709,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+710,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+711,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack Auxane Chanez,Valkie Hacienda,Les Zabeilles
+712,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+713,Brimborion 22/09/2024,Cadet 1,Equipe,Philippe Chanez,Titus,Les Potes Corn
+714,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+715,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+716,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+717,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+718,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand Ombeline Hald,Champagne Vertige,Les Zabeilles
+719,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+720,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+721,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+722,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+723,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+724,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+725,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+726,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+727,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+728,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+729,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+730,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+731,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+732,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+733,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+734,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+735,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+736,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+737,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Vertige,Les Zabeilles
+738,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+739,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez Ombeline Hald,Hacienda Vertige,Les Zabeilles
+740,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+741,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack Maya Legrand,Valkie Champagne,Les Zabeilles
+742,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+743,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+744,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+745,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+746,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+747,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+748,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand Ombeline Hald,Champagne Vertige,Les Zabeilles
+749,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+750,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+751,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+752,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+753,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+754,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+755,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+756,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+757,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+758,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+759,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+760,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+761,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+762,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+763,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+764,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+765,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+766,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+767,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+768,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+769,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+770,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+771,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+772,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+773,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+774,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+776,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+777,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+778,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+779,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+780,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+781,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+782,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+783,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+784,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+785,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+786,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+787,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+788,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+789,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+790,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+791,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+792,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+793,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+794,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+795,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+796,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+797,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+798,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+799,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+800,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+801,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+802,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+803,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+804,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+805,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+806,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez Violette Novack,Hacienda Valkie,Les Zabeilles
+807,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+808,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+809,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+810,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+811,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+812,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+813,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+814,Brimborion 22/09/2024,Junior Elite,Equipe,Violette Novack,Valkie,Les Zabeilles
+815,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez Violette Novack,Hacienda Valkie,Les Zabeilles
+816,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+817,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+818,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+819,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+820,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+821,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+822,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+823,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+824,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+825,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+826,Brimborion 22/09/2024,Junior Elite,Equipe,Maya Legrand,Champagne,Les Zabeilles
+827,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+828,Brimborion 22/09/2024,Junior Elite,Equipe,Ombeline Hald,Vertige,Les Zabeilles
+829,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+830,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+831,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+833,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+834,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+835,Brimborion 22/09/2024,Junior Elite,Equipe,Auxane Chanez,Hacienda,Les Zabeilles
+837,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+838,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+839,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+840,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+841,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+842,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+843,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+844,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+845,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+846,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+847,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+848,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+849,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+850,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+851,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+852,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+853,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald Auxane Chanez,Elyos Hacienda,Les Zabeilles
+854,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+855,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+856,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+857,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+858,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+859,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+860,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+861,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+862,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+863,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+864,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+865,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+866,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+867,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+868,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+869,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+870,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+871,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+872,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+873,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+874,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+875,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+876,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+877,Brimborion 22/09/2024,Junior Elite,Paire,Ombeline Hald,Elyos,Les Zabeilles
+878,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+879,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles
+880,Brimborion 22/09/2024,Junior Elite,Paire,Auxane Chanez,Hacienda,Les Zabeilles

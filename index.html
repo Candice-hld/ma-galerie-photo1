@@ -774,9 +774,26 @@
 
         // Noms de famille à ignorer quand on détecte les prénoms des cavaliers
         // (certaines photos ont plusieurs cavaliers collés, ex: "Ombeline Hald Alex")
-        const KNOWN_SURNAMES = new Set(['novack', 'hald', 'chanez', 'legrand']);
+        const KNOWN_SURNAMES = new Set(['novack', 'hald', 'chanez', 'legrand', 'fekete']);
         // Mots à ignorer côté cheval (ex: "Non" = pas de cheval renseigné)
         const INVALID_CHEVAL_WORDS = new Set(['non']);
+        // Noms de chevaux à deux mots (ou plus) : à traiter comme un seul nom,
+        // sinon le découpage par espace les couperait en deux (ex: "Top Secret").
+        const MULTIWORD_HORSE_NAMES = ['Top Secret'];
+
+        // Découpe un champ (cavalier ou cheval) en mots individuels, en gardant
+        // groupés les noms à plusieurs mots connus (ex: "Top Secret" reste entier).
+        function splitNameField(field) {
+            let working = field;
+            const placeholders = {};
+            MULTIWORD_HORSE_NAMES.forEach((phrase, idx) => {
+                const key = `__MW${idx}__`;
+                const re = new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+                working = working.replace(re, key);
+                placeholders[key] = phrase;
+            });
+            return working.split(/\s+/).map(w => placeholders[w] || w).filter(Boolean);
+        }
 
         let canonicalCavaliers = [];
         let canonicalChevaux = [];
@@ -813,7 +830,7 @@
             const cavalierSet = new Set();
             allData.forEach(item => {
                 if (!item.cavalier) return;
-                item.cavalier.split(/\s+/).forEach(word => {
+                splitNameField(item.cavalier).forEach(word => {
                     const w = word.trim();
                     if (!w) return;
                     if (/^\d+$/.test(w)) return;
@@ -823,11 +840,11 @@
             });
             canonicalCavaliers = Array.from(cavalierSet).sort((a, b) => a.localeCompare(b));
 
-            // Noms des chevaux : chaque mot est déjà un nom de cheval individuel.
+            // Noms des chevaux : chaque mot (ou nom à plusieurs mots connu) est un cheval individuel.
             const chevalSet = new Set();
             allData.forEach(item => {
                 if (!item.cheval) return;
-                item.cheval.split(/\s+/).forEach(word => {
+                splitNameField(item.cheval).forEach(word => {
                     const w = word.trim();
                     if (!w) return;
                     if (INVALID_CHEVAL_WORDS.has(w.toLowerCase())) return;
@@ -847,7 +864,7 @@
         // (ex: "Ombeline Hald Alex" correspond bien à "Alex" et à "Ombeline")
         function wordMatch(field, name) {
             if (!field || !name) return false;
-            return field.split(/\s+/).some(w => w.toLowerCase() === name.toLowerCase());
+            return splitNameField(field).some(w => w.toLowerCase() === name.toLowerCase());
         }
 
         // Construit un texte alternatif descriptif pour l'accessibilité et le référencement
@@ -915,24 +932,37 @@
             throw new Error(`Photo ${id} introuvable (.jpg et .jpeg)`);
         }
 
-        // Couvertures spécifiques par lieu et par épreuve (juste le numéro de la photo).
-        // Complète cette liste au fur et à mesure que tu ajoutes de nouveaux lieux/épreuves.
+        // Couvertures spécifiques par lieu / épreuve / session (juste le numéro de la photo).
+        // Complète ces listes au fur et à mesure que tu ajoutes de nouveaux lieux/épreuves/sessions.
+        // Les épreuves sont indexées par lieu, car un même nom d'épreuve (ex: "Junior Elite")
+        // peut exister dans plusieurs lieux différents avec une couverture différente.
         const lieuCovers = {
             'Ghlin 06/09/2026': '6',
             'Alluets 16/03/2025': '410',
-            'Mantes St Martin 09/02/2025': '591'
+            'Mantes St Martin 09/02/2025': '591',
+            'Brimborion 22/09/2024': '663'
         };
         const epreuveCovers = {
-            'Open Elite': '15',
-            'Junior Elite': '423',
-            'Poney 1': '519',
-            'Poney Elite': '605'
+            'Ghlin 06/09/2026': { 'Open Elite': '15' },
+            'Alluets 16/03/2025': { 'Junior Elite': '423' },
+            'Mantes St Martin 09/02/2025': { 'Poney 1': '519', 'Poney Elite': '605' },
+            'Brimborion 22/09/2024': { 'Junior Elite': '779', 'Cadet 1': '635' }
+        };
+        const sessionCovers = {
+            'Brimborion 22/09/2024': {
+                'Junior Elite': { 'Equipe': '744', 'Paire': '840' }
+            }
         };
         function getLieuCoverId(lieu) {
             return lieuCovers[lieu] || '6';
         }
-        function getEpreuveCoverId(epreuve) {
-            return epreuveCovers[epreuve] || '15';
+        function getEpreuveCoverId(lieu, epreuve) {
+            return (epreuveCovers[lieu] && epreuveCovers[lieu][epreuve]) || '15';
+        }
+        function getSessionCoverId(lieu, epreuve, session) {
+            const custom = sessionCovers[lieu] && sessionCovers[lieu][epreuve] && sessionCovers[lieu][epreuve][session];
+            if (custom) return custom;
+            return (session.toLowerCase() === 'final') ? '175' : '12';
         }
         // Construit une balise <img> de couverture (toujours en pleine résolution)
         // qui essaie .jpg puis .jpeg avant d'afficher un texte de remplacement.
@@ -1421,7 +1451,7 @@
                 html += `
                     <div class="folder-card banner-card" onclick="renderSessions('${epreuve}')">
                         <div class="folder-image-container">
-                            ${coverImgTag(getEpreuveCoverId(epreuve), epreuve)}
+                            ${coverImgTag(getEpreuveCoverId(lieu, epreuve), epreuve)}
                         </div>
                         <div class="folder-info-box">
                             <div class="folder-text-group">
@@ -1465,7 +1495,7 @@
 
             let html = '';
             sessions.forEach(session => {
-                const coverId = (session.toLowerCase() === 'final') ? '175' : '12';
+                const coverId = getSessionCoverId(selectedLieu, epreuve, session);
                 const count = allData.filter(item => item.lieu === selectedLieu && item.epreuve === epreuve && item.session === session).length;
 
                 html += `
