@@ -26,15 +26,26 @@
             font-style: italic;
             font-weight: 500;
             font-size: 16px;
-            color: #d4af37;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.7), 0 0 2px rgba(0,0,0,0.5);
+            color: #7ba7dc;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 0 3px rgba(0,0,0,0.6);
             letter-spacing: 1px;
             pointer-events: none;
             z-index: 5;
         }
-        .lightbox-img-wrapper .watermark {
+        /* Filigrane de la lightbox : positionné en JS pile sur la photo affichée */
+        #lightbox-watermark {
+            position: absolute;
             font-size: 28px;
-            bottom: 16px;
+            text-align: center;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-style: italic;
+            font-weight: 500;
+            color: #7ba7dc;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 0 3px rgba(0,0,0,0.6);
+            letter-spacing: 1px;
+            pointer-events: none;
+            z-index: 5;
+            display: none;
         }
 
         /* Compteur "X photos trouvées" au-dessus de la grille */
@@ -165,13 +176,6 @@
             padding: 0 340px 0 30px;
             box-sizing: border-box;
             position: relative;
-        }
-        .lightbox-img-wrapper {
-            position: relative;
-            display: inline-block;
-            max-width: 100%;
-            max-height: 85vh;
-            line-height: 0;
         }
         .lightbox-image-area img {
             display: block;
@@ -590,10 +594,8 @@
         <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
         <span class="lightbox-nav lightbox-prev" onclick="changeImage(-1)">&#10094;</span>
         <div class="lightbox-image-area">
-            <div class="lightbox-img-wrapper">
-                <img id="lightbox-img" src="" alt="Agrandissement">
-                <div class="watermark">HALD Candice</div>
-            </div>
+            <img id="lightbox-img" src="" alt="Agrandissement">
+            <div id="lightbox-watermark">HALD Candice</div>
         </div>
         <span class="lightbox-nav lightbox-next" onclick="changeImage(1)">&#10095;</span>
 
@@ -1144,6 +1146,12 @@
                 const btn = document.getElementById('back-to-top');
                 btn.style.display = window.scrollY > 400 ? 'flex' : 'none';
             });
+
+            window.addEventListener('resize', () => {
+                if (document.getElementById('lightbox').style.display === 'flex') {
+                    positionLightboxWatermark();
+                }
+            });
         });
 
         // ===================== Autocomplétion =====================
@@ -1558,6 +1566,23 @@
             updateLightboxImage();
         }
 
+        // Positionne "HALD Candice" exactement au bas de la photo affichée,
+        // en mesurant sa taille réelle (peu importe qu'elle soit large ou haute).
+        function positionLightboxWatermark() {
+            const img = document.getElementById('lightbox-img');
+            const wm = document.getElementById('lightbox-watermark');
+            const area = document.querySelector('.lightbox-image-area');
+            if (!img.complete || img.naturalWidth === 0) return;
+
+            const imgRect = img.getBoundingClientRect();
+            const areaRect = area.getBoundingClientRect();
+
+            wm.style.left = (imgRect.left - areaRect.left) + 'px';
+            wm.style.width = imgRect.width + 'px';
+            wm.style.top = (imgRect.bottom - areaRect.top - 40) + 'px';
+            wm.style.display = 'block';
+        }
+
         function updateLightboxImage() {
             if (currentPhotosList.length === 0) return;
 
@@ -1567,7 +1592,9 @@
             imgEl.dataset.mode = 'full';
             imgEl.dataset.tried = 'full-jpg';
             imgEl.onerror = () => handleImgError(imgEl);
+            imgEl.onload = positionLightboxWatermark;
             imgEl.src = photoSrc(item.id);
+            document.getElementById('lightbox-watermark').style.display = 'none';
 
             const downloadBtn = document.getElementById('lightbox-download-btn');
             downloadBtn.href = photoSrc(item.id);

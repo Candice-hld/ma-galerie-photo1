@@ -117,11 +117,11 @@ header.top-banner h1 {
     width: auto;
 }
 
-/* Conteneur de l'image de dossier, hauteur fixe et plus petite qu'avant :
-   la largeur s'ajuste automatiquement pour épouser exactement la photo */
+/* Conteneur de l'image de dossier : rectangle de taille fixe et identique
+   pour tous les dossiers, quelle que soit l'orientation de la photo source */
 .folder-image-container {
     height: 220px;
-    width: auto;
+    width: 320px;
     background-color: #f1f5f9;
     display: flex;
     justify-content: center;
@@ -129,12 +129,12 @@ header.top-banner h1 {
     overflow: hidden;
 }
 
-/* Photo affichée EN ENTIER (object-fit: contain), cadrée au plus près */
+/* Photo recadrée pour remplir le rectangle, centrée */
 .folder-image-container img {
     height: 100%;
-    width: auto;
-    max-width: 480px;
-    object-fit: contain;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
     display: block;
 }
 
