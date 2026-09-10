@@ -367,6 +367,83 @@
             background: #edf2f7;
         }
 
+        /* Barre de filtres (Épreuve / Session / Cavalier / Cheval), visible sur toutes les pages */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 40px;
+            background: #f7fafc;
+            border-bottom: 1px solid #edf2f7;
+        }
+        .filter-bar select {
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            background: white;
+            font-size: 14px;
+            color: #2d3748;
+            cursor: pointer;
+            min-width: 130px;
+        }
+        .filter-bar select:focus {
+            outline: none;
+            border-color: #3182ce;
+        }
+        .combo-wrapper {
+            position: relative;
+        }
+        .combo-wrapper input[type="text"] {
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            background: white;
+            font-size: 14px;
+            color: #2d3748;
+            width: 150px;
+        }
+        .combo-wrapper input[type="text"]:focus {
+            outline: none;
+            border-color: #3182ce;
+        }
+        .combo-dropdown {
+            position: absolute;
+            top: 110%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            max-height: 220px;
+            overflow-y: auto;
+            display: none;
+            z-index: 950;
+        }
+        .combo-dropdown .suggestion-item {
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #2d3748;
+        }
+        .combo-dropdown .suggestion-item:hover {
+            background: #edf2f7;
+        }
+        .filter-reset-btn {
+            background: #e2e8f0;
+            color: #2d3748;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .filter-reset-btn:hover {
+            background: #cbd5e1;
+        }
+
         @media (max-width: 700px) {
             .lightbox-image-area { padding: 0 10px; }
             .lightbox-panel {
@@ -414,6 +491,21 @@
         <div class="breadcrumb" id="breadcrumb">
             <span onclick="resetNavigation()" style="cursor: pointer;">Accueil</span>
         </div>
+    </div>
+
+    <!-- Barre de filtres, visible sur toutes les pages -->
+    <div class="filter-bar" id="filter-bar">
+        <select id="filter-epreuve"><option value="">Épreuve</option></select>
+        <select id="filter-session"><option value="">Session</option></select>
+        <div class="combo-wrapper">
+            <input type="text" id="filter-cavalier-input" placeholder="Cavalier" autocomplete="off">
+            <div class="combo-dropdown" id="filter-cavalier-dropdown"></div>
+        </div>
+        <div class="combo-wrapper">
+            <input type="text" id="filter-cheval-input" placeholder="Cheval" autocomplete="off">
+            <div class="combo-dropdown" id="filter-cheval-dropdown"></div>
+        </div>
+        <button class="filter-reset-btn" id="filter-reset-btn">Réinitialiser</button>
     </div>
 
     <!-- Contenu principal -->
@@ -506,6 +598,19 @@
             return rows;
         }
 
+        // Lieux masqués temporairement (pas encore prêts à être publiés).
+        // Pour les remettre plus tard, il suffit de retirer leur nom de cette liste.
+        const HIDDEN_LIEUX = ['Alluets 16/03/2025'];
+
+        // Noms de famille à ignorer quand on détecte les prénoms des cavaliers
+        // (certaines photos ont plusieurs cavaliers collés, ex: "Ombeline Hald Alex")
+        const KNOWN_SURNAMES = new Set(['novack', 'hald', 'chanez']);
+        // Mots à ignorer côté cheval (ex: "Non" = pas de cheval renseigné)
+        const INVALID_CHEVAL_WORDS = new Set(['non']);
+
+        let canonicalCavaliers = [];
+        let canonicalChevaux = [];
+
         async function loadPhotoData() {
             const response = await fetch('data.csv');
             const text = await response.text();
@@ -530,15 +635,49 @@
                     cheval: (r[idxCheval] || '').trim(),
                     equipe: (r[idxEquipe] || '').trim()
                 }))
-                .filter(item => item.id);
+                .filter(item => item.id)
+                .filter(item => !HIDDEN_LIEUX.includes(item.lieu));
 
-            const set = new Set();
+            // Prénoms des cavaliers : on découpe chaque champ cavalier en mots,
+            // on retire les noms de famille connus et les valeurs purement numériques.
+            const cavalierSet = new Set();
             allData.forEach(item => {
-                if (item.cavalier) set.add(item.cavalier);
-                if (item.cheval) set.add(item.cheval);
-                if (item.equipe) set.add(item.equipe);
+                if (!item.cavalier) return;
+                item.cavalier.split(/\s+/).forEach(word => {
+                    const w = word.trim();
+                    if (!w) return;
+                    if (/^\d+$/.test(w)) return;
+                    if (KNOWN_SURNAMES.has(w.toLowerCase())) return;
+                    cavalierSet.add(w);
+                });
             });
-            searchSuggestions = Array.from(set).sort((a, b) => a.localeCompare(b));
+            canonicalCavaliers = Array.from(cavalierSet).sort((a, b) => a.localeCompare(b));
+
+            // Noms des chevaux : chaque mot est déjà un nom de cheval individuel.
+            const chevalSet = new Set();
+            allData.forEach(item => {
+                if (!item.cheval) return;
+                item.cheval.split(/\s+/).forEach(word => {
+                    const w = word.trim();
+                    if (!w) return;
+                    if (INVALID_CHEVAL_WORDS.has(w.toLowerCase())) return;
+                    chevalSet.add(w);
+                });
+            });
+            canonicalChevaux = Array.from(chevalSet).sort((a, b) => a.localeCompare(b));
+
+            const equipeSet = new Set();
+            allData.forEach(item => { if (item.equipe) equipeSet.add(item.equipe); });
+
+            searchSuggestions = Array.from(new Set([...canonicalCavaliers, ...canonicalChevaux, ...equipeSet]))
+                .sort((a, b) => a.localeCompare(b));
+        }
+
+        // Vérifie qu'un des mots du champ correspond exactement au nom recherché
+        // (ex: "Ombeline Hald Alex" correspond bien à "Alex" et à "Ombeline")
+        function wordMatch(field, name) {
+            if (!field || !name) return false;
+            return field.split(/\s+/).some(w => w.toLowerCase() === name.toLowerCase());
         }
 
         // ===================== Photos et couvertures : gestion des extensions et images =====================
@@ -692,6 +831,7 @@
 
         function renderFavoris() {
             currentLevel = 'favoris';
+            clearFilterInputs();
             setPageTitle('Mes favoris');
             updateBreadcrumb([{ name: 'Favoris', action: '' }]);
             showHomeBanner(false);
@@ -724,6 +864,119 @@
             return lieu || '';
         }
 
+        // ===================== Barre de filtres (Épreuve / Session / Cavalier / Cheval) =====================
+        let selectedCavalierFilter = '';
+        let selectedChevalFilter = '';
+
+        function populateFilterDropdowns() {
+            const epreuves = [...new Set(allData.map(i => i.epreuve))].filter(Boolean).sort((a, b) => a.localeCompare(b));
+            const sessions = [...new Set(allData.map(i => i.session))].filter(Boolean).sort((a, b) => a.localeCompare(b));
+            fillSelect('filter-epreuve', 'Épreuve', epreuves);
+            fillSelect('filter-session', 'Session', sessions);
+        }
+
+        function fillSelect(id, placeholder, values) {
+            const select = document.getElementById(id);
+            select.innerHTML = `<option value="">${placeholder}</option>` +
+                values.map(v => `<option value="${v.replace(/"/g, '&quot;')}">${v}</option>`).join('');
+        }
+
+        // Combobox réutilisable : un champ texte + un menu déroulant cliquable.
+        // On peut taper pour filtrer la liste, mais la valeur n'est retenue
+        // que si on clique sur une suggestion (évite les fautes de frappe).
+        function setupCombobox(inputId, dropdownId, getOptions, onSelect, onClear) {
+            const input = document.getElementById(inputId);
+            const dropdown = document.getElementById(dropdownId);
+
+            function renderOptions() {
+                const typed = input.value.trim().toLowerCase();
+                const options = getOptions();
+                const matches = typed ? options.filter(o => o.toLowerCase().includes(typed)) : options;
+                if (matches.length === 0) {
+                    dropdown.style.display = 'none';
+                    dropdown.innerHTML = '';
+                    return;
+                }
+                dropdown.innerHTML = matches.map(o =>
+                    `<div class="suggestion-item" data-value="${o.replace(/"/g, '&quot;')}">${o}</div>`
+                ).join('');
+                dropdown.style.display = 'block';
+            }
+
+            input.addEventListener('focus', renderOptions);
+            input.addEventListener('input', () => {
+                renderOptions();
+                if (input.value.trim() === '') onClear();
+            });
+            dropdown.addEventListener('click', (e) => {
+                const item = e.target.closest('.suggestion-item');
+                if (!item) return;
+                input.value = item.dataset.value;
+                dropdown.style.display = 'none';
+                onSelect(item.dataset.value);
+            });
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest(`#${inputId}`) && !e.target.closest(`#${dropdownId}`)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        }
+
+        function clearFilterInputs() {
+            const epreuveSel = document.getElementById('filter-epreuve');
+            const sessionSel = document.getElementById('filter-session');
+            const cavalierInput = document.getElementById('filter-cavalier-input');
+            const chevalInput = document.getElementById('filter-cheval-input');
+            if (epreuveSel) epreuveSel.value = '';
+            if (sessionSel) sessionSel.value = '';
+            if (cavalierInput) cavalierInput.value = '';
+            if (chevalInput) chevalInput.value = '';
+            selectedCavalierFilter = '';
+            selectedChevalFilter = '';
+        }
+
+        function applyFilters() {
+            const epreuve = document.getElementById('filter-epreuve').value;
+            const session = document.getElementById('filter-session').value;
+            const cavalier = selectedCavalierFilter;
+            const cheval = selectedChevalFilter;
+
+            if (!epreuve && !session && !cavalier && !cheval) {
+                renderHome();
+                return;
+            }
+
+            const results = allData.filter(item =>
+                (!epreuve || item.epreuve === epreuve) &&
+                (!session || item.session === session) &&
+                (!cavalier || wordMatch(item.cavalier, cavalier)) &&
+                (!cheval || wordMatch(item.cheval, cheval))
+            );
+
+            currentLevel = 'filter';
+            setPageTitle('Résultats filtrés');
+            showHomeBanner(false);
+
+            const labelParts = [epreuve, session, cavalier, cheval].filter(Boolean);
+            updateBreadcrumb([{ name: `Filtre : ${labelParts.join(' / ')}`, action: '' }]);
+
+            const grid = document.getElementById('gallery-grid');
+            if (results.length === 0) {
+                grid.className = 'grid-view';
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; font-size: 18px; color: #666;">Aucune photo ne correspond à ces critères.</div>`;
+                hideSelectionBar();
+                return;
+            }
+
+            currentPhotosList = results;
+            displayPhotoCards(results, grid);
+        }
+
+        function resetFilters() {
+            clearFilterInputs();
+            renderHome();
+        }
+
         // ===================== Navigation générale =====================
         let currentLevel = 'home';
         let selectedLieu = '';
@@ -749,7 +1002,23 @@
             }
 
             updateFavCountBadge();
+            populateFilterDropdowns();
             renderHome();
+
+            document.getElementById('filter-epreuve').addEventListener('change', applyFilters);
+            document.getElementById('filter-session').addEventListener('change', applyFilters);
+            document.getElementById('filter-reset-btn').addEventListener('click', resetFilters);
+
+            setupCombobox('filter-cavalier-input', 'filter-cavalier-dropdown',
+                () => canonicalCavaliers,
+                (value) => { selectedCavalierFilter = value; applyFilters(); },
+                () => { selectedCavalierFilter = ''; applyFilters(); }
+            );
+            setupCombobox('filter-cheval-input', 'filter-cheval-dropdown',
+                () => canonicalChevaux,
+                (value) => { selectedChevalFilter = value; applyFilters(); },
+                () => { selectedChevalFilter = ''; applyFilters(); }
+            );
 
             const searchInput = document.getElementById('search-input');
             const suggestionsBox = document.getElementById('search-suggestions-box');
@@ -843,6 +1112,7 @@
 
         function renderHome() {
             currentLevel = 'home';
+            clearFilterInputs();
             setPageTitle(null);
             updateBreadcrumb([]);
             hideSelectionBar();
@@ -875,6 +1145,7 @@
         function renderEpreuves(lieu) {
             selectedLieu = lieu;
             currentLevel = 'epreuves';
+            clearFilterInputs();
             setPageTitle(lieu);
             updateBreadcrumb([{ name: lieu, action: `renderEpreuves('${lieu}')` }]);
             hideSelectionBar();
@@ -907,6 +1178,7 @@
         function renderSessions(epreuve) {
             selectedEpreuve = epreuve;
             currentLevel = 'sessions';
+            clearFilterInputs();
             hideSelectionBar();
             showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
@@ -956,6 +1228,7 @@
         function renderPhotos(session) {
             selectedSession = session;
             currentLevel = 'photos';
+            clearFilterInputs();
             setPageTitle(session ? `${selectedEpreuve} — ${session}` : `${selectedLieu} — ${selectedEpreuve}`);
 
             const crumbs = [
@@ -978,6 +1251,7 @@
 
         function renderSearch(query) {
             currentLevel = 'search';
+            clearFilterInputs();
             setPageTitle(`Recherche : ${query}`);
             updateBreadcrumb([{ name: `Recherche : "${query}"`, action: '' }]);
             showHomeBanner(false);
@@ -1111,7 +1385,7 @@
 
             favBtn.textContent = (currentLevel === 'favoris') ? '♥ Retirer des favoris' : '♥ Ajouter aux favoris';
 
-            if (count > 0 && (currentLevel === 'photos' || currentLevel === 'search' || currentLevel === 'favoris')) {
+            if (count > 0 && (currentLevel === 'photos' || currentLevel === 'search' || currentLevel === 'favoris' || currentLevel === 'filter')) {
                 bar.style.display = 'flex';
                 countSpan.innerText = `${count} photo${count > 1 ? 's' : ''}`;
             } else {
@@ -1249,6 +1523,7 @@
             else if (currentLevel === 'sessions') renderSessions(selectedEpreuve);
             else if (currentLevel === 'photos') renderPhotos(selectedSession);
             else if (currentLevel === 'favoris') renderFavoris();
+            else if (currentLevel === 'filter') applyFilters();
         }
     </script>
 </body>
