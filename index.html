@@ -486,6 +486,13 @@
             display: block;
             margin-top: 2px;
         }
+        /* Date du lieu, affichée entre le nom et le nombre de photos */
+        .folder-date {
+            font-size: 14px;
+            color: #a0aec0;
+            display: block;
+            margin-top: 1px;
+        }
         /* Centre le titre + le nombre de photos dans le rectangle du dossier */
         .folder-text-group {
             text-align: center;
@@ -1069,6 +1076,16 @@
             return lieu || '';
         }
 
+        // Sépare le nom du lieu et sa date si le nom se termine par une date JJ/MM/AAAA,
+        // pour pouvoir les afficher sur deux lignes distinctes (ex: "Mantes St Martin" / "09/02/2025")
+        function splitLieuNameAndDate(lieu) {
+            const match = (lieu || '').match(/^(.*?)\s+(\d{2}\/\d{2}\/\d{4})$/);
+            if (match) {
+                return { name: match[1], date: match[2] };
+            }
+            return { name: lieu || '', date: '' };
+        }
+
         // ===================== Barre de filtres (Épreuve / Session / Cavalier / Cheval) =====================
         let selectedCavalierFilter = '';
         let selectedChevalFilter = '';
@@ -1365,6 +1382,7 @@
             let html = '';
             lieux.forEach(lieu => {
                 const count = allData.filter(item => item.lieu === lieu).length;
+                const { name, date } = splitLieuNameAndDate(lieu);
                 html += `
                     <div class="folder-card banner-card" onclick="renderEpreuves('${lieu}')">
                         <div class="folder-image-container">
@@ -1372,7 +1390,8 @@
                         </div>
                         <div class="folder-info-box">
                             <div class="folder-text-group">
-                                <span class="folder-title">${lieu}</span>
+                                <span class="folder-title">${name}</span>
+                                ${date ? `<span class="folder-date">${date}</span>` : ''}
                                 <span class="folder-count">${count} photo${count > 1 ? 's' : ''}</span>
                             </div>
                         </div>
