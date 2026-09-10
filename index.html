@@ -812,8 +812,21 @@
 
         // ===================== Photos et couvertures : gestion des extensions et images =====================
         // Certaines photos sont en .jpg, d'autres en .jpeg : on essaie les deux avant d'afficher un placeholder.
-        // Pour la grille, on essaie d'abord un dossier "thumbs/" (vignettes légères, plus rapide à charger) ;
-        // s'il n'existe pas encore, ça retombe automatiquement sur les photos originales du dossier "image/".
+        // On vérifie UNE SEULE FOIS au chargement si un dossier "thumbs/" existe (vignettes légères),
+        // plutôt que de le retester à chaque photo — ça évite des centaines de requêtes ratées inutiles.
+        let thumbsAvailable = false;
+
+        async function detectThumbsFolder() {
+            if (allData.length === 0) return;
+            try {
+                const testId = allData[0].id;
+                const r = await fetch(`thumbs/${testId}.jpg`, { method: 'HEAD' });
+                thumbsAvailable = r.ok;
+            } catch (e) {
+                thumbsAvailable = false;
+            }
+        }
+
         function thumbSrc(id) {
             return `thumbs/${id}.jpg`;
         }
@@ -1144,6 +1157,7 @@
 
             try {
                 await loadPhotoData();
+                await detectThumbsFolder();
             } catch (err) {
                 console.error('Impossible de charger data.csv', err);
                 grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #c0392b;">Erreur : impossible de charger data.csv. Vérifie qu\'il est bien dans le même dossier que ce fichier HTML et que le site est servi via un serveur web (pas ouvert en double-clic).</div>';
@@ -1448,12 +1462,15 @@
                 const isChecked = selectedPhotoIds.has(item.id) ? 'checked' : '';
                 const cardSelectedClass = selectedPhotoIds.has(item.id) ? 'selected' : '';
                 const isFav = favoritePhotoIds.has(item.id);
+                const imgMode = thumbsAvailable ? 'thumb' : 'full';
+                const imgTried = thumbsAvailable ? 'thumb-jpg' : 'full-jpg';
+                const imgSrc = thumbsAvailable ? thumbSrc(item.id) : photoSrc(item.id);
 
                 html += `
                     <div class="photo-card ${cardSelectedClass}" id="card-${item.id}">
                         <input type="checkbox" ${isChecked} onclick="toggleSelectPhoto(event, '${item.id}')">
                         <div class="card-fav-btn ${isFav ? 'is-favorite' : ''}" onclick="toggleFavorite(event, '${item.id}')">${isFav ? '&#9829;' : '&#9825;'}</div>
-                        <img src="${thumbSrc(item.id)}" data-id="${item.id}" data-mode="thumb" data-tried="thumb-jpg" alt="Photo ${item.id}" loading="lazy" onclick="openLightbox(${absoluteIndex})" onerror="handleImgError(this)">
+                        <img src="${imgSrc}" data-id="${item.id}" data-mode="${imgMode}" data-tried="${imgTried}" alt="Photo ${item.id}" loading="lazy" onclick="openLightbox(${absoluteIndex})" onerror="handleImgError(this)">
                         <div class="watermark">@hld_candice</div>
                         <div class="photo-info" style="padding: 10px; text-align: center; font-size: 14px;">
                             <strong>${item.cavalier} & ${item.cheval}</strong>
