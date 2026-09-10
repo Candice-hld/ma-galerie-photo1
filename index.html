@@ -146,56 +146,72 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: #2c3e50;
+            background: #1a365d;
             color: white;
-            padding: 12px 20px;
-            border-radius: 30px;
+            padding: 10px 18px;
+            border-radius: 40px;
             display: none;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             z-index: 900;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
             font-family: 'Poppins', sans-serif;
-            font-size: 14px;
+            font-size: 13px;
             flex-wrap: wrap;
             justify-content: center;
             max-width: 95vw;
         }
+        #selection-count {
+            color: #cbd5e1;
+            font-weight: 500;
+            padding: 0 8px 0 6px;
+            white-space: nowrap;
+        }
         .selection-bar button {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 8px 12px;
+            background: transparent;
+            color: #e2e8f0;
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 7px 15px;
             border-radius: 20px;
             cursor: pointer;
-            font-weight: bold;
-            transition: background 0.2s;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.2px;
+            transition: background 0.2s, border-color 0.2s;
             white-space: nowrap;
         }
         .selection-bar button:hover {
-            background: #5dade2;
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.45);
         }
         .selection-bar button:disabled {
-            background: #7f8c8d;
+            opacity: 0.4;
             cursor: not-allowed;
         }
         .btn-deselect {
-            background: #e74c3c !important;
+            color: #f6b8b0;
+            border-color: rgba(246,184,176,0.35);
         }
         .btn-deselect:hover {
-            background: #ec7063 !important;
-        }
-        .btn-download {
-            background: #27ae60 !important;
-        }
-        .btn-download:hover {
-            background: #2ecc71 !important;
+            background: rgba(246,184,176,0.1);
+            border-color: rgba(246,184,176,0.6);
         }
         .btn-fav-bulk {
-            background: #e91e8c !important;
+            color: #f3b6d4;
+            border-color: rgba(243,182,212,0.35);
         }
         .btn-fav-bulk:hover {
-            background: #f13ea0 !important;
+            background: rgba(243,182,212,0.1);
+            border-color: rgba(243,182,212,0.6);
+        }
+        .btn-download {
+            background: #d4af37 !important;
+            color: #1a365d !important;
+            border: none !important;
+            font-weight: 600;
+        }
+        .btn-download:hover {
+            background: #e0bd52 !important;
         }
 
         /* Style de la Lightbox (visionneuse en grand) */
