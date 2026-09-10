@@ -367,75 +367,6 @@
             background: #edf2f7;
         }
 
-        /* Barre de filtres (Épreuve / Session / Cavalier / Cheval), visible sur toutes les pages */
-        .filter-bar {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 40px;
-            background: #f7fafc;
-            border-bottom: 1px solid #edf2f7;
-        }
-        .filter-bar select {
-            padding: 8px 14px;
-            border-radius: 8px;
-            border: 1px solid #cbd5e1;
-            background: white;
-            font-size: 14px;
-            color: #2d3748;
-            cursor: pointer;
-            min-width: 130px;
-        }
-        .filter-bar select:focus {
-            outline: none;
-            border-color: #3182ce;
-        }
-        .filter-reset-btn {
-            background: #e2e8f0;
-            color: #2d3748;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-        .filter-reset-btn:hover {
-            background: #cbd5e1;
-        }
-
-        /* Bouton "retour à ma sélection" sur la page Favoris */
-        .back-to-selection-btn {
-            background: #3182ce;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-        .back-to-selection-btn:hover {
-            background: #4299e1;
-        }
-
-        /* Bannière d'accueil sous le bandeau bleu */
-        .home-banner {
-            width: 100%;
-            height: 450px;
-            overflow: hidden;
-        }
-        .home-banner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center 65%;
-            display: block;
-        }
-
         @media (max-width: 700px) {
             .lightbox-image-area { padding: 0 10px; }
             .lightbox-panel {
@@ -483,15 +414,6 @@
         <div class="breadcrumb" id="breadcrumb">
             <span onclick="resetNavigation()" style="cursor: pointer;">Accueil</span>
         </div>
-    </div>
-
-    <!-- Barre de filtres, visible sur toutes les pages -->
-    <div class="filter-bar" id="filter-bar">
-        <select id="filter-epreuve"><option value="">Épreuve</option></select>
-        <select id="filter-session"><option value="">Session</option></select>
-        <select id="filter-cavalier"><option value="">Cavalier</option></select>
-        <select id="filter-cheval"><option value="">Cheval</option></select>
-        <button class="filter-reset-btn" id="filter-reset-btn">Réinitialiser</button>
     </div>
 
     <!-- Contenu principal -->
@@ -597,15 +519,18 @@
             const idxCheval = header.indexOf('cheval');
             const idxEquipe = header.indexOf('equipe');
 
-            allData = rows.slice(1).map(r => ({
-                id: (r[idxId] || '').trim(),
-                lieu: (r[idxLieu] || '').trim(),
-                epreuve: (r[idxEpreuve] || '').trim(),
-                session: (r[idxSession] || '').trim(),
-                cavalier: (r[idxCavalier] || '').trim(),
-                cheval: (r[idxCheval] || '').trim(),
-                equipe: (r[idxEquipe] || '').trim()
-            })).filter(item => item.id);
+            allData = rows.slice(1)
+                .filter(r => (r[idxLieu] || '').trim()) // ignore les lignes sans lieu (ids réservés non remplis)
+                .map(r => ({
+                    id: (r[idxId] || '').trim(),
+                    lieu: (r[idxLieu] || '').trim(),
+                    epreuve: (r[idxEpreuve] || '').trim(),
+                    session: (r[idxSession] || '').trim(),
+                    cavalier: (r[idxCavalier] || '').trim(),
+                    cheval: (r[idxCheval] || '').trim(),
+                    equipe: (r[idxEquipe] || '').trim()
+                }))
+                .filter(item => item.id);
 
             const set = new Set();
             allData.forEach(item => {
@@ -614,6 +539,55 @@
                 if (item.equipe) set.add(item.equipe);
             });
             searchSuggestions = Array.from(set).sort((a, b) => a.localeCompare(b));
+        }
+
+        // ===================== Photos et couvertures : gestion des extensions et images =====================
+        // Certaines photos sont en .jpg, d'autres en .jpeg : on essaie les deux avant d'afficher un placeholder.
+        function photoSrc(id) {
+            return `image/${id}.jpg`;
+        }
+
+        function handleImgError(imgEl) {
+            const tried = imgEl.dataset.tried || 'jpg';
+            const id = imgEl.dataset.id;
+            if (tried === 'jpg') {
+                imgEl.dataset.tried = 'jpeg';
+                imgEl.src = `image/${id}.jpeg`;
+            } else if (tried === 'jpeg') {
+                imgEl.dataset.tried = 'placeholder';
+                imgEl.src = `https://via.placeholder.com/300x220?text=Image+${id}`;
+            }
+        }
+
+        // Récupère le blob d'une photo en essayant .jpg puis .jpeg (pour le téléchargement / zip)
+        async function fetchPhotoBlob(id) {
+            try {
+                const r = await fetch(`image/${id}.jpg`);
+                if (r.ok) return { blob: await r.blob(), fileName: `${id}.jpg` };
+            } catch (e) { /* on tente l'extension suivante */ }
+            const r2 = await fetch(`image/${id}.jpeg`);
+            if (r2.ok) return { blob: await r2.blob(), fileName: `${id}.jpeg` };
+            throw new Error(`Photo ${id} introuvable (.jpg et .jpeg)`);
+        }
+
+        // Couvertures spécifiques par lieu et par épreuve. Complète cette liste
+        // au fur et à mesure que tu ajoutes de nouveaux lieux/épreuves.
+        const lieuCovers = {
+            'Ghlin': 'image/6.jpg',
+            'Alluets 16/03/2025': 'image/6.jpg',
+            'Mantes St Martin 09/02/2025': 'image/591.jpeg'
+        };
+        const epreuveCovers = {
+            'Open Elite': 'image/15.jpg',
+            'Junior Elite': 'image/15.jpg',
+            'Poney 1': 'image/519.jpeg',
+            'Poney Elite': 'image/605.jpeg'
+        };
+        function getLieuCover(lieu) {
+            return lieuCovers[lieu] || 'image/6.jpg';
+        }
+        function getEpreuveCover(epreuve) {
+            return epreuveCovers[epreuve] || 'image/15.jpg';
         }
 
         // ===================== Favoris (persistés dans le navigateur) =====================
@@ -705,7 +679,7 @@
             selectedPhotoIds.clear();
             const grid = document.getElementById('gallery-grid');
             currentPhotosList = allData.filter(item => favoritePhotoIds.has(item.id));
-            displayPhotoCards(currentPhotosList, grid, buildBackToSelectionHtml());
+            displayPhotoCards(currentPhotosList, grid);
         }
 
         function handleBulkFavClick() {
@@ -716,74 +690,27 @@
             }
         }
 
-        // Construit le bouton "Retour à ma sélection" si on a un endroit où revenir
-        function buildBackToSelectionHtml() {
-            if (!previousViewState) return '';
-            return `<div style="grid-column:1/-1; margin-bottom:5px;">
-                <button class="back-to-selection-btn" onclick="returnToPreviousView()">&#8592; Retour à ma sélection</button>
-            </div>`;
-        }
-
         function renderFavoris() {
             currentLevel = 'favoris';
-            clearFilterSelects();
             setPageTitle('Mes favoris');
             updateBreadcrumb([{ name: 'Favoris', action: '' }]);
             showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
 
             currentPhotosList = allData.filter(item => favoritePhotoIds.has(item.id));
-            const backBtnHtml = buildBackToSelectionHtml();
 
             if (currentPhotosList.length === 0) {
                 grid.className = 'grid-view';
-                grid.innerHTML = backBtnHtml + `<div style="grid-column: 1/-1; text-align: center; padding: 40px; font-size: 18px; color: #666;">Tu n'as encore aucune photo en favoris.<br>Clique sur le petit cœur d'une photo pour l'ajouter ici.</div>`;
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; font-size: 18px; color: #666;">Tu n'as encore aucune photo en favoris.<br>Clique sur le petit cœur d'une photo pour l'ajouter ici.</div>`;
                 hideSelectionBar();
                 return;
             }
 
-            displayPhotoCards(currentPhotosList, grid, backBtnHtml);
-        }
-
-        // ===================== Retour à la sélection précédente =====================
-        // Mémorise où l'utilisateur était avant d'aller sur "Mes favoris",
-        // pour pouvoir y revenir facilement avec un bouton.
-        let previousViewState = null;
-
-        function captureCurrentViewState() {
-            if (currentLevel === 'favoris') return; // on ne remplace pas l'état avec lui-même
-            if (currentLevel === 'search') {
-                previousViewState = { level: 'search', query: document.getElementById('search-input').value };
-            } else if (currentLevel === 'filter') {
-                previousViewState = { level: 'filter' };
-            } else {
-                previousViewState = {
-                    level: currentLevel,
-                    lieu: selectedLieu,
-                    epreuve: selectedEpreuve,
-                    session: selectedSession
-                };
-            }
+            displayPhotoCards(currentPhotosList, grid);
         }
 
         function goToFavoris() {
-            captureCurrentViewState();
             renderFavoris();
-        }
-
-        function returnToPreviousView() {
-            if (!previousViewState) { resetNavigation(); return; }
-            const state = previousViewState;
-            if (state.level === 'home') renderHome();
-            else if (state.level === 'epreuves') renderEpreuves(state.lieu);
-            else if (state.level === 'sessions') { selectedLieu = state.lieu; renderSessions(state.epreuve); }
-            else if (state.level === 'photos') { selectedLieu = state.lieu; selectedEpreuve = state.epreuve; renderPhotos(state.session); }
-            else if (state.level === 'search') {
-                document.getElementById('search-input').value = state.query;
-                renderSearch(state.query.toLowerCase());
-            }
-            else if (state.level === 'filter') applyFilters();
-            else renderHome();
         }
 
         // ===================== Titre de l'onglet + titre affiché en haut =====================
@@ -794,75 +721,7 @@
         }
 
         function formatLieu(lieu) {
-            return lieu ? `${lieu.charAt(0).toUpperCase() + lieu.slice(1)} 2026` : '';
-        }
-
-        // ===================== Barre de filtres (Épreuve / Session / Cavalier / Cheval) =====================
-        function populateFilterDropdowns() {
-            const epreuves = [...new Set(allData.map(i => i.epreuve))].filter(Boolean).sort((a, b) => a.localeCompare(b));
-            const sessions = [...new Set(allData.map(i => i.session))].filter(Boolean).sort((a, b) => a.localeCompare(b));
-            const cavaliers = [...new Set(allData.map(i => i.cavalier))].filter(Boolean).sort((a, b) => a.localeCompare(b));
-            const chevaux = [...new Set(allData.map(i => i.cheval))].filter(Boolean).sort((a, b) => a.localeCompare(b));
-
-            fillSelect('filter-epreuve', 'Épreuve', epreuves);
-            fillSelect('filter-session', 'Session', sessions);
-            fillSelect('filter-cavalier', 'Cavalier', cavaliers);
-            fillSelect('filter-cheval', 'Cheval', chevaux);
-        }
-
-        function fillSelect(id, placeholder, values) {
-            const select = document.getElementById(id);
-            select.innerHTML = `<option value="">${placeholder}</option>` +
-                values.map(v => `<option value="${v.replace(/"/g, '&quot;')}">${v}</option>`).join('');
-        }
-
-        function clearFilterSelects() {
-            ['filter-epreuve', 'filter-session', 'filter-cavalier', 'filter-cheval'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.value = '';
-            });
-        }
-
-        function applyFilters() {
-            const epreuve = document.getElementById('filter-epreuve').value;
-            const session = document.getElementById('filter-session').value;
-            const cavalier = document.getElementById('filter-cavalier').value;
-            const cheval = document.getElementById('filter-cheval').value;
-
-            if (!epreuve && !session && !cavalier && !cheval) {
-                renderHome();
-                return;
-            }
-
-            const results = allData.filter(item =>
-                (!epreuve || item.epreuve === epreuve) &&
-                (!session || item.session === session) &&
-                (!cavalier || item.cavalier === cavalier) &&
-                (!cheval || item.cheval === cheval)
-            );
-
-            currentLevel = 'filter';
-            setPageTitle('Résultats filtrés');
-            showHomeBanner(false);
-
-            const labelParts = [epreuve, session, cavalier, cheval].filter(Boolean);
-            updateBreadcrumb([{ name: `Filtre : ${labelParts.join(' / ')}`, action: '' }]);
-
-            const grid = document.getElementById('gallery-grid');
-            if (results.length === 0) {
-                grid.className = 'grid-view';
-                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; font-size: 18px; color: #666;">Aucune photo ne correspond à ces critères.</div>`;
-                hideSelectionBar();
-                return;
-            }
-
-            currentPhotosList = results;
-            displayPhotoCards(results, grid);
-        }
-
-        function resetFilters() {
-            clearFilterSelects();
-            renderHome();
+            return lieu || '';
         }
 
         // ===================== Navigation générale =====================
@@ -889,7 +748,6 @@
                 return;
             }
 
-            populateFilterDropdowns();
             updateFavCountBadge();
             renderHome();
 
@@ -924,11 +782,6 @@
             });
 
             document.getElementById('home-title').addEventListener('click', resetNavigation);
-
-            ['filter-epreuve', 'filter-session', 'filter-cavalier', 'filter-cheval'].forEach(id => {
-                document.getElementById(id).addEventListener('change', applyFilters);
-            });
-            document.getElementById('filter-reset-btn').addEventListener('click', resetFilters);
 
             document.addEventListener('keydown', (e) => {
                 const lb = document.getElementById('lightbox');
@@ -990,7 +843,6 @@
 
         function renderHome() {
             currentLevel = 'home';
-            clearFilterSelects();
             setPageTitle(null);
             updateBreadcrumb([]);
             hideSelectionBar();
@@ -1006,14 +858,13 @@
                 html += `
                     <div class="folder-card banner-card" onclick="renderEpreuves('${lieu}')">
                         <div class="folder-image-container">
-                            <img src="image/6.jpg" alt="${lieu}" onerror="this.src='https://via.placeholder.com/1200x400?text=Ghlin'">
+                            <img src="${getLieuCover(lieu)}" alt="${lieu}" onerror="this.src='https://via.placeholder.com/1200x400?text=${encodeURIComponent(lieu)}'">
                         </div>
                         <div class="folder-info-box">
                             <div class="folder-text-group">
-                                <span class="folder-title">${lieu.charAt(0).toUpperCase() + lieu.slice(1)} 2026</span>
+                                <span class="folder-title">${lieu}</span>
                                 <span class="folder-count">${count} photo${count > 1 ? 's' : ''}</span>
                             </div>
-                            <span class="flag-badge">🇧🇪</span>
                         </div>
                     </div>
                 `;
@@ -1024,8 +875,7 @@
         function renderEpreuves(lieu) {
             selectedLieu = lieu;
             currentLevel = 'epreuves';
-            clearFilterSelects();
-            setPageTitle(formatLieu(lieu));
+            setPageTitle(lieu);
             updateBreadcrumb([{ name: lieu, action: `renderEpreuves('${lieu}')` }]);
             hideSelectionBar();
             showHomeBanner(false);
@@ -1040,7 +890,7 @@
                 html += `
                     <div class="folder-card banner-card" onclick="renderSessions('${epreuve}')">
                         <div class="folder-image-container">
-                            <img src="image/15.jpg" alt="${epreuve}" onerror="this.src='https://via.placeholder.com/1200x400?text=Open+Elite'">
+                            <img src="${getEpreuveCover(epreuve)}" alt="${epreuve}" onerror="this.src='https://via.placeholder.com/1200x400?text=${encodeURIComponent(epreuve)}'">
                         </div>
                         <div class="folder-info-box">
                             <div class="folder-text-group">
@@ -1057,21 +907,28 @@
         function renderSessions(epreuve) {
             selectedEpreuve = epreuve;
             currentLevel = 'sessions';
-            clearFilterSelects();
-            setPageTitle(`${formatLieu(selectedLieu)} — ${epreuve}`);
-            updateBreadcrumb([
-                { name: selectedLieu, action: `renderEpreuves('${selectedLieu}')` },
-                { name: epreuve, action: `renderSessions('${epreuve}')` }
-            ]);
             hideSelectionBar();
             showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
-            grid.className = 'folder-grid';
 
             // Trie pour que "Session 3" apparaisse avant "Final"
             const sessions = [...new Set(allData.filter(item => item.lieu === selectedLieu && item.epreuve === epreuve).map(item => item.session))]
                 .filter(Boolean)
                 .sort((a, b) => (a.toLowerCase() === 'final' ? 1 : b.toLowerCase() === 'final' ? -1 : 0));
+
+            // Si cette épreuve n'a pas de sous-dossier "session" (ex : Poney 1, Poney Elite),
+            // on affiche directement les photos sans passer par un écran intermédiaire vide.
+            if (sessions.length === 0) {
+                renderPhotos('');
+                return;
+            }
+
+            setPageTitle(`${selectedLieu} — ${epreuve}`);
+            updateBreadcrumb([
+                { name: selectedLieu, action: `renderEpreuves('${selectedLieu}')` },
+                { name: epreuve, action: `renderSessions('${epreuve}')` }
+            ]);
+            grid.className = 'folder-grid';
 
             let html = '';
             sessions.forEach(session => {
@@ -1099,13 +956,17 @@
         function renderPhotos(session) {
             selectedSession = session;
             currentLevel = 'photos';
-            clearFilterSelects();
-            setPageTitle(`${selectedEpreuve} — ${session}`);
-            updateBreadcrumb([
+            setPageTitle(session ? `${selectedEpreuve} — ${session}` : `${selectedLieu} — ${selectedEpreuve}`);
+
+            const crumbs = [
                 { name: selectedLieu, action: `renderEpreuves('${selectedLieu}')` },
-                { name: selectedEpreuve, action: `renderSessions('${selectedEpreuve}')` },
-                { name: session, action: `renderPhotos('${session}')` }
-            ]);
+                { name: selectedEpreuve, action: `renderSessions('${selectedEpreuve}')` }
+            ];
+            if (session) {
+                crumbs.push({ name: session, action: `renderPhotos('${session}')` });
+            }
+            updateBreadcrumb(crumbs);
+
             showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
 
@@ -1117,7 +978,6 @@
 
         function renderSearch(query) {
             currentLevel = 'search';
-            clearFilterSelects();
             setPageTitle(`Recherche : ${query}`);
             updateBreadcrumb([{ name: `Recherche : "${query}"`, action: '' }]);
             showHomeBanner(false);
@@ -1141,10 +1001,10 @@
             displayPhotoCards(results, grid);
         }
 
-        function displayPhotoCards(photos, grid, leadingHtml = '') {
+        function displayPhotoCards(photos, grid) {
             grid.className = 'grid-view';
             displayedCount = 0;
-            grid.innerHTML = leadingHtml;
+            grid.innerHTML = '';
             renderNextBatch(photos, grid);
         }
 
@@ -1156,7 +1016,6 @@
 
             batch.forEach((item, i) => {
                 const absoluteIndex = displayedCount + i;
-                const fileName = item.id + '.jpg';
                 const isChecked = selectedPhotoIds.has(item.id) ? 'checked' : '';
                 const cardSelectedClass = selectedPhotoIds.has(item.id) ? 'selected' : '';
                 const isFav = favoritePhotoIds.has(item.id);
@@ -1165,7 +1024,7 @@
                     <div class="photo-card ${cardSelectedClass}" id="card-${item.id}">
                         <input type="checkbox" ${isChecked} onclick="toggleSelectPhoto(event, '${item.id}')">
                         <div class="card-fav-btn ${isFav ? 'is-favorite' : ''}" onclick="toggleFavorite(event, '${item.id}')">${isFav ? '&#9829;' : '&#9825;'}</div>
-                        <img src="image/${fileName}" alt="Photo ${item.id}" loading="lazy" onclick="openLightbox(${absoluteIndex})" onerror="this.src='https://via.placeholder.com/300x220?text=Image+' + '${item.id}'">
+                        <img src="${photoSrc(item.id)}" data-id="${item.id}" data-tried="jpg" alt="Photo ${item.id}" loading="lazy" onclick="openLightbox(${absoluteIndex})" onerror="handleImgError(this)">
                         <div class="photo-info" style="padding: 10px; text-align: center; font-size: 14px;">
                             <strong>${item.cavalier} & ${item.cheval}</strong>
                         </div>
@@ -1252,7 +1111,7 @@
 
             favBtn.textContent = (currentLevel === 'favoris') ? '♥ Retirer des favoris' : '♥ Ajouter aux favoris';
 
-            if (count > 0 && (currentLevel === 'photos' || currentLevel === 'search' || currentLevel === 'favoris' || currentLevel === 'filter')) {
+            if (count > 0 && (currentLevel === 'photos' || currentLevel === 'search' || currentLevel === 'favoris')) {
                 bar.style.display = 'flex';
                 countSpan.innerText = `${count} photo${count > 1 ? 's' : ''}`;
             } else {
@@ -1285,13 +1144,11 @@
                 let done = 0;
 
                 await Promise.all(ids.map(async (id) => {
-                    const fileName = id + '.jpg';
                     try {
-                        const response = await fetch(`image/${fileName}`);
-                        const blob = await response.blob();
+                        const { blob, fileName } = await fetchPhotoBlob(id);
                         zip.file(fileName, blob);
                     } catch (err) {
-                        console.error(`Impossible de récupérer la photo ${fileName}`, err);
+                        console.error(`Impossible de récupérer la photo ${id}`, err);
                     } finally {
                         done++;
                         const percent = Math.round((done / total) * 100);
@@ -1351,16 +1208,33 @@
             if (currentPhotosList.length === 0) return;
 
             const item = currentPhotosList[currentIndex];
-            const fileName = item.id + '.jpg';
-            const filePath = `image/${fileName}`;
-
-            document.getElementById('lightbox-img').src = filePath;
+            const imgEl = document.getElementById('lightbox-img');
+            imgEl.dataset.id = item.id;
+            imgEl.dataset.tried = 'jpg';
+            imgEl.onerror = () => handleImgError(imgEl);
+            imgEl.src = photoSrc(item.id);
 
             const downloadBtn = document.getElementById('lightbox-download-btn');
-            downloadBtn.href = filePath;
-            downloadBtn.download = fileName;
+            downloadBtn.href = photoSrc(item.id);
+            downloadBtn.download = `${item.id}.jpg`;
+            downloadBtn.onclick = async (e) => {
+                e.preventDefault();
+                try {
+                    const { blob, fileName } = await fetchPhotoBlob(item.id);
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                } catch (err) {
+                    alert('Impossible de télécharger cette photo.');
+                }
+            };
 
-            const tags = [formatLieu(item.lieu), item.epreuve, item.session, item.cavalier, item.cheval]
+            const tags = [item.lieu, item.epreuve, item.session, item.cavalier, item.cheval]
                 .filter(Boolean)
                 .map(t => `<span class="info-tag">${t}</span>`)
                 .join('');
@@ -1375,7 +1249,6 @@
             else if (currentLevel === 'sessions') renderSessions(selectedEpreuve);
             else if (currentLevel === 'photos') renderPhotos(selectedSession);
             else if (currentLevel === 'favoris') renderFavoris();
-            else if (currentLevel === 'filter') applyFilters();
         }
     </script>
 </body>
