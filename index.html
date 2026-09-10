@@ -15,6 +15,27 @@
     <style>
         .photo-info { display: none; }
 
+        /* Bouton "retour" contextuel au-dessus du contenu */
+        .back-nav {
+            margin-bottom: 12px;
+        }
+        .back-nav button {
+            background: none;
+            border: none;
+            color: #3182ce;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            padding: 6px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .back-nav button:hover {
+            text-decoration: underline;
+        }
+
         /* Pied de page */
         .site-footer {
             text-align: center;
@@ -633,6 +654,7 @@
 
     <!-- Contenu principal -->
     <main class="main-container">
+        <div id="back-nav" class="back-nav"></div>
         <div class="grid-view" id="gallery-grid"></div>
     </main>
 
@@ -993,6 +1015,7 @@
             clearFilterInputs();
             setPageTitle('Mes favoris');
             updateBreadcrumb([{ name: 'Favoris', action: '' }]);
+            setBackNav("Retour à l'accueil", 'resetNavigation()');
             showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
 
@@ -1118,6 +1141,7 @@
 
             const labelParts = [epreuve, session, cavalier, cheval].filter(Boolean);
             updateBreadcrumb([{ name: `Filtre : ${labelParts.join(' / ')}`, action: '' }]);
+            setBackNav("Retour à l'accueil", 'resetFilters()');
 
             const grid = document.getElementById('gallery-grid');
             if (results.length === 0) {
@@ -1258,6 +1282,16 @@
             renderSearch(value.toLowerCase());
         }
 
+        // Bouton "retour" contextuel affiché au-dessus du contenu
+        function setBackNav(label, onclickCode) {
+            const container = document.getElementById('back-nav');
+            if (!label) {
+                container.innerHTML = '';
+                return;
+            }
+            container.innerHTML = `<button onclick="${onclickCode}">&#8592; ${label}</button>`;
+        }
+
         function updateBreadcrumb(items) {
             const bc = document.getElementById('breadcrumb');
             let html = '<span onclick="resetNavigation()" style="cursor: pointer;">Accueil</span>';
@@ -1284,6 +1318,7 @@
             clearFilterInputs();
             setPageTitle(null);
             updateBreadcrumb([]);
+            setBackNav(null);
             hideSelectionBar();
             showHomeBanner(true);
             const grid = document.getElementById('gallery-grid');
@@ -1317,6 +1352,7 @@
             clearFilterInputs();
             setPageTitle(lieu);
             updateBreadcrumb([{ name: lieu, action: `renderEpreuves('${lieu}')` }]);
+            setBackNav("Retour à l'accueil", 'resetNavigation()');
             hideSelectionBar();
             showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
@@ -1369,6 +1405,7 @@
                 { name: selectedLieu, action: `renderEpreuves('${selectedLieu}')` },
                 { name: epreuve, action: `renderSessions('${epreuve}')` }
             ]);
+            setBackNav('Retour aux épreuves', `renderEpreuves('${selectedLieu}')`);
             grid.className = 'folder-grid';
 
             let html = '';
@@ -1408,6 +1445,14 @@
             }
             updateBreadcrumb(crumbs);
 
+            // Retour aux sessions s'il y en avait plusieurs à choisir, sinon retour direct aux épreuves
+            const allSessions = [...new Set(allData.filter(item => item.lieu === selectedLieu && item.epreuve === selectedEpreuve).map(item => item.session))].filter(Boolean);
+            if (allSessions.length > 1) {
+                setBackNav('Retour aux sessions', `renderSessions('${selectedEpreuve}')`);
+            } else {
+                setBackNav('Retour aux épreuves', `renderEpreuves('${selectedLieu}')`);
+            }
+
             showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
 
@@ -1422,6 +1467,7 @@
             clearFilterInputs();
             setPageTitle(`Recherche : ${query}`);
             updateBreadcrumb([{ name: `Recherche : "${query}"`, action: '' }]);
+            setBackNav("Retour à l'accueil", 'resetNavigation()');
             showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
 
