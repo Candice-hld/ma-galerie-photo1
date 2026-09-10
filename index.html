@@ -599,12 +599,12 @@
         }
 
         // Lieux masqués temporairement (pas encore prêts à être publiés).
-        // Pour les remettre plus tard, il suffit de retirer leur nom de cette liste.
-        const HIDDEN_LIEUX = ['Alluets 16/03/2025'];
+        // Pour en masquer un plus tard, il suffit d'ajouter son nom exact ici.
+        const HIDDEN_LIEUX = [];
 
         // Noms de famille à ignorer quand on détecte les prénoms des cavaliers
         // (certaines photos ont plusieurs cavaliers collés, ex: "Ombeline Hald Alex")
-        const KNOWN_SURNAMES = new Set(['novack', 'hald', 'chanez']);
+        const KNOWN_SURNAMES = new Set(['novack', 'hald', 'chanez', 'legrand']);
         // Mots à ignorer côté cheval (ex: "Non" = pas de cheval renseigné)
         const INVALID_CHEVAL_WORDS = new Set(['non']);
 
@@ -709,24 +709,29 @@
             throw new Error(`Photo ${id} introuvable (.jpg et .jpeg)`);
         }
 
-        // Couvertures spécifiques par lieu et par épreuve. Complète cette liste
-        // au fur et à mesure que tu ajoutes de nouveaux lieux/épreuves.
+        // Couvertures spécifiques par lieu et par épreuve (juste le numéro de la photo).
+        // Complète cette liste au fur et à mesure que tu ajoutes de nouveaux lieux/épreuves.
         const lieuCovers = {
-            'Ghlin': 'image/6.jpg',
-            'Alluets 16/03/2025': 'image/6.jpg',
-            'Mantes St Martin 09/02/2025': 'image/591.jpeg'
+            'Ghlin': '6',
+            'Alluets 16/03/2026': '410',
+            'Mantes St Martin 09/02/2025': '591'
         };
         const epreuveCovers = {
-            'Open Elite': 'image/15.jpg',
-            'Junior Elite': 'image/15.jpg',
-            'Poney 1': 'image/519.jpeg',
-            'Poney Elite': 'image/605.jpeg'
+            'Open Elite': '15',
+            'Junior Elite': '423',
+            'Poney 1': '519',
+            'Poney Elite': '605'
         };
-        function getLieuCover(lieu) {
-            return lieuCovers[lieu] || 'image/6.jpg';
+        function getLieuCoverId(lieu) {
+            return lieuCovers[lieu] || '6';
         }
-        function getEpreuveCover(epreuve) {
-            return epreuveCovers[epreuve] || 'image/15.jpg';
+        function getEpreuveCoverId(epreuve) {
+            return epreuveCovers[epreuve] || '15';
+        }
+        // Construit une balise <img> de couverture qui essaie .jpg puis .jpeg
+        // avant d'afficher un texte de remplacement.
+        function coverImgTag(id, altText) {
+            return `<img src="image/${id}.jpg" data-id="${id}" data-tried="jpg" alt="${altText}" onerror="handleImgError(this)">`;
         }
 
         // ===================== Favoris (persistés dans le navigateur) =====================
@@ -1128,7 +1133,7 @@
                 html += `
                     <div class="folder-card banner-card" onclick="renderEpreuves('${lieu}')">
                         <div class="folder-image-container">
-                            <img src="${getLieuCover(lieu)}" alt="${lieu}" onerror="this.src='https://via.placeholder.com/1200x400?text=${encodeURIComponent(lieu)}'">
+                            ${coverImgTag(getLieuCoverId(lieu), lieu)}
                         </div>
                         <div class="folder-info-box">
                             <div class="folder-text-group">
@@ -1161,7 +1166,7 @@
                 html += `
                     <div class="folder-card banner-card" onclick="renderSessions('${epreuve}')">
                         <div class="folder-image-container">
-                            <img src="${getEpreuveCover(epreuve)}" alt="${epreuve}" onerror="this.src='https://via.placeholder.com/1200x400?text=${encodeURIComponent(epreuve)}'">
+                            ${coverImgTag(getEpreuveCoverId(epreuve), epreuve)}
                         </div>
                         <div class="folder-info-box">
                             <div class="folder-text-group">
@@ -1188,10 +1193,10 @@
                 .filter(Boolean)
                 .sort((a, b) => (a.toLowerCase() === 'final' ? 1 : b.toLowerCase() === 'final' ? -1 : 0));
 
-            // Si cette épreuve n'a pas de sous-dossier "session" (ex : Poney 1, Poney Elite),
-            // on affiche directement les photos sans passer par un écran intermédiaire vide.
-            if (sessions.length === 0) {
-                renderPhotos('');
+            // Si cette épreuve n'a qu'une seule session (ou aucune, ex : Poney 1, Poney Elite),
+            // on affiche directement les photos sans passer par un écran intermédiaire inutile.
+            if (sessions.length <= 1) {
+                renderPhotos(sessions[0] || '');
                 return;
             }
 
@@ -1204,14 +1209,13 @@
 
             let html = '';
             sessions.forEach(session => {
-                const coverImage = (session.toLowerCase() === 'final') ? 'image/175.jpg' : 'image/12.jpg';
-                const placeholderText = (session.toLowerCase() === 'final') ? 'Final' : 'Session+3';
+                const coverId = (session.toLowerCase() === 'final') ? '175' : '12';
                 const count = allData.filter(item => item.lieu === selectedLieu && item.epreuve === epreuve && item.session === session).length;
 
                 html += `
                     <div class="folder-card banner-card" onclick="renderPhotos('${session}')">
                         <div class="folder-image-container">
-                            <img src="${coverImage}" alt="${session}" onerror="this.src='https://via.placeholder.com/1200x400?text=${placeholderText}'">
+                            ${coverImgTag(coverId, session)}
                         </div>
                         <div class="folder-info-box">
                             <div class="folder-text-group">

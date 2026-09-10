@@ -7,7 +7,7 @@ id,lieu,epreuve,session,cavalier,cheval,equipe
 6,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
 7,Ghlin,Open Elite,Session 3,Alex,Kiara,Les Last Minute
 8,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-9,Ghlin,Open Elite,Session 3,Rayan Mathyas,Kiara Haidy, Les Last Minute
+9,Ghlin,Open Elite,Session 3,Alex Mathyas,Kiara,Les Last Minute
 10,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
 11,Ghlin,Open Elite,Session 3,Violette Novack,Morena,Les Last Minute
 12,Ghlin,Open Elite,Session 3,Violette Novack Ombeline Hald,Hacienda Morena,Les Last Minute
@@ -16,11 +16,11 @@ id,lieu,epreuve,session,cavalier,cheval,equipe
 15,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
 16,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
 17,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
-18,Ghlin,Open Elite,Session 3,Ombeline Hald Mathyas,Hacienda Haidy,Les Last Minute
+18,Ghlin,Open Elite,Session 3,Ombeline Hald Mathyas,Hacienda,Les Last Minute
 19,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
 20,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
 21,Ghlin,Open Elite,Session 3,Mathyas,Haidy,Les Last Minute
-22,Ghlin,Open Elite,Session 3,Ombeline Hald Violette Novack Alex Mathyas,Hacienda Morena Kiara Haidy,Les Last Minute
+22,Ghlin,Open Elite,Session 3,Ombeline Hald Violette Novack Alex Mathyas,Hacienda Morena Elite Kiara Haidy,Les Last Minute
 23,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
 24,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
 25,Ghlin,Open Elite,Session 3,Ombeline Hald,Hacienda,Les Last Minute
@@ -263,174 +263,174 @@ id,lieu,epreuve,session,cavalier,cheval,equipe
 262,Ghlin,Open Elite,Final,Ombeline Violette Rayan Mathyas Alex,Hacienda Kiara Morena Elite Haidy,Les Last Minute
 263,Ghlin,Open Elite,Final,Ombeline Violette Rayan Mathyas Alex,Hacienda Kiara Morena Elite Haidy,Les Last Minute
 264,Ghlin,Open Elite,Final,Alex,Kiara,Les Last Minute
-300,Alluets 16/03/2025,Junior Elite,,Maya,Champagne
-301,Alluets 16/03/2025,Junior Elite,,
-302,Alluets 16/03/2025,Junior Elite,,
-303,Alluets 16/03/2025,Junior Elite,,
-304,Alluets 16/03/2025,Junior Elite,,
-305,Alluets 16/03/2025,Junior Elite,,
-306,Alluets 16/03/2025,Junior Elite,,
-307,Alluets 16/03/2025,Junior Elite,,
-308,Alluets 16/03/2025,Junior Elite,,
-30,Alluets 16/03/2025,Junior Elite,,9
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368
-369
-370
-371
-372
-373
-374
-375
-376
-377
-378
-379
-380
-381
-382
-383
-384
-385
-386
-387
-388
-389
-390
-391
-392
-393
-394
-395
-396
-397
-398
-399
-400
-401
-402
-403
-404
-405
-406
-407
-408
-409
-410
-411
-412
-413
-414
-415
-416
-417
-418
-419
-420
-421
-422
-423
-424
-425
-426
-427
-428
-429
-430
-431
-432
-433
-434
-435
-436,Alluets 16/03/2025,Junior Elite,,
-437,Alluets 16/03/2025,Junior Elite,,
-438,Alluets 16/03/2025,Junior Elite,,
-439,Alluets 16/03/2025,Junior Elite,,
-440,Alluets 16/03/2025,Junior Elite,,
-441,Alluets 16/03/2025,Junior Elite,,
-442,Alluets 16/03/2025,Junior Elite,,
-443,Alluets 16/03/2025,Junior Elite,,
-444,Alluets 16/03/2025,Junior Elite,,
-445,Alluets 16/03/2025,Junior Elite,,
-446,Alluets 16/03/2025,Junior Elite,,
-447,Alluets 16/03/2025,Junior Elite,,
-448,Alluets 16/03/2025,Junior Elite,,
-449,Alluets 16/03/2025,Junior Elite,,
-450,Alluets 16/03/2025,Junior Elite,,
-451,Alluets 16/03/2025,Junior Elite,,
-452,Alluets 16/03/2025,Junior Elite,,
-453,Alluets 16/03/2025,Junior Elite,,
-454,Alluets 16/03/2025,Junior Elite,,
-455,Alluets 16/03/2025,Junior Elite,,
-456,Alluets 16/03/2025,Junior Elite,,
-457,Alluets 16/03/2025,Junior Elite,,
-458,Alluets 16/03/2025,Junior Elite,,
-459,Alluets 16/03/2025,Junior Elite,,
-460,Alluets 16/03/2025,Junior Elite,,
-461,Alluets 16/03/2025,Junior Elite,,
-462,Alluets 16/03/2025,Junior Elite,,
-463,Alluets 16/03/2025,Junior Elite,,
-464,Alluets 16/03/2025,Junior Elite,,
-465,Alluets 16/03/2025,Junior Elite,,
-466,Alluets 16/03/2025,Junior Elite,,
-467,Alluets 16/03/2025,Junior Elite,,
+300,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+301,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+302,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand Ombeline Hald,Champagne Hold'up,Les z'abeilles
+303,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+304,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+305,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+306,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+307,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+308,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+309,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+310,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+311,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+312,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+313,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+314,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+315,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+316,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+317,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+318,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+319,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+320,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+321,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+322,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+323,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+324,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+325,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+326,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+327,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+328,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+329,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+330,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+331,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+332,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+333,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+334,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+335,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+336,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+337,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+338,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+339,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+340,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+341,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+342,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+343,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+344,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+345,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+346,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+347,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+348,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+349,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+350,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+351,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+352,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+353,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+354,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+355,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+356,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+357,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+358,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+359,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+360,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+361,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+362,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+363,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+364,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+365,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+366,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+367,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+368,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+369,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+370,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+371,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+372,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+373,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+374,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+375,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald Maya Legrand,Hod'up Champagne,Les z'abeilles
+376,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+377,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+378,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+379,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+380,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+381,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+382,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+383,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+384,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+385,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+386,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+387,Alluets 16/03/2026,Junior Elite,Session,Violette Novack Auxane Chanez,Valkie Hacienda,Les z'abeilles
+388,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+389,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+390,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+391,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+392,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+393,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+394,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+395,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+396,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+397,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+398,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+399,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+400,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+401,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+402,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+403,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+404,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+405,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+406,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+407,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+408,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+409,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+410,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+411,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+412,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+413,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+414,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+415,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+416,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+417,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+418,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+419,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+420,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+421,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+422,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+423,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+424,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+425,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+426,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+427,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+428,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+429,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+430,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+431,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+432,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+433,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+434,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+435,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+436,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Hold'up,Les z'abeilles
+437,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+438,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Valkie,Les z'abeilles
+439,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+440,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+441,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
+442,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+443,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+444,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+445,Alluets 16/03/2026,Junior Elite,Session,Maya Legrand,Champagne,Les z'abeilles
+446,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+447,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+448,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+449,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+450,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+451,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+452,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+453,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+454,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+455,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+456,Alluets 16/03/2026,Junior Elite,Session,Violette Novack,Valkie,Les z'abeilles
+457,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+458,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+459,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+460,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+461,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+462,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+463,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+464,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+465,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+466,Alluets 16/03/2026,Junior Elite,Session,Ombeline Hald,Hold'up,Les z'abeilles
+467,Alluets 16/03/2026,Junior Elite,Session,Auxane Chanez,Hacienda,Les z'abeilles
 500,Mantes St Martin 09/02/2025,Poney 1,,Toscane Novack,Valentino,
 501,Mantes St Martin 09/02/2025,Poney 1,,Auxane Chanez,Agharany,
 502,Mantes St Martin 09/02/2025,Poney 1,,Auxane Chanez,Agharany,
@@ -480,8 +480,8 @@ id,lieu,epreuve,session,cavalier,cheval,equipe
 546,Mantes St Martin 09/02/2025,Poney 1,,Violette Novack,Valentino,
 547,Mantes St Martin 09/02/2025,Poney 1,,Violette Novack,Valentino,
 548,Mantes St Martin 09/02/2025,Poney 1,,Violette Novack,Valentino,
-549,Mantes St Martin 09/02/2025,Poney 1,,Ombeline Hald,Umka,
-550,Mantes St Martin 09/02/2025,Poney 1,,Ombeline Hald,Umka,
+549,Mantes St Martin 09/02/2025,Poney 1,,Ombeline Hald,Agharany,
+550,Mantes St Martin 09/02/2025,Poney 1,,Ombeline Hald,Agharany,
 551,Mantes St Martin 09/02/2025,Poney 1,,Violette Novack,Valentino,
 552,Mantes St Martin 09/02/2025,Poney 1,,Violette Novack,Valentino,
 553,Mantes St Martin 09/02/2025,Poney 1,,Ombeline Hald,Agharany,
@@ -489,8 +489,8 @@ id,lieu,epreuve,session,cavalier,cheval,equipe
 555,Mantes St Martin 09/02/2025,Poney 1,,Violette Novack,Valentino,
 556,Mantes St Martin 09/02/2025,Poney 1,,Violette Novack,Valentino,
 557,Mantes St Martin 09/02/2025,Poney 1,,Violette Novack,Valentino,
-558,Mantes St Martin 09/02/2025,Poney 1,,Ombeline Hald,Umka,
-559,Mantes St Martin 09/02/2025,Poney 1,,Ombeline Hald,Umka,
+558,Mantes St Martin 09/02/2025,Poney 1,,Ombeline Hald,Agharany,
+559,Mantes St Martin 09/02/2025,Poney 1,,Ombeline Hald,Agharany,
 560,Mantes St Martin 09/02/2025,Poney 1,,Violette Novack,Valentino,
 561,Mantes St Martin 09/02/2025,Poney 1,,Violette Novack,Valentino,
 562,Mantes St Martin 09/02/2025,Poney 1,,Ombeline Hald,Umka,
