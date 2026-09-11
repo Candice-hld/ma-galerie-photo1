@@ -895,13 +895,14 @@
 
         async function detectThumbsFolder() {
             if (allData.length === 0) return;
-            try {
-                const testId = allData[0].id;
-                const r = await fetch(`thumbs/${testId}.jpg`, { method: 'HEAD' });
-                thumbsAvailable = r.ok;
-            } catch (e) {
-                thumbsAvailable = false;
+            const testId = allData[0].id;
+            for (const ext of EXT_VARIANTS) {
+                try {
+                    const r = await fetch(`thumbs/${testId}.${ext}`, { method: 'HEAD' });
+                    if (r.ok) { thumbsAvailable = true; return; }
+                } catch (e) { /* on tente l'extension suivante */ }
             }
+            thumbsAvailable = false;
         }
 
         function thumbSrc(id) {
@@ -911,33 +912,40 @@
             return `image/${id}.jpg`;
         }
 
+        // Toutes les variantes d'extension possibles, essayées dans cet ordre
+        // (certaines photos sont enregistrées avec une casse différente : .JPG, .JPEG...)
+        const EXT_VARIANTS = ['jpg', 'jpeg', 'JPG', 'JPEG'];
+
         function handleImgError(imgEl) {
             const id = imgEl.dataset.id;
             const mode = imgEl.dataset.mode || 'full';
-            const tried = imgEl.dataset.tried || (mode === 'thumb' ? 'thumb-jpg' : 'full-jpg');
-            const sequence = (mode === 'thumb')
-                ? ['thumb-jpg', 'thumb-jpeg', 'full-jpg', 'full-jpeg', 'placeholder']
-                : ['full-jpg', 'full-jpeg', 'placeholder'];
+            const sequence = [];
+            if (mode === 'thumb') EXT_VARIANTS.forEach(ext => sequence.push('thumb-' + ext));
+            EXT_VARIANTS.forEach(ext => sequence.push('full-' + ext));
+            sequence.push('placeholder');
 
+            const tried = imgEl.dataset.tried || sequence[0];
             const next = sequence[sequence.indexOf(tried) + 1] || 'placeholder';
             imgEl.dataset.tried = next;
 
-            if (next === 'thumb-jpeg') imgEl.src = `thumbs/${id}.jpeg`;
-            else if (next === 'full-jpg') imgEl.src = `image/${id}.jpg`;
-            else if (next === 'full-jpeg') imgEl.src = `image/${id}.jpeg`;
-            else imgEl.src = `https://via.placeholder.com/300x220?text=Image+${id}`;
+            if (next === 'placeholder') {
+                imgEl.src = `https://via.placeholder.com/300x220?text=Image+${id}`;
+                return;
+            }
+            const [folder, ext] = next.split('-');
+            imgEl.src = `${folder === 'thumb' ? 'thumbs' : 'image'}/${id}.${ext}`;
         }
 
-        // Récupère le blob d'une photo en essayant .jpg puis .jpeg (pour le téléchargement / zip)
-        // Toujours en pleine résolution (jamais la vignette), même si des vignettes existent.
+        // Récupère le blob d'une photo en essayant toutes les variantes d'extension
+        // (pour le téléchargement / zip). Toujours en pleine résolution.
         async function fetchPhotoBlob(id) {
-            try {
-                const r = await fetch(`image/${id}.jpg`);
-                if (r.ok) return { blob: await r.blob(), fileName: `${id}.jpg` };
-            } catch (e) { /* on tente l'extension suivante */ }
-            const r2 = await fetch(`image/${id}.jpeg`);
-            if (r2.ok) return { blob: await r2.blob(), fileName: `${id}.jpeg` };
-            throw new Error(`Photo ${id} introuvable (.jpg et .jpeg)`);
+            for (const ext of EXT_VARIANTS) {
+                try {
+                    const r = await fetch(`image/${id}.${ext}`);
+                    if (r.ok) return { blob: await r.blob(), fileName: `${id}.${ext}` };
+                } catch (e) { /* on tente l'extension suivante */ }
+            }
+            throw new Error(`Photo ${id} introuvable (aucune extension ne correspond)`);
         }
 
         // Couvertures spécifiques par lieu / épreuve / session (juste le numéro de la photo).
@@ -945,6 +953,12 @@
         // Les épreuves sont indexées par lieu, car un même nom d'épreuve (ex: "Junior Elite")
         // Couvertures spécifiques par lieu / épreuve / session (juste le numéro de la photo).
         // Complète ces listes au fur et à mesure que tu ajoutes de nouveaux lieux/épreuves/sessions.
+        // Ordre d'affichage personnalisé des épreuves pour certains lieux
+        // (par défaut, elles s'affichent dans l'ordre où elles apparaissent dans data.csv)
+        const EPREUVE_ORDER = {
+            'Alluets 30/03/2025': ['Poney Elite', 'Poney 1', 'Poney 2', 'Club 1']
+        };
+
         const lieuCovers = {
             'Ghlin 06/09/2026': '6',
             'Alluets 16/03/2025': '410',
@@ -1466,6 +1480,17 @@
             grid.className = 'folder-grid';
 
             const epreuves = [...new Set(allData.filter(item => item.lieu === lieu).map(item => item.epreuve))].filter(Boolean);
+            const customOrder = EPREUVE_ORDER[lieu];
+            if (customOrder) {
+                epreuves.sort((a, b) => {
+                    const ia = customOrder.indexOf(a);
+                    const ib = customOrder.indexOf(b);
+                    if (ia === -1 && ib === -1) return 0;
+                    if (ia === -1) return 1;
+                    if (ib === -1) return -1;
+                    return ia - ib;
+                });
+            }
 
             let html = '';
             epreuves.forEach(epreuve => {
