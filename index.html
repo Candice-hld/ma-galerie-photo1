@@ -988,6 +988,12 @@
         function coverImgTag(id, altText) {
             return `<img src="image/${id}.jpg" data-id="${id}" data-mode="full" data-tried="full-jpg" alt="${altText}" onerror="handleImgError(this)">`;
         }
+        // Certaines couvertures pointent vers un nom de fichier exact (avec sa casse précise,
+        // ex: "0.JPG") plutôt que vers un numéro classique — utile quand renommer le fichier
+        // en minuscules pose problème (Windows ne détecte pas toujours ce genre de changement).
+        function coverImgTagExact(filePath, altText) {
+            return `<img src="${filePath}" alt="${altText}" onerror="this.style.opacity='0'">`;
+        }
 
         // ===================== Favoris (persistés dans le navigateur) =====================
         let favoritePhotoIds = new Set();
@@ -1433,10 +1439,13 @@
             let html = '';
             categories.forEach(cat => {
                 const count = allData.filter(item => getCategoryForLieu(item.lieu) === cat).length;
+                const coverHtml = (cat === 'CSO')
+                    ? coverImgTagExact('image/0.JPG', cat)
+                    : coverImgTag(getCategoryCoverId(cat), cat);
                 html += `
                     <div class="folder-card banner-card" onclick="renderLieux('${cat}')">
                         <div class="folder-image-container">
-                            ${coverImgTag(getCategoryCoverId(cat), cat)}
+                            ${coverHtml}
                         </div>
                         <div class="folder-info-box">
                             <div class="folder-text-group">
