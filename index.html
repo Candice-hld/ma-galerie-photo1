@@ -5,6 +5,21 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
     <meta charset="UTF-8">
+    <script>
+        // Défini tout en haut (avant le reste du code) pour être prêt dès que
+        // le navigateur commence à charger les images, sans attendre le script du bas.
+        const BANNER_EXT_SEQUENCE = ['png', 'PNG', 'jpg', 'JPG', 'jpeg', 'JPEG'];
+        function handleBannerError(imgEl) {
+            const tried = imgEl.dataset.tried;
+            const next = BANNER_EXT_SEQUENCE[BANNER_EXT_SEQUENCE.indexOf(tried) + 1];
+            if (next) {
+                imgEl.dataset.tried = next;
+                imgEl.src = `image/banniere.${next}`;
+            } else {
+                imgEl.style.display = 'none';
+            }
+        }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Candice Hald</title>
     <meta name="description" content="Retrouve et télécharge tes photos de compétitions équestres (Ghlin, Alluets, Mantes St Martin) par Candice Hald Photographie.">
@@ -12,12 +27,12 @@
     <!-- Aperçu du lien sur les réseaux sociaux (Open Graph / Twitter Card) -->
     <meta property="og:title" content="Candice Hald Photographie">
     <meta property="og:description" content="Retrouve et télécharge tes photos de compétitions équestres.">
-    <meta property="og:image" content="image/banniere.jpeg">
+    <meta property="og:image" content="image/banniere.png">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Candice Hald Photographie">
     <meta name="twitter:description" content="Retrouve et télécharge tes photos de compétitions équestres.">
-    <meta name="twitter:image" content="image/banniere.jpeg">
+    <meta name="twitter:image" content="image/banniere.png">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -649,7 +664,7 @@
 
     <!-- Bannière d'accueil, affichée uniquement sur la page d'accueil -->
     <div id="home-banner" class="home-banner">
-        <img src="image/banniere.jpeg" alt="Bannière">
+        <img id="home-banner-img" src="image/banniere.png" data-tried="png" alt="Bannière" onerror="handleBannerError(this)">
         <div class="home-banner-tagline">
             <p>Photos de compétitions équestres</p>
             <span>— Candice Hald —</span>
