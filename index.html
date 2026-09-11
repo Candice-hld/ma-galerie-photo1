@@ -12,12 +12,12 @@
     <!-- Aperçu du lien sur les réseaux sociaux (Open Graph / Twitter Card) -->
     <meta property="og:title" content="Candice Hald Photographie">
     <meta property="og:description" content="Retrouve et télécharge tes photos de compétitions équestres.">
-    <meta property="og:image" content="image/216.jpg">
+    <meta property="og:image" content="image/banniere.jpeg">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Candice Hald Photographie">
     <meta name="twitter:description" content="Retrouve et télécharge tes photos de compétitions équestres.">
-    <meta name="twitter:image" content="image/216.jpg">
+    <meta name="twitter:image" content="image/banniere.jpeg">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -649,7 +649,7 @@
 
     <!-- Bannière d'accueil, affichée uniquement sur la page d'accueil -->
     <div id="home-banner" class="home-banner">
-        <img src="image/216.jpg" data-id="216" data-mode="full" data-tried="full-jpg" alt="Bannière" onerror="handleImgError(this)">
+        <img src="image/banniere.jpeg" alt="Bannière">
         <div class="home-banner-tagline">
             <p>Photos de compétitions équestres</p>
             <span>— Candice Hald —</span>
@@ -782,7 +782,7 @@
 
         // Noms de famille à ignorer quand on détecte les prénoms des cavaliers
         // (certaines photos ont plusieurs cavaliers collés, ex: "Ombeline Hald Alex")
-        const KNOWN_SURNAMES = new Set(['novack', 'hald', 'chanez', 'legrand', 'fekete']);
+        const KNOWN_SURNAMES = new Set(['novack', 'hald', 'chanez', 'legrand', 'fekete', 'delannoy']);
         // Mots à ignorer côté cheval (ex: "Non" = pas de cheval renseigné)
         const INVALID_CHEVAL_WORDS = new Set(['non']);
         // Noms de chevaux à deux mots (ou plus) : à traiter comme un seul nom,
@@ -948,12 +948,14 @@
         const lieuCovers = {
             'Ghlin 06/09/2026': '6',
             'Alluets 16/03/2025': '410',
+            'Alluets 30/03/2025': '1013',
             'Mantes St Martin 09/02/2025': '591',
             'Brimborion 22/09/2024': '663'
         };
         const epreuveCovers = {
             'Ghlin 06/09/2026': { 'Open Elite': '15' },
             'Alluets 16/03/2025': { 'Junior Elite': '423', 'Cadet 1': '920' },
+            'Alluets 30/03/2025': { 'Poney 1': '964', 'Poney Elite': '1092', 'Club 1': '1028', 'Poney 2': '987' },
             'Mantes St Martin 09/02/2025': { 'Poney 1': '519', 'Poney Elite': '605' },
             'Brimborion 22/09/2024': { 'Junior Elite': '779', 'Cadet 1': '635' }
         };
