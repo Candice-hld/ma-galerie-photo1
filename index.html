@@ -1284,6 +1284,9 @@
         // Mémorise le dossier consulté avant de commencer une recherche,
         // pour y revenir quand on efface la recherche (au lieu de retourner à l'accueil).
         let preSearchLevel = null;
+        // Limite la recherche au lieu consulté si on est déjà dans un lieu précis
+        // (ex: en cherchant depuis "Ghlin", seules les photos de Ghlin sont proposées).
+        let searchScopeLieu = '';
 
         function restorePreSearchLevel(level) {
             if (level === 'epreuves') renderEpreuves(selectedLieu);
@@ -1338,6 +1341,8 @@
                 if (query.length > 0) {
                     if (currentLevel !== 'search' && preSearchLevel === null) {
                         preSearchLevel = currentLevel;
+                        searchScopeLieu = ['epreuves', 'sessions', 'photos'].includes(currentLevel) ? selectedLieu : '';
+                        searchInput.placeholder = searchScopeLieu ? `Rechercher dans ${searchScopeLieu}...` : 'Rechercher (Cavalier, Cheval, Équipe)...';
                     }
                     renderSearch(query);
                     showSuggestions(query);
@@ -1345,6 +1350,8 @@
                     suggestionsBox.style.display = 'none';
                     const levelToRestore = preSearchLevel;
                     preSearchLevel = null;
+                    searchScopeLieu = '';
+                    searchInput.placeholder = 'Rechercher (Cavalier, Cheval, Équipe)...';
                     restorePreSearchLevel(levelToRestore);
                 }
             });
@@ -1612,8 +1619,12 @@
         function renderSearch(query) {
             currentLevel = 'search';
             clearFilterInputs();
-            setPageTitle(`Recherche : ${query}`);
-            updateBreadcrumb([{ name: `Recherche : "${query}"`, action: '' }]);
+            const scopeLabel = searchScopeLieu ? ` dans ${searchScopeLieu}` : '';
+            setPageTitle(`Recherche : ${query}${scopeLabel}`);
+            const crumbName = searchScopeLieu
+                ? `Recherche "${query}" dans ${searchScopeLieu}`
+                : `Recherche : "${query}"`;
+            updateBreadcrumb([{ name: crumbName, action: '' }]);
             setBackNav("Retour à l'accueil", 'resetNavigation()');
             showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
@@ -1621,13 +1632,15 @@
             const searchTerms = query.split(/\s+/).filter(Boolean);
 
             const results = allData.filter(item => {
+                if (searchScopeLieu && item.lieu !== searchScopeLieu) return false;
                 const combined = `${item.cavalier} ${item.cheval} ${item.equipe} ${item.lieu} ${item.epreuve}`.toLowerCase();
                 return searchTerms.every(term => combined.includes(term));
             });
 
             if (results.length === 0) {
                 grid.className = 'grid-view';
-                grid.innerHTML = `<div class="no-results" style="grid-column: 1/-1; text-align: center; padding: 40px; font-size: 18px; color: #666;">Aucune photo ne correspond à "${query}".</div>`;
+                const scopeText = searchScopeLieu ? ` dans ${searchScopeLieu}` : '';
+                grid.innerHTML = `<div class="no-results" style="grid-column: 1/-1; text-align: center; padding: 40px; font-size: 18px; color: #666;">Aucune photo ne correspond à "${query}"${scopeText}.</div>`;
                 hideSelectionBar();
                 return;
             }
