@@ -618,8 +618,31 @@
             background: #cbd5e1;
         }
 
+        .fav-download-btn {
+            grid-column: 1 / -1;
+            justify-self: start;
+            background: #1a365d;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 20px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .fav-download-btn:hover { background: #2a4a7f; }
+        .fav-download-btn:disabled { opacity: 0.6; cursor: wait; }
+
         @media (max-width: 700px) {
-            .lightbox-image-area { padding: 0 10px; }
+            /* La photo prend presque tout l'écran ; le panneau devient une fine barre en bas */
+            .lightbox-image-area {
+                padding: 50px 6px 84px 6px;
+            }
+            .lightbox-image-area img {
+                max-height: calc(100vh - 140px);
+                max-height: calc(100dvh - 140px);
+            }
             .lightbox-panel {
                 position: fixed;
                 top: auto;
@@ -628,11 +651,42 @@
                 right: 0;
                 width: 100%;
                 height: auto;
-                max-height: 45vh;
+                max-height: none;
+                padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px));
+                gap: 6px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+                overflow: hidden;
                 box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
             }
-            .lightbox-close { right: 15px; }
-            .lightbox-next { right: 15px; }
+            .panel-btn {
+                flex: 1 1 0;
+                padding: 9px 8px;
+                font-size: 13px;
+                border-radius: 6px;
+                white-space: nowrap;
+            }
+            .panel-btn.btn-fav { border-width: 1px; }
+            .lightbox-info {
+                flex: 1 1 100%;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                margin-top: 0;
+                padding-top: 0;
+                gap: 5px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .info-tag {
+                padding: 3px 9px;
+                font-size: 11px;
+                white-space: nowrap;
+                flex: 0 0 auto;
+            }
+            .lightbox-close { top: 6px; right: 12px; font-size: 32px; }
+            .lightbox-prev { left: 6px; }
+            .lightbox-next { right: 6px; }
+            .lightbox-nav { font-size: 20px; padding: 6px 10px; opacity: 0.8; }
         }
     </style>
 </head>
@@ -1654,6 +1708,9 @@
             displayedCount = 0;
             const count = photos.length;
             grid.innerHTML = `<div class="results-count">${count} photo${count > 1 ? 's' : ''} trouvée${count > 1 ? 's' : ''}</div>`;
+            if (currentLevel === 'favoris' && count > 0) {
+                grid.innerHTML += `<button class="fav-download-btn" id="fav-download-btn" onclick="downloadAllFavorites()">&#8681; Télécharger mes favoris (${count})</button>`;
+            }
             renderNextBatch(photos, grid);
         }
 
@@ -1797,21 +1854,29 @@
             return `${safe || 'photos'}.zip`;
         }
 
-        async function downloadSelectedPhotos() {
-            if (selectedPhotoIds.size === 0) return;
+        function downloadAllFavorites() {
+            const ids = allData.filter(item => favoritePhotoIds.has(item.id)).map(item => item.id);
+            return downloadPhotoIds(ids);
+        }
+
+        function downloadSelectedPhotos() {
+            return downloadPhotoIds(Array.from(selectedPhotoIds));
+        }
+
+        async function downloadPhotoIds(ids) {
+            if (ids.length === 0) return;
 
             const overlay = document.getElementById('download-overlay');
             const fill = document.getElementById('progress-fill');
             const label = document.getElementById('progress-label');
-            const downloadBtn = document.querySelector('.btn-download');
+            const downloadBtns = document.querySelectorAll('.btn-download, .fav-download-btn');
 
-            const ids = Array.from(selectedPhotoIds);
             const total = ids.length;
 
             overlay.style.display = 'flex';
             fill.style.width = '0%';
             label.innerText = `0 / ${total} photos`;
-            downloadBtn.disabled = true;
+            downloadBtns.forEach(b => b.disabled = true);
 
             try {
                 const zip = new JSZip();
@@ -1852,7 +1917,7 @@
                 alert("Une erreur est survenue pendant la préparation du téléchargement. Réessaie.");
             } finally {
                 overlay.style.display = 'none';
-                downloadBtn.disabled = false;
+                downloadBtns.forEach(b => b.disabled = false);
             }
         }
 
