@@ -508,6 +508,18 @@
             display: block;
             margin-top: 1px;
         }
+        /* Type de compétition (PG, CSO, CCE...) */
+        .folder-type {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 2px 12px;
+            border-radius: 20px;
+            background: #1a365d;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+        }
         /* Centre le titre + le nombre de photos dans le rectangle du dossier */
         .folder-text-group {
             text-align: center;
@@ -804,6 +816,12 @@
         // Les données des photos sont chargées depuis data.csv
         // (il suffit d'ajouter des lignes dans data.csv pour ajouter des photos)
         let allData = [];
+        // Une même photo peut apparaître dans deux dossiers (ex : photo avec 2 cavaliers).
+        // Dans les vues mélangées (recherche, filtres, favoris), on ne la garde qu'une fois.
+        function uniqById(list) {
+            const seen = new Set();
+            return list.filter(item => !seen.has(item.id) && seen.add(item.id));
+        }
         let searchSuggestions = [];
 
         function parseCSV(text) {
@@ -1033,14 +1051,26 @@
             'Alluets 16/03/2025': '410',
             'Alluets 30/03/2025': '1013',
             'Mantes St Martin 09/02/2025': '591',
-            'Brimborion 22/09/2024': '663'
+            'Brimborion 22/09/2024': '663',
+            'Jardy 18/10/2026': '1417'
+        };
+        // Type de compétition affiché sur le dossier d'accueil (PG, CSO, CCE...)
+        const lieuTypes = {
+            'Ghlin 06/09/2026': 'PG',
+            'Alluets 16/03/2025': 'PG',
+            'Alluets 30/03/2025': 'CSO',
+            'Mantes St Martin 09/02/2025': 'CSO',
+            'Brimborion 22/09/2024': 'PG',
+            'Brimborion 11/11/2024': 'PG',
+            'Jardy 18/10/2026': 'CCE'
         };
         const epreuveCovers = {
             'Ghlin 06/09/2026': { 'Open Elite': '15' },
             'Alluets 16/03/2025': { 'Junior Elite': '423', 'Cadet 1': '920' },
             'Alluets 30/03/2025': { 'Poney 1': '964', 'Poney Elite': '1092', 'Club 1': '1028', 'Poney 2': '987' },
             'Mantes St Martin 09/02/2025': { 'Poney 1': '519', 'Poney Elite': '605' },
-            'Brimborion 22/09/2024': { 'Junior Elite': '779', 'Cadet 1': '635' }
+            'Brimborion 22/09/2024': { 'Junior Elite': '779', 'Cadet 1': '635' },
+            'Jardy 18/10/2026': { 'AS2': '1393', 'E2': '1420' }
         };
         const sessionCovers = {
             'Brimborion 22/09/2024': {
@@ -1048,10 +1078,15 @@
             }
         };
         function getLieuCoverId(lieu) {
-            return lieuCovers[lieu] || '6';
+            if (lieuCovers[lieu]) return lieuCovers[lieu];
+            // Pas de couverture définie : on prend la première photo du dossier
+            const first = allData.find(i => i.lieu === lieu);
+            return first ? first.id : '6';
         }
         function getEpreuveCoverId(lieu, epreuve) {
-            return (epreuveCovers[lieu] && epreuveCovers[lieu][epreuve]) || '15';
+            if (epreuveCovers[lieu] && epreuveCovers[lieu][epreuve]) return epreuveCovers[lieu][epreuve];
+            const first = allData.find(i => i.lieu === lieu && i.epreuve === epreuve);
+            return first ? first.id : '15';
         }
         function getSessionCoverId(lieu, epreuve, session) {
             const custom = sessionCovers[lieu] && sessionCovers[lieu][epreuve] && sessionCovers[lieu][epreuve][session];
@@ -1152,7 +1187,7 @@
             updateFavCountBadge();
             selectedPhotoIds.clear();
             const grid = document.getElementById('gallery-grid');
-            currentPhotosList = allData.filter(item => favoritePhotoIds.has(item.id));
+            currentPhotosList = uniqById(allData.filter(item => favoritePhotoIds.has(item.id)));
             displayPhotoCards(currentPhotosList, grid);
         }
 
@@ -1173,7 +1208,7 @@
             showHomeBanner(false);
             const grid = document.getElementById('gallery-grid');
 
-            currentPhotosList = allData.filter(item => favoritePhotoIds.has(item.id));
+            currentPhotosList = uniqById(allData.filter(item => favoritePhotoIds.has(item.id)));
 
             if (currentPhotosList.length === 0) {
                 grid.className = 'grid-view';
@@ -1315,7 +1350,7 @@
                 return;
             }
 
-            currentPhotosList = results;
+            currentPhotosList = uniqById(results);
             displayPhotoCards(results, grid);
         }
 
@@ -1523,7 +1558,7 @@
 
             let html = '';
             lieux.forEach(lieu => {
-                const count = allData.filter(item => item.lieu === lieu).length;
+                const count = uniqById(allData.filter(item => item.lieu === lieu)).length;
                 const { name, date } = splitLieuNameAndDate(lieu);
                 html += `
                     <div class="folder-card banner-card" onclick="renderEpreuves('${lieu}')">
@@ -1534,6 +1569,7 @@
                             <div class="folder-text-group">
                                 <span class="folder-title">${name}</span>
                                 ${date ? `<span class="folder-date">${date}</span>` : ''}
+                                ${lieuTypes[lieu] ? `<span class="folder-type">${lieuTypes[lieu]}</span>` : ''}
                                 <span class="folder-count">${count} photo${count > 1 ? 's' : ''}</span>
                             </div>
                         </div>
@@ -1699,7 +1735,7 @@
                 return;
             }
 
-            currentPhotosList = results;
+            currentPhotosList = uniqById(results);
             displayPhotoCards(results, grid);
         }
 
@@ -1855,7 +1891,7 @@
         }
 
         function downloadAllFavorites() {
-            const ids = allData.filter(item => favoritePhotoIds.has(item.id)).map(item => item.id);
+            const ids = uniqById(allData.filter(item => favoritePhotoIds.has(item.id))).map(item => item.id);
             return downloadPhotoIds(ids);
         }
 
