@@ -281,6 +281,18 @@
             font-size: 14px;
             line-height: 1.5;
         }
+        .fav-clear-btn {
+            background: #fff;
+            color: #c53030;
+            border: 1px solid #feb2b2;
+            border-radius: 8px;
+            padding: 11px 18px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .fav-clear-btn:hover { background: #fff5f5; }
         .fav-actions {
             grid-column: 1 / -1;
             display: flex;
@@ -1328,6 +1340,16 @@
             displayPhotoCards(currentPhotosList, grid);
         }
 
+        function clearFavorites() {
+            if (favoritePhotoIds.size === 0) return;
+            if (!confirm('Vider tous tes favoris ?')) return;
+            favoritePhotoIds.clear();
+            saveFavorites();
+            updateFavCountBadge();
+            selectedPhotoIds.clear();
+            renderFavoris();
+        }
+
         function goToFavoris() {
             renderFavoris();
         }
@@ -1854,8 +1876,11 @@
             const count = photos.length;
             grid.innerHTML = `<div class="results-count">${count} photo${count > 1 ? 's' : ''} trouvée${count > 1 ? 's' : ''}</div>`;
             if (currentLevel === 'favoris' && count > 0) {
+                const nFree = photos.filter(i => !isOnRequestItem(i)).length;
                 grid.innerHTML += `<div class="fav-actions">
-                    <button class="fav-download-btn" id="fav-request-btn" onclick="requestAllFavorites()">&#9993; Recevoir mes photos en HD (${count})</button>
+                    ${(nFree > 0 && !REQUEST_MODE) ? `<button class="fav-download-btn" id="fav-download-btn" onclick="downloadAllFavorites()">&#8681; Télécharger mes favoris (${nFree})</button>` : ''}
+                    ${REQUEST_MODE ? `<button class="fav-download-btn" id="fav-request-btn" onclick="requestAllFavorites()">&#9993; Recevoir mes photos en HD (${count})</button>` : ''}
+                    <button class="fav-clear-btn" onclick="clearFavorites()">Vider mes favoris</button>
                 </div>`;
             }
             if ((currentLevel === 'photos' || currentLevel === 'search' || currentLevel === 'filter') && photos.some(isOnRequestItem)) {
@@ -1971,6 +1996,8 @@
 
             favBtn.textContent = (currentLevel === 'favoris') ? '♥ Retirer des favoris' : '♥ Ajouter aux favoris';
 
+            const reqBtn = document.querySelector('.btn-request');
+            if (reqBtn) reqBtn.style.display = REQUEST_MODE ? '' : 'none';
             const dlBtn = document.querySelector('.btn-download');
             if (dlBtn) {
                 const ids = Array.from(selectedPhotoIds);
@@ -2096,19 +2123,22 @@
         // Événements dont les photos ne se téléchargent pas directement : le visiteur
         // clique sur « Recevoir en HD » et je lui envoie ses photos. Pour appliquer
         // ça à un nouvel événement, ajoute son nom exact dans cette liste.
+        // >>> Mettre REQUEST_MODE à true pour activer le mode « photos sur demande ».
+        //     Il s'applique alors aux événements listés dans ON_REQUEST_LIEUX.
+        const REQUEST_MODE = false;
         const ON_REQUEST_LIEUX = ['Ghlin 06/09/2026'];
         function isOnRequestItem(item) {
-            return !!item && ON_REQUEST_LIEUX.includes(item.lieu);
+            return REQUEST_MODE && !!item && ON_REQUEST_LIEUX.includes(item.lieu);
         }
         function isLieuOnRequest(lieu) {
-            return ON_REQUEST_LIEUX.includes(lieu);
+            return REQUEST_MODE && ON_REQUEST_LIEUX.includes(lieu);
         }
         // Petit texte affiché au-dessus des dossiers et des photos d'un événement « sur demande »
         function requestNoticeHtml() {
             return `<div class="request-notice">📷 <strong>Pour recevoir tes photos en haute qualité</strong> : ajoute-les en favoris (♥) ou coche-les, puis clique sur <strong>« Recevoir en HD »</strong>. Tu n'auras plus qu'à m'envoyer le message préparé sur Instagram, et je te les envoie.</div>`;
         }
         function isOnRequestId(id) {
-            return allData.some(i => i.id === id && ON_REQUEST_LIEUX.includes(i.lieu));
+            return REQUEST_MODE && allData.some(i => i.id === id && ON_REQUEST_LIEUX.includes(i.lieu));
         }
 
         let requestIds = [];
