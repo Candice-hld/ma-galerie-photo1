@@ -271,6 +271,8 @@
         }
         .request-notice {
             grid-column: 1 / -1;
+            flex: 0 0 100%;
+            box-sizing: border-box;
             background: #ebf4ff;
             border: 1px solid #bee3f8;
             color: #2a4365;
@@ -1711,7 +1713,7 @@
                 });
             }
 
-            let html = '';
+            let html = isLieuOnRequest(lieu) ? requestNoticeHtml() : '';
             epreuves.forEach(epreuve => {
                 const count = allData.filter(item => item.lieu === lieu && item.epreuve === epreuve).length;
                 html += `
@@ -1759,7 +1761,7 @@
             setBackNav('Retour aux épreuves', `renderEpreuves('${selectedLieu}')`);
             grid.className = 'folder-grid';
 
-            let html = '';
+            let html = isLieuOnRequest(selectedLieu) ? requestNoticeHtml() : '';
             sessions.forEach(session => {
                 const coverId = getSessionCoverId(selectedLieu, epreuve, session);
                 const count = allData.filter(item => item.lieu === selectedLieu && item.epreuve === epreuve && item.session === session).length;
@@ -1852,14 +1854,12 @@
             const count = photos.length;
             grid.innerHTML = `<div class="results-count">${count} photo${count > 1 ? 's' : ''} trouvée${count > 1 ? 's' : ''}</div>`;
             if (currentLevel === 'favoris' && count > 0) {
-                const nFree = photos.filter(i => !isOnRequestItem(i)).length;
                 grid.innerHTML += `<div class="fav-actions">
-                    ${nFree > 0 ? `<button class="fav-download-btn" id="fav-download-btn" onclick="downloadAllFavorites()">&#8681; Télécharger mes favoris (${nFree})</button>` : ''}
                     <button class="fav-download-btn" id="fav-request-btn" onclick="requestAllFavorites()">&#9993; Recevoir mes photos en HD (${count})</button>
                 </div>`;
             }
             if ((currentLevel === 'photos' || currentLevel === 'search' || currentLevel === 'filter') && photos.some(isOnRequestItem)) {
-                grid.innerHTML += `<div class="request-notice">📷 <strong>Pour recevoir tes photos en haute qualité</strong> (gratuitement), ajoute-les en favoris (♥) ou coche-les, puis clique sur <strong>« Recevoir en HD »</strong>. Tu n'auras plus qu'à m'envoyer le message préparé sur Instagram, et je te les envoie.</div>`;
+                grid.innerHTML += requestNoticeHtml();
             }
             renderNextBatch(photos, grid);
         }
@@ -2099,6 +2099,13 @@
         const ON_REQUEST_LIEUX = ['Ghlin 06/09/2026'];
         function isOnRequestItem(item) {
             return !!item && ON_REQUEST_LIEUX.includes(item.lieu);
+        }
+        function isLieuOnRequest(lieu) {
+            return ON_REQUEST_LIEUX.includes(lieu);
+        }
+        // Petit texte affiché au-dessus des dossiers et des photos d'un événement « sur demande »
+        function requestNoticeHtml() {
+            return `<div class="request-notice">📷 <strong>Pour recevoir tes photos en haute qualité</strong> (gratuitement) : ajoute-les en favoris (♥) ou coche-les, puis clique sur <strong>« Recevoir en HD »</strong>. Tu n'auras plus qu'à m'envoyer le message préparé sur Instagram, et je te les envoie.</div>`;
         }
         function isOnRequestId(id) {
             return allData.some(i => i.id === id && ON_REQUEST_LIEUX.includes(i.lieu));
