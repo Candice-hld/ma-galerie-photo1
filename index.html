@@ -701,6 +701,100 @@
             .lightbox-next { right: 6px; }
             .lightbox-nav { font-size: 20px; padding: 6px 10px; opacity: 0.8; }
         }
+
+        /* ===== Demande de photos (événements protégés) ===== */
+        .request-notice {
+            grid-column: 1 / -1;
+            background: #ebf4ff;
+            border: 1px solid #bee3f8;
+            color: #2a4365;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .request-modal {
+            display: none;
+            position: fixed;
+            z-index: 1300;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+            box-sizing: border-box;
+        }
+        .request-card {
+            position: relative;
+            background: #fff;
+            border-radius: 14px;
+            padding: 26px 24px 22px;
+            width: 440px;
+            max-width: 100%;
+            max-height: 94vh;
+            overflow-y: auto;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+        .request-card h3 {
+            margin: 0 0 6px;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-style: italic;
+            font-size: 28px;
+            font-weight: 500;
+            color: #1a365d;
+        }
+        .request-card p { margin: 0 0 12px; font-size: 14px; line-height: 1.5; color: #4a5568; }
+        .request-close {
+            position: absolute; top: 8px; right: 14px;
+            font-size: 28px; line-height: 1; cursor: pointer;
+            color: #a0aec0; background: none; border: none;
+        }
+        .request-close:hover { color: #1a365d; }
+        .request-thumbs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+        .request-thumbs img { width: 54px; height: 54px; object-fit: cover; border-radius: 6px; }
+        .request-thumbs .more { width: 54px; height: 54px; border-radius: 6px; background: #edf2f7;
+            display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4a5568; }
+        .request-card label { display: block; font-size: 13px; color: #4a5568; margin-bottom: 4px; }
+        .request-card input[type="text"] {
+            width: 100%; box-sizing: border-box; padding: 9px 12px;
+            border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px;
+            font-family: inherit; margin-bottom: 12px;
+        }
+        .request-card textarea {
+            width: 100%; box-sizing: border-box; padding: 10px 12px;
+            border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;
+            font-family: inherit; line-height: 1.45; min-height: 140px; resize: vertical;
+            margin-bottom: 10px; color: #2d3748;
+        }
+        .request-price {
+            background: #f7fafc; border-radius: 8px; padding: 10px 12px;
+            font-size: 14px; color: #2d3748; margin-bottom: 12px;
+        }
+        .request-price strong { color: #1a365d; }
+        .request-send {
+            width: 100%; background: #1a365d; color: #fff; border: none;
+            border-radius: 10px; padding: 13px 16px; font-family: inherit;
+            font-size: 15px; font-weight: 600; cursor: pointer;
+        }
+        .request-send:hover { background: #2a4a7f; }
+        .request-hint { margin: 10px 0 0 !important; font-size: 12.5px !important; color: #718096 !important; text-align: center; }
+        .request-copied { display: none; color: #2f855a !important; font-weight: 500; }
+
+        @media (max-width: 700px) {
+            header.top-banner {
+                flex-wrap: wrap;
+                padding: 12px 14px;
+                gap: 10px;
+            }
+            header.top-banner h1 { font-size: 20px; }
+            .header-right {
+                width: 100%;
+                gap: 12px;
+            }
+            .header-right .search-wrapper { flex: 1; min-width: 0; }
+            .header-right #search-input { width: 100%; box-sizing: border-box; }
+        }
     </style>
 </head>
 <body>
@@ -771,6 +865,26 @@
         <p>&copy; <span id="footer-year"></span> Candice Hald Photographie — Tous droits réservés</p>
         <a href="https://www.instagram.com/hld_candice" target="_blank" rel="noopener">@hld_candice</a>
     </footer>
+
+
+
+    <!-- Fenêtre « Demander ces photos » (événements protégés) -->
+    <div id="request-modal" class="request-modal" onclick="if(event.target===this)closeRequestModal()">
+        <div class="request-card">
+            <button class="request-close" onclick="closeRequestModal()" aria-label="Fermer">&times;</button>
+            <h3>Demander mes photos</h3>
+            <p>Je t'envoie les photos choisies en haute qualité, sans filigrane.</p>
+            <div id="request-thumbs" class="request-thumbs"></div>
+            <div id="request-price" class="request-price"></div>
+            <label for="request-name">Ton prénom (facultatif)</label>
+            <input type="text" id="request-name" placeholder="Ex : Léa" oninput="refreshRequestMessage()" autocomplete="given-name">
+            <label for="request-message">Ton message (tu peux le modifier)</label>
+            <textarea id="request-message"></textarea>
+            <button class="request-send" onclick="sendRequestViaInstagram()">Copier le message et ouvrir Instagram</button>
+            <p class="request-hint">Instagram s'ouvre sur ma conversation : colle simplement le message et envoie-le.</p>
+            <p class="request-hint request-copied" id="request-copied">Message copié ✔ Colle-le dans la conversation (appui long, puis « Coller »).</p>
+        </div>
+    </div>
 
     <!-- Barre d'actions flottante -->
     <div id="selection-bar" class="selection-bar">
@@ -1461,6 +1575,7 @@
 
             document.addEventListener('keydown', (e) => {
                 const lb = document.getElementById('lightbox');
+                if (e.key === 'Escape') closeRequestModal();
                 if (lb.style.display === 'flex') {
                     if (e.key === 'ArrowLeft') changeImage(-1);
                     if (e.key === 'ArrowRight') changeImage(1);
@@ -1746,7 +1861,17 @@
             const count = photos.length;
             grid.innerHTML = `<div class="results-count">${count} photo${count > 1 ? 's' : ''} trouvée${count > 1 ? 's' : ''}</div>`;
             if (currentLevel === 'favoris' && count > 0) {
-                grid.innerHTML += `<button class="fav-download-btn" id="fav-download-btn" onclick="downloadAllFavorites()">&#8681; Télécharger mes favoris (${count})</button>`;
+                const nProt = photos.filter(isProtectedItem).length;
+                const nFree = count - nProt;
+                if (nFree > 0) {
+                    grid.innerHTML += `<button class="fav-download-btn" id="fav-download-btn" onclick="downloadAllFavorites()">&#8681; Télécharger mes favoris (${nFree})</button>`;
+                }
+                if (nProt > 0) {
+                    grid.innerHTML += `<button class="fav-download-btn" id="fav-request-btn" onclick="requestAllFavorites()">&#9993; Demander mes photos (${nProt})</button>`;
+                }
+            }
+            if (currentLevel === 'photos' && count > 0 && isProtectedItem(photos[0])) {
+                grid.innerHTML += `<div class="request-notice">📷 Ces photos sont en aperçu. Pour recevoir celles que tu aimes en haute qualité, ajoute-les en favoris (♥) ou coche-les, puis clique sur <strong>« Demander »</strong>. Tarif : ${priceRuleText()}.</div>`;
             }
             renderNextBatch(photos, grid);
         }
@@ -1858,6 +1983,14 @@
 
             favBtn.textContent = (currentLevel === 'favoris') ? '♥ Retirer des favoris' : '♥ Ajouter aux favoris';
 
+            const dlBtn = document.querySelector('.btn-download');
+            if (dlBtn) {
+                const ids = Array.from(selectedPhotoIds);
+                const nProt = ids.filter(isProtectedId).length;
+                dlBtn.textContent = nProt === 0 ? 'Télécharger'
+                    : (nProt === ids.length ? 'Demander ces photos' : 'Télécharger / demander');
+            }
+
             if (count > 0 && (currentLevel === 'photos' || currentLevel === 'search' || currentLevel === 'favoris' || currentLevel === 'filter')) {
                 bar.style.display = 'flex';
                 countSpan.innerText = `${count} photo${count > 1 ? 's' : ''}`;
@@ -1891,13 +2024,19 @@
             return `${safe || 'photos'}.zip`;
         }
 
+        // Télécharge seulement les photos libres ; les photos « sur demande » sont exclues
         function downloadAllFavorites() {
-            const ids = uniqById(allData.filter(item => favoritePhotoIds.has(item.id))).map(item => item.id);
+            const ids = uniqById(allData.filter(item => favoritePhotoIds.has(item.id) && !isProtectedItem(item))).map(item => item.id);
             return downloadPhotoIds(ids);
         }
 
-        function downloadSelectedPhotos() {
-            return downloadPhotoIds(Array.from(selectedPhotoIds));
+        // Photos libres : ZIP direct. Photos protégées : fenêtre de demande.
+        async function downloadSelectedPhotos() {
+            const ids = Array.from(selectedPhotoIds);
+            const free = ids.filter(id => !isProtectedId(id));
+            const requested = ids.filter(id => isProtectedId(id));
+            if (free.length) await downloadPhotoIds(free);
+            if (requested.length) openRequestModal(requested);
         }
 
         async function downloadPhotoIds(ids) {
@@ -1965,6 +2104,114 @@
             document.getElementById('lightbox').style.display = 'flex';
         }
 
+
+
+        // ===================== Événements protégés : photos sur demande =====================
+        // Les photos de ces lieux ne se téléchargent pas directement : le visiteur
+        // clique sur « Demander » et m'envoie ses numéros de photos sur Instagram.
+        // Pour protéger un nouvel événement, ajoute simplement son nom exact ici.
+        const PROTECTED_LIEUX = ['Ghlin 06/09/2026'];
+        const INSTAGRAM_USER = 'hld_candice';
+        // Tarifs (modifiables) : 3 € la photo, 10 € les 5
+        const PRICE_SINGLE = 3;
+        const PACK_SIZE = 5;
+        const PACK_PRICE = 10;
+
+        function isProtectedItem(item) {
+            return !!item && PROTECTED_LIEUX.includes(item.lieu);
+        }
+        function getItemById(id) {
+            return allData.find(i => i.id === id);
+        }
+        function isProtectedId(id) {
+            return allData.some(i => i.id === id && PROTECTED_LIEUX.includes(i.lieu));
+        }
+        function computePrice(n) {
+            const packs = Math.floor(n / PACK_SIZE);
+            const rest = n % PACK_SIZE;
+            return packs * PACK_PRICE + Math.min(rest * PRICE_SINGLE, PACK_PRICE);
+        }
+        function priceRuleText() {
+            return `${PRICE_SINGLE} € la photo, ${PACK_PRICE} € les ${PACK_SIZE}`;
+        }
+
+        let requestIds = [];
+        function openRequestModal(ids) {
+            requestIds = Array.from(new Set(ids));
+            if (requestIds.length === 0) return;
+            const MAX_THUMBS = 12;
+            let thumbs = requestIds.slice(0, MAX_THUMBS).map(id =>
+                `<img src="${thumbsAvailable ? thumbSrc(id) : photoSrc(id)}" alt="Photo ${id}" onerror="this.style.visibility='hidden'">`
+            ).join('');
+            if (requestIds.length > MAX_THUMBS) {
+                thumbs += `<div class="more">+${requestIds.length - MAX_THUMBS}</div>`;
+            }
+            document.getElementById('request-thumbs').innerHTML = thumbs;
+            const n = requestIds.length;
+            document.getElementById('request-price').innerHTML =
+                `<strong>${n} photo${n > 1 ? 's' : ''}</strong> — total estimé : <strong>${computePrice(n)} €</strong><br><span style="font-size:12.5px;color:#718096;">Tarif : ${priceRuleText()}.</span>`;
+            document.getElementById('request-copied').style.display = 'none';
+            refreshRequestMessage();
+            document.getElementById('request-modal').style.display = 'flex';
+        }
+        function closeRequestModal() {
+            document.getElementById('request-modal').style.display = 'none';
+        }
+        function buildRequestMessage() {
+            const name = (document.getElementById('request-name').value || '').trim();
+            const byLieu = {};
+            requestIds.forEach(id => {
+                const item = getItemById(id);
+                const lieu = item ? item.lieu : '';
+                (byLieu[lieu] = byLieu[lieu] || []).push(id);
+            });
+            const lines = Object.keys(byLieu).map(lieu => {
+                const nums = byLieu[lieu].sort((a, b) => Number(a) - Number(b)).join(', ');
+                return `• ${lieu ? lieu + ' : ' : ''}n° ${nums}`;
+            });
+            const n = requestIds.length;
+            return [
+                `Bonjour Candice 👋${name ? ' C\'est ' + name + '.' : ''}`,
+                `Je voudrais recevoir ${n > 1 ? 'ces photos' : 'cette photo'} en haute qualité :`,
+                ...lines,
+                `Total estimé : ${computePrice(n)} € (${n} photo${n > 1 ? 's' : ''}).`,
+                `Merci !`
+            ].join('\n');
+        }
+        function refreshRequestMessage() {
+            document.getElementById('request-message').value = buildRequestMessage();
+        }
+        async function copyTextToClipboard(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                return true;
+            } catch (e) {
+                try {
+                    const ta = document.getElementById('request-message');
+                    ta.focus();
+                    ta.select();
+                    return document.execCommand('copy');
+                } catch (e2) {
+                    return false;
+                }
+            }
+        }
+        function sendRequestViaInstagram() {
+            const text = document.getElementById('request-message').value;
+            // On ouvre Instagram tout de suite (sinon le navigateur peut bloquer la fenêtre)
+            window.open(`https://ig.me/m/${INSTAGRAM_USER}`, '_blank', 'noopener');
+            copyTextToClipboard(text).then(ok => {
+                const el = document.getElementById('request-copied');
+                el.textContent = ok
+                    ? 'Message copié ✔ Colle-le dans la conversation (appui long, puis « Coller »).'
+                    : 'Copie le message ci-dessus, puis colle-le dans la conversation Instagram.';
+                el.style.display = 'block';
+            });
+        }
+        function requestAllFavorites() {
+            openRequestModal(uniqById(allData.filter(i => favoritePhotoIds.has(i.id) && isProtectedItem(i))).map(i => i.id));
+        }
+
         function closeLightbox() {
             document.getElementById('lightbox').style.display = 'none';
         }
@@ -2012,6 +2259,18 @@
             document.getElementById('lightbox-watermark').style.display = 'none';
 
             const downloadBtn = document.getElementById('lightbox-download-btn');
+            if (isProtectedItem(item)) {
+                downloadBtn.textContent = 'Demander cette photo';
+                downloadBtn.href = '#';
+                downloadBtn.removeAttribute('download');
+                downloadBtn.removeAttribute('target');
+                downloadBtn.onclick = (e) => {
+                    e.preventDefault();
+                    openRequestModal([item.id]);
+                };
+            } else {
+            downloadBtn.textContent = 'Télécharger';
+            downloadBtn.target = '_blank';
             downloadBtn.href = photoSrc(item.id);
             downloadBtn.download = `${item.id}.jpg`;
             downloadBtn.onclick = async (e) => {
@@ -2030,6 +2289,7 @@
                     alert('Impossible de télécharger cette photo.');
                 }
             };
+            }
 
             const tags = [item.lieu, item.epreuve, item.session, item.cavalier, item.cheval]
                 .filter(Boolean)
