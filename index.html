@@ -269,6 +269,16 @@
             background: rgba(190,227,248,0.12);
             border-color: rgba(190,227,248,0.7);
         }
+        .request-notice {
+            grid-column: 1 / -1;
+            background: #ebf4ff;
+            border: 1px solid #bee3f8;
+            color: #2a4365;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
         .fav-actions {
             grid-column: 1 / -1;
             display: flex;
@@ -1842,10 +1852,14 @@
             const count = photos.length;
             grid.innerHTML = `<div class="results-count">${count} photo${count > 1 ? 's' : ''} trouvée${count > 1 ? 's' : ''}</div>`;
             if (currentLevel === 'favoris' && count > 0) {
+                const nFree = photos.filter(i => !isOnRequestItem(i)).length;
                 grid.innerHTML += `<div class="fav-actions">
-                    <button class="fav-download-btn" id="fav-download-btn" onclick="downloadAllFavorites()">&#8681; Télécharger mes favoris (${count})</button>
+                    ${nFree > 0 ? `<button class="fav-download-btn" id="fav-download-btn" onclick="downloadAllFavorites()">&#8681; Télécharger mes favoris (${nFree})</button>` : ''}
                     <button class="fav-download-btn" id="fav-request-btn" onclick="requestAllFavorites()">&#9993; Recevoir mes photos en HD (${count})</button>
                 </div>`;
+            }
+            if ((currentLevel === 'photos' || currentLevel === 'search' || currentLevel === 'filter') && photos.some(isOnRequestItem)) {
+                grid.innerHTML += `<div class="request-notice">📷 <strong>Pour recevoir tes photos en haute qualité</strong> (gratuitement), ajoute-les en favoris (♥) ou coche-les, puis clique sur <strong>« Recevoir en HD »</strong>. Tu n'auras plus qu'à m'envoyer le message préparé sur Instagram, et je te les envoie.</div>`;
             }
             renderNextBatch(photos, grid);
         }
@@ -1957,6 +1971,13 @@
 
             favBtn.textContent = (currentLevel === 'favoris') ? '♥ Retirer des favoris' : '♥ Ajouter aux favoris';
 
+            const dlBtn = document.querySelector('.btn-download');
+            if (dlBtn) {
+                const ids = Array.from(selectedPhotoIds);
+                const onlyOnRequest = ids.length > 0 && ids.every(isOnRequestId);
+                dlBtn.style.display = onlyOnRequest ? 'none' : '';
+            }
+
             if (count > 0 && (currentLevel === 'photos' || currentLevel === 'search' || currentLevel === 'favoris' || currentLevel === 'filter')) {
                 bar.style.display = 'flex';
                 countSpan.innerText = `${count} photo${count > 1 ? 's' : ''}`;
@@ -1990,13 +2011,14 @@
             return `${safe || 'photos'}.zip`;
         }
 
+        // Les photos « sur demande » ne sont pas téléchargeables directement
         function downloadAllFavorites() {
-            const ids = uniqById(allData.filter(item => favoritePhotoIds.has(item.id))).map(item => item.id);
+            const ids = uniqById(allData.filter(item => favoritePhotoIds.has(item.id) && !isOnRequestItem(item))).map(item => item.id);
             return downloadPhotoIds(ids);
         }
 
         function downloadSelectedPhotos() {
-            return downloadPhotoIds(Array.from(selectedPhotoIds));
+            return downloadPhotoIds(Array.from(selectedPhotoIds).filter(id => !isOnRequestId(id)));
         }
 
         async function downloadPhotoIds(ids) {
@@ -2071,6 +2093,16 @@
         // Le visiteur choisit ses photos (favoris ou cases cochées), puis m'envoie sur Instagram
         // la liste des numéros de photos (ex : 452) pour que je les retrouve facilement.
         const INSTAGRAM_USER = 'hld_candice';
+        // Événements dont les photos ne se téléchargent pas directement : le visiteur
+        // clique sur « Recevoir en HD » et je lui envoie ses photos. Pour appliquer
+        // ça à un nouvel événement, ajoute son nom exact dans cette liste.
+        const ON_REQUEST_LIEUX = ['Ghlin 06/09/2026'];
+        function isOnRequestItem(item) {
+            return !!item && ON_REQUEST_LIEUX.includes(item.lieu);
+        }
+        function isOnRequestId(id) {
+            return allData.some(i => i.id === id && ON_REQUEST_LIEUX.includes(i.lieu));
+        }
 
         let requestIds = [];
         function openRequestModal(ids) {
@@ -2198,6 +2230,18 @@
             document.getElementById('lightbox-watermark').style.display = 'none';
 
             const downloadBtn = document.getElementById('lightbox-download-btn');
+            if (isOnRequestItem(item)) {
+                downloadBtn.textContent = 'Recevoir cette photo en HD';
+                downloadBtn.href = '#';
+                downloadBtn.removeAttribute('download');
+                downloadBtn.removeAttribute('target');
+                downloadBtn.onclick = (e) => {
+                    e.preventDefault();
+                    openRequestModal([item.id]);
+                };
+            } else {
+            downloadBtn.textContent = 'Télécharger';
+            downloadBtn.target = '_blank';
             downloadBtn.href = photoSrc(item.id);
             downloadBtn.download = `${item.id}.jpg`;
             downloadBtn.onclick = async (e) => {
@@ -2216,6 +2260,7 @@
                     alert('Impossible de télécharger cette photo.');
                 }
             };
+            }
 
             const tags = [item.lieu, item.epreuve, item.session, item.cavalier, item.cheval]
                 .filter(Boolean)
