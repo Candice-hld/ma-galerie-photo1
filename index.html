@@ -866,7 +866,7 @@
         <div class="request-card">
             <button class="request-close" onclick="closeRequestModal()" aria-label="Fermer">&times;</button>
             <h3>Recevoir mes photos</h3>
-            <p>Je t'envoie gratuitement les photos choisies en meilleure qualité. Envoie-moi simplement ce message sur Instagram.</p>
+            <p>Je t'envoie les photos choisies en meilleure qualité. Envoie-moi simplement ce message sur Instagram.</p>
             <div id="request-thumbs" class="request-thumbs"></div>
             <label for="request-name">Ton prénom (facultatif)</label>
             <input type="text" id="request-name" placeholder="Ex : Léa" oninput="refreshRequestMessage()" autocomplete="given-name">
@@ -2105,7 +2105,7 @@
         }
         // Petit texte affiché au-dessus des dossiers et des photos d'un événement « sur demande »
         function requestNoticeHtml() {
-            return `<div class="request-notice">📷 <strong>Pour recevoir tes photos en haute qualité</strong> (gratuitement) : ajoute-les en favoris (♥) ou coche-les, puis clique sur <strong>« Recevoir en HD »</strong>. Tu n'auras plus qu'à m'envoyer le message préparé sur Instagram, et je te les envoie.</div>`;
+            return `<div class="request-notice">📷 <strong>Pour recevoir tes photos en haute qualité</strong> : ajoute-les en favoris (♥) ou coche-les, puis clique sur <strong>« Recevoir en HD »</strong>. Tu n'auras plus qu'à m'envoyer le message préparé sur Instagram, et je te les envoie.</div>`;
         }
         function isOnRequestId(id) {
             return allData.some(i => i.id === id && ON_REQUEST_LIEUX.includes(i.lieu));
