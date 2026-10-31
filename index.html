@@ -22,16 +22,16 @@
         }
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Candice Hald</title>
-    <meta name="description" content="Retrouve et télécharge tes photos de compétitions équestres (Ghlin, Alluets, Mantes St Martin) par Candice Hald Photographie.">
+    <title>CAN10 PHOTOS</title>
+    <meta name="description" content="Retrouve et télécharge tes photos de compétitions équestres (Ghlin, Alluets, Mantes St Martin) par CAN10 PHOTOS.">
 
     <!-- Aperçu du lien sur les réseaux sociaux (Open Graph / Twitter Card) -->
-    <meta property="og:title" content="Candice Hald Photographie">
+    <meta property="og:title" content="CAN10 PHOTOS">
     <meta property="og:description" content="Retrouve et télécharge tes photos de compétitions équestres.">
     <meta property="og:image" content="image/1349.jpg">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Candice Hald Photographie">
+    <meta name="twitter:title" content="CAN10 PHOTOS">
     <meta name="twitter:description" content="Retrouve et télécharge tes photos de compétitions équestres.">
     <meta name="twitter:image" content="image/1349.jpg">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -843,7 +843,7 @@
     <header class="top-banner">
         <div class="header-left">
             <img id="site-logo" class="site-logo" src="logo.svg" alt="Logo" onerror="this.style.display='none'">
-            <h1 id="home-title" style="cursor: pointer;">Candice Hald</h1>
+            <h1 id="home-title" style="cursor: pointer;">CAN10 PHOTOS</h1>
         </div>
         <div class="header-right">
             <a class="instagram-link" href="https://www.instagram.com/candicehld_photographie" target="_blank" rel="noopener" title="Instagram">
@@ -868,7 +868,7 @@
         <img id="home-banner-img" src="image/1349.jpg" data-tried="jpg" alt="Bannière" onerror="handleBannerError(this)">
         <div class="home-banner-tagline">
             <p>Photos de compétitions équestres</p>
-            <span>— Candice Hald —</span>
+            <span>— CAN10 PHOTOS —</span>
         </div>
     </div>
 
@@ -902,7 +902,7 @@
 
     <!-- Pied de page -->
     <footer class="site-footer">
-        <p>&copy; <span id="footer-year"></span> Candice Hald Photographie — Tous droits réservés</p>
+        <p>&copy; <span id="footer-year"></span> CAN10 PHOTOS — Tous droits réservés</p>
         <a href="https://www.instagram.com/candicehld_photographie" target="_blank" rel="noopener">@candicehld_photographie</a>
     </footer>
 
@@ -1200,7 +1200,8 @@
         // Ordre d'affichage personnalisé des épreuves pour certains lieux
         // (par défaut, elles s'affichent dans l'ordre où elles apparaissent dans data.csv)
         const EPREUVE_ORDER = {
-            'Alluets 30/03/2025': ['Poney Elite', 'Poney 1', 'Poney 2', 'Club 1']
+            'Alluets 30/03/2025': ['Poney Elite', 'Poney 1', 'Poney 2', 'Club 1'],
+            'Fontainebleau 30/10/2026': ['Club 2', 'AS2', 'Poney Elite']
         };
 
         const lieuCovers = {
@@ -1209,7 +1210,8 @@
             'Alluets 30/03/2025': '1013',
             'Mantes St Martin 09/02/2025': '591',
             'Brimborion 22/09/2024': '663',
-            'Jardy 18/10/2026': '1417'
+            'Jardy 18/10/2026': '1417',
+            'Fontainebleau 30/10/2026': '1462'
         };
         // Type de compétition affiché sur le dossier d'accueil (PG, CSO, CCE...)
         const lieuTypes = {
@@ -1219,7 +1221,8 @@
             'Mantes St Martin 09/02/2025': 'CSO',
             'Brimborion 22/09/2024': 'PG',
             'Brimborion 11/11/2024': 'PG',
-            'Jardy 18/10/2026': 'CCE'
+            'Jardy 18/10/2026': 'CCE',
+            'Fontainebleau 30/10/2026': 'CCE'
         };
         const epreuveCovers = {
             'Ghlin 06/09/2026': { 'Open Elite': '15' },
@@ -1227,7 +1230,8 @@
             'Alluets 30/03/2025': { 'Poney 1': '964', 'Poney Elite': '1092', 'Club 1': '1028', 'Poney 2': '987' },
             'Mantes St Martin 09/02/2025': { 'Poney 1': '519', 'Poney Elite': '605' },
             'Brimborion 22/09/2024': { 'Junior Elite': '779', 'Cadet 1': '635' },
-            'Jardy 18/10/2026': { 'AS2': '1393', 'E2': '1420' }
+            'Jardy 18/10/2026': { 'AS2': '1393', 'E2': '1420' },
+            'Fontainebleau 30/10/2026': { 'Club 2': '1635', 'AS2': '1550', 'Poney Elite': '1481' }
         };
         const sessionCovers = {
             'Brimborion 22/09/2024': {
@@ -1393,9 +1397,9 @@
 
         // ===================== Titre de l'onglet + titre affiché en haut =====================
         function setPageTitle(subtitle) {
-            document.title = subtitle ? `${subtitle} — Candice Hald` : 'Candice Hald';
+            document.title = subtitle ? `${subtitle} — CAN10 PHOTOS` : 'CAN10 PHOTOS';
             const titleEl = document.getElementById('home-title');
-            if (titleEl) titleEl.textContent = subtitle || 'Candice Hald';
+            if (titleEl) titleEl.textContent = subtitle || 'CAN10 PHOTOS';
         }
 
         function formatLieu(lieu) {
@@ -1946,8 +1950,7 @@
                         <input type="checkbox" ${isChecked} onclick="toggleSelectPhoto(event, '${item.id}')">
                         <div class="card-fav-btn ${isFav ? 'is-favorite' : ''}" onclick="toggleFavorite(event, '${item.id}')">${isFav ? '&#9829;' : '&#9825;'}</div>
                         <img src="${imgSrc}" data-id="${item.id}" data-mode="${imgMode}" data-tried="${imgTried}" alt="${buildAltText(item)}" loading="lazy" onclick="openLightbox(${absoluteIndex})" onerror="handleImgError(this)">
-                        ${TEST_WM_IDS.includes(String(item.id)) ? '' : '<div class="watermark">@candicehld_photographie</div>'}
-                        ${TEST_WM_IDS.includes(String(item.id)) ? '<div class="wm-test wm-card">' + wmInner() + '</div>' : ''}
+                        ${hasBakedWm(item) ? '' : '<div class="watermark">@candicehld_photographie</div>'}
                         <div class="photo-info" style="padding: 10px; text-align: center; font-size: 14px;">
                             <strong>${item.cavalier} & ${item.cheval}</strong>
                         </div>
@@ -2147,8 +2150,11 @@
 
 
         // ===================== TEST filigrane (à retirer après le test) =====================
-        const TEST_WM_IDS = [];
-        const WM_TEXT = '© Candice Hald Photographie · @candicehld_photographie';
+        // Événements dont les photos ont DÉJÀ le filigrane CAN10 PHOTOS dessiné dans l'image :
+        // on n'affiche alors plus la surcouche "@candicehld_photographie" par-dessus.
+        const BAKED_WM_LIEUX = ['Fontainebleau 30/10/2026'];
+        function hasBakedWm(item) { return !!item && BAKED_WM_LIEUX.includes(item.lieu); }
+        const WM_TEXT = '© CAN10 PHOTOS · @candicehld_photographie';
         function wmInner() {
             const row = '<div class="wm-row">' + (WM_TEXT + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;').repeat(8) + '</div>';
             const logo = '<svg class="wm-logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="rgba(0,0,0,0.25)" stroke="#d4af37" stroke-width="3"/><text x="32" y="43" font-family="Georgia, serif" font-size="26" font-weight="600" fill="#fff" text-anchor="middle" letter-spacing="-1">CH</text></svg>';
@@ -2172,13 +2178,8 @@
         function updateLightboxTestWm() {
             const wm = document.getElementById('lightbox-wm-test');
             const item = currentPhotosList[currentIndex];
-            const isTest = !!item && TEST_WM_IDS.includes(String(item.id));
-            document.getElementById('lightbox-watermark').classList.toggle('hide-old-wm', isTest);
-            if (!isTest) { wm.style.display = 'none'; return; }
-            if (!wm.firstChild) wm.innerHTML = wmInner();
-            const img = document.getElementById('lightbox-img');
-            const go = () => fitWm(wm, img, document.querySelector('.lightbox-image-area'));
-            if (img.complete && img.naturalWidth) go(); else img.addEventListener('load', go, { once: true });
+            document.getElementById('lightbox-watermark').classList.toggle('hide-old-wm', hasBakedWm(item));
+            if (wm) wm.style.display = 'none';
         }
         window.addEventListener('resize', () => { fitCardWatermarks(); updateLightboxTestWm(); });
 
@@ -2202,8 +2203,8 @@
         // ça à un nouvel événement, ajoute son nom exact dans cette liste.
         // >>> Mettre REQUEST_MODE à true pour activer le mode « photos sur demande ».
         //     Il s'applique alors aux événements listés dans ON_REQUEST_LIEUX.
-        const REQUEST_MODE = false;
-        const ON_REQUEST_LIEUX = ['Ghlin 06/09/2026'];
+        const REQUEST_MODE = true;
+        const ON_REQUEST_LIEUX = ['Fontainebleau 30/10/2026'];
         function isOnRequestItem(item) {
             return REQUEST_MODE && !!item && ON_REQUEST_LIEUX.includes(item.lieu);
         }
