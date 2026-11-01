@@ -624,7 +624,7 @@
             background: #edf2f7;
         }
 
-        /* Barre de filtres (Épreuve / Session / Cavalier / Cheval), visible sur toutes les pages */
+        /* Barre de filtres (Lieu / Épreuve / Cavalier / Cheval), visible sur toutes les pages */
         .filter-bar {
             display: flex;
             flex-wrap: wrap;
@@ -662,7 +662,31 @@
             background: white;
             font-size: 14px;
             color: #2d3748;
-            width: 150px;
+            width: 170px;
+            padding-right: 34px;
+            box-sizing: border-box;
+        }
+        .combo-btn {
+            position: absolute;
+            right: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: transparent;
+            color: #718096;
+            font-size: 15px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+        .combo-btn:hover { color: #1a365d; background: #edf2f7; }
+        .combo-dropdown .suggestion-item.empty { color: #a0aec0; cursor: default; }
+        .combo-dropdown .suggestion-item.empty:hover { background: transparent; }
+        @media (max-width: 700px) {
+            .filter-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 16px; }
+            .filter-bar .combo-wrapper input[type="text"] { width: 100%; font-size: 16px; }
+            .filter-bar .filter-reset-btn { grid-column: 1 / -1; }
         }
         .combo-wrapper input[type="text"]:focus {
             outline: none;
@@ -881,14 +905,24 @@
 
     <!-- Barre de filtres, visible sur toutes les pages -->
     <div class="filter-bar" id="filter-bar">
-        <select id="filter-epreuve"><option value="">Épreuve</option></select>
-        <select id="filter-session"><option value="">Session</option></select>
         <div class="combo-wrapper">
-            <input type="text" id="filter-cavalier-input" placeholder="Cavalier" autocomplete="off">
+            <input type="text" id="filter-lieu-input" placeholder="Lieu" autocomplete="off" aria-label="Lieu">
+            <button type="button" class="combo-btn" id="filter-lieu-btn" aria-label="Voir les choix : Lieu">&#9662;</button>
+            <div class="combo-dropdown" id="filter-lieu-dropdown"></div>
+        </div>
+        <div class="combo-wrapper">
+            <input type="text" id="filter-epreuve-input" placeholder="Épreuve" autocomplete="off" aria-label="Épreuve">
+            <button type="button" class="combo-btn" id="filter-epreuve-btn" aria-label="Voir les choix : Épreuve">&#9662;</button>
+            <div class="combo-dropdown" id="filter-epreuve-dropdown"></div>
+        </div>
+        <div class="combo-wrapper">
+            <input type="text" id="filter-cavalier-input" placeholder="Cavalier" autocomplete="off" aria-label="Cavalier">
+            <button type="button" class="combo-btn" id="filter-cavalier-btn" aria-label="Voir les choix : Cavalier">&#9662;</button>
             <div class="combo-dropdown" id="filter-cavalier-dropdown"></div>
         </div>
         <div class="combo-wrapper">
-            <input type="text" id="filter-cheval-input" placeholder="Cheval" autocomplete="off">
+            <input type="text" id="filter-cheval-input" placeholder="Cheval" autocomplete="off" aria-label="Cheval">
+            <button type="button" class="combo-btn" id="filter-cheval-btn" aria-label="Voir les choix : Cheval">&#9662;</button>
             <div class="combo-dropdown" id="filter-cheval-dropdown"></div>
         </div>
         <button class="filter-reset-btn" id="filter-reset-btn">Réinitialiser</button>
@@ -1026,7 +1060,7 @@
 
         // Noms de famille à ignorer quand on détecte les prénoms des cavaliers
         // (certaines photos ont plusieurs cavaliers collés, ex: "Ombeline Hald Alex")
-        const KNOWN_SURNAMES = new Set(['novack', 'hald', 'chanez', 'legrand', 'fekete', 'delannoy']);
+        const KNOWN_SURNAMES = new Set(['novack', 'hald', 'chanez', 'legrand', 'fekete', 'delannoy', 'albert', 'raux', 'chopin', 'cordahi', 'wojciekowski']);
         // Mots à ignorer côté cheval (ex: "Non" = pas de cheval renseigné)
         const INVALID_CHEVAL_WORDS = new Set(['non']);
         // Noms de chevaux à deux mots (ou plus) : à traiter comme un seul nom,
@@ -1416,91 +1450,157 @@
             return { name: lieu || '', date: '' };
         }
 
-        // ===================== Barre de filtres (Épreuve / Session / Cavalier / Cheval) =====================
-        let selectedCavalierFilter = '';
-        let selectedChevalFilter = '';
+        // ===================== Barre de filtres (Lieu / Épreuve / Cavalier / Cheval) =====================
+        // Les 4 champs sont des listes où l'on peut écrire. Chaque champ ne propose que les valeurs
+        // compatibles avec les 3 autres (ex : Lieu = Jardy -> seulement les épreuves, cavaliers et chevaux de Jardy).
+        const FILTER_FIELDS = ['lieu', 'epreuve', 'cavalier', 'cheval'];
+        const filterState = { lieu: '', epreuve: '', cavalier: '', cheval: '' };
+        let keepFilters = false;
 
-        function populateFilterDropdowns() {
-            const epreuves = [...new Set(allData.map(i => i.epreuve))].filter(Boolean).sort((a, b) => a.localeCompare(b));
-            const sessions = [...new Set(allData.map(i => i.session))].filter(Boolean).sort((a, b) => a.localeCompare(b));
-            fillSelect('filter-epreuve', 'Épreuve', epreuves);
-            fillSelect('filter-session', 'Session', sessions);
+        // Ignore les accents et les majuscules : "josephine" trouve "Joséphine"
+        function normTxt(str) {
+            return (str || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
         }
 
-        function fillSelect(id, placeholder, values) {
-            const select = document.getElementById(id);
-            select.innerHTML = `<option value="">${placeholder}</option>` +
-                values.map(v => `<option value="${v.replace(/"/g, '&quot;')}">${v}</option>`).join('');
+        function itemMatchesFilter(item, key, val) {
+            if (!val) return true;
+            if (key === 'lieu') return item.lieu === val;
+            if (key === 'epreuve') return item.epreuve === val;
+            return wordMatch(item[key], val);
         }
 
-        // Combobox réutilisable : un champ texte + un menu déroulant cliquable.
-        // On peut taper pour filtrer la liste, mais la valeur n'est retenue
-        // que si on clique sur une suggestion (évite les fautes de frappe).
-        function setupCombobox(inputId, dropdownId, getOptions, onSelect, onClear) {
-            const input = document.getElementById(inputId);
-            const dropdown = document.getElementById(dropdownId);
-
-            function renderOptions() {
-                const typed = input.value.trim().toLowerCase();
-                const options = getOptions();
-                const matches = typed ? options.filter(o => o.toLowerCase().includes(typed)) : options;
-                if (matches.length === 0) {
-                    dropdown.style.display = 'none';
-                    dropdown.innerHTML = '';
-                    return;
-                }
-                dropdown.innerHTML = matches.map(o =>
-                    `<div class="suggestion-item" data-value="${o.replace(/"/g, '&quot;')}">${o}</div>`
-                ).join('');
-                dropdown.style.display = 'block';
+        function filterOptions(key) {
+            const items = allData.filter(it => FILTER_FIELDS.every(k => k === key || itemMatchesFilter(it, k, filterState[k])));
+            const set = new Set();
+            if (key === 'lieu' || key === 'epreuve') {
+                items.forEach(it => { if (it[key]) set.add(it[key]); });
+            } else {
+                const canon = new Set(key === 'cavalier' ? canonicalCavaliers : canonicalChevaux);
+                items.forEach(it => {
+                    if (!it[key]) return;
+                    splitNameField(it[key]).forEach(w => { w = w.trim(); if (canon.has(w)) set.add(w); });
+                });
             }
+            const arr = Array.from(set);
+            if (key === 'lieu') return arr.sort((a, b) => parseLieuDate(b) - parseLieuDate(a));
+            return arr.sort((a, b) => a.localeCompare(b));
+        }
 
-            input.addEventListener('focus', renderOptions);
-            input.addEventListener('input', () => {
-                renderOptions();
-                if (input.value.trim() === '') onClear();
-            });
-            dropdown.addEventListener('click', (e) => {
-                const item = e.target.closest('.suggestion-item');
-                if (!item) return;
-                input.value = item.dataset.value;
-                dropdown.style.display = 'none';
-                onSelect(item.dataset.value);
-            });
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest(`#${inputId}`) && !e.target.closest(`#${dropdownId}`)) {
-                    dropdown.style.display = 'none';
+        function syncFilterInputs() {
+            FILTER_FIELDS.forEach(k => {
+                const input = document.getElementById(`filter-${k}-input`);
+                const btn = document.getElementById(`filter-${k}-btn`);
+                if (input) input.value = filterState[k];
+                if (btn) {
+                    btn.innerHTML = filterState[k] ? '&#10005;' : '&#9662;';
+                    btn.setAttribute('aria-label', filterState[k] ? 'Effacer' : 'Voir les choix');
                 }
             });
         }
 
         function clearFilterInputs() {
-            const epreuveSel = document.getElementById('filter-epreuve');
-            const sessionSel = document.getElementById('filter-session');
-            const cavalierInput = document.getElementById('filter-cavalier-input');
-            const chevalInput = document.getElementById('filter-cheval-input');
-            if (epreuveSel) epreuveSel.value = '';
-            if (sessionSel) sessionSel.value = '';
-            if (cavalierInput) cavalierInput.value = '';
-            if (chevalInput) chevalInput.value = '';
-            selectedCavalierFilter = '';
-            selectedChevalFilter = '';
+            if (keepFilters) return;
+            FILTER_FIELDS.forEach(k => { filterState[k] = ''; });
+            syncFilterInputs();
+        }
+
+        // Si un choix n'est plus compatible avec les autres, on l'efface
+        function reconcileFilters(changedKey) {
+            FILTER_FIELDS.forEach(k => {
+                if (k === changedKey || !filterState[k]) return;
+                if (!filterOptions(k).includes(filterState[k])) filterState[k] = '';
+            });
+        }
+
+        function setupFilterCombo(key) {
+            const input = document.getElementById(`filter-${key}-input`);
+            const dropdown = document.getElementById(`filter-${key}-dropdown`);
+            const btn = document.getElementById(`filter-${key}-btn`);
+            const wrapper = input.parentElement;
+
+            function currentMatches() {
+                const typed = normTxt(input.value.trim());
+                const options = filterOptions(key);
+                // Si le champ contient déjà le choix validé, on montre toutes les options
+                if (!typed || input.value === filterState[key]) return options;
+                return options.filter(o => normTxt(o).includes(typed));
+            }
+            function renderOptions() {
+                const matches = currentMatches();
+                dropdown.innerHTML = matches.length
+                    ? matches.map(o => `<div class="suggestion-item" data-value="${o.replace(/"/g, '&quot;')}">${o}</div>`).join('')
+                    : '<div class="suggestion-item empty">Aucun résultat</div>';
+                dropdown.style.display = 'block';
+            }
+            function close() { dropdown.style.display = 'none'; }
+            function choose(value) {
+                filterState[key] = value;
+                reconcileFilters(key);
+                syncFilterInputs();
+                close();
+                applyFilters();
+            }
+            function clear() {
+                filterState[key] = '';
+                reconcileFilters(key);
+                syncFilterInputs();
+                close();
+                applyFilters();
+            }
+
+            input.addEventListener('focus', renderOptions);
+            input.addEventListener('input', () => {
+                renderOptions();
+                if (input.value.trim() === '' && filterState[key]) clear();
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const m = currentMatches();
+                    if (m.length) choose(m[0]);
+                } else if (e.key === 'Escape') {
+                    input.value = filterState[key];
+                    close();
+                    input.blur();
+                }
+            });
+            btn.addEventListener('click', () => {
+                if (filterState[key]) { clear(); return; }
+                if (dropdown.style.display === 'block') { close(); return; }
+                input.focus();
+                renderOptions();
+            });
+            dropdown.addEventListener('click', (e) => {
+                const item = e.target.closest('.suggestion-item');
+                if (!item || item.classList.contains('empty')) return;
+                choose(item.dataset.value);
+            });
+            document.addEventListener('click', (e) => {
+                if (wrapper.contains(e.target)) return;
+                close();
+                // Un texte non validé (faute de frappe...) est remis au choix précédent
+                if (input.value !== filterState[key]) input.value = filterState[key];
+            });
         }
 
         function applyFilters() {
-            const epreuve = document.getElementById('filter-epreuve').value;
-            const session = document.getElementById('filter-session').value;
-            const cavalier = selectedCavalierFilter;
-            const cheval = selectedChevalFilter;
+            const { lieu, epreuve, cavalier, cheval } = filterState;
 
-            if (!epreuve && !session && !cavalier && !cheval) {
+            if (!lieu && !epreuve && !cavalier && !cheval) {
                 renderHome();
                 return;
             }
 
+            // Seul le lieu est choisi : on ouvre le dossier du lieu (ses épreuves)
+            if (lieu && !epreuve && !cavalier && !cheval) {
+                keepFilters = true;
+                try { renderEpreuves(lieu); } finally { keepFilters = false; }
+                return;
+            }
+
             const results = allData.filter(item =>
+                (!lieu || item.lieu === lieu) &&
                 (!epreuve || item.epreuve === epreuve) &&
-                (!session || item.session === session) &&
                 (!cavalier || wordMatch(item.cavalier, cavalier)) &&
                 (!cheval || wordMatch(item.cheval, cheval))
             );
@@ -1509,7 +1609,7 @@
             setPageTitle('Résultats filtrés');
             showHomeBanner(false);
 
-            const labelParts = [epreuve, session, cavalier, cheval].filter(Boolean);
+            const labelParts = [lieu, epreuve, cavalier, cheval].filter(Boolean);
             updateBreadcrumb([{ name: `Filtre : ${labelParts.join(' / ')}`, action: '' }]);
             setBackNav("Retour à l'accueil", 'resetFilters()');
 
@@ -1574,23 +1674,11 @@
             }
 
             updateFavCountBadge();
-            populateFilterDropdowns();
             renderHome();
 
-            document.getElementById('filter-epreuve').addEventListener('change', applyFilters);
-            document.getElementById('filter-session').addEventListener('change', applyFilters);
             document.getElementById('filter-reset-btn').addEventListener('click', resetFilters);
-
-            setupCombobox('filter-cavalier-input', 'filter-cavalier-dropdown',
-                () => canonicalCavaliers,
-                (value) => { selectedCavalierFilter = value; applyFilters(); },
-                () => { selectedCavalierFilter = ''; applyFilters(); }
-            );
-            setupCombobox('filter-cheval-input', 'filter-cheval-dropdown',
-                () => canonicalChevaux,
-                (value) => { selectedChevalFilter = value; applyFilters(); },
-                () => { selectedChevalFilter = ''; applyFilters(); }
-            );
+            FILTER_FIELDS.forEach(setupFilterCombo);
+            syncFilterInputs();
 
             const searchInput = document.getElementById('search-input');
             const suggestionsBox = document.getElementById('search-suggestions-box');
