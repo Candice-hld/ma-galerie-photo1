@@ -1058,27 +1058,55 @@
         // Pour en masquer un plus tard, il suffit d'ajouter son nom exact ici.
         const HIDDEN_LIEUX = [];
 
-        // Noms de famille à ignorer quand on détecte les prénoms des cavaliers
-        // (certaines photos ont plusieurs cavaliers collés, ex: "Ombeline Hald Alex")
-        const KNOWN_SURNAMES = new Set(['novack', 'hald', 'chanez', 'legrand', 'fekete', 'delannoy', 'albert', 'raux', 'chopin', 'cordahi', 'wojciekowski']);
+        // ===== Noms complets connus (à compléter quand tu ajoutes de nouvelles personnes / de nouveaux chevaux) =====
+        // Dans data.csv, quand une photo a plusieurs cavaliers ou plusieurs chevaux, ils sont séparés par un espace.
+        // Pour que le site sache que "Gina Albert Raux" est UNE seule personne (et "Juice Of May" UN seul cheval),
+        // on liste ici les noms à plusieurs mots. Un prénom seul (ex : "Violette", "Juice") est rattaché
+        // automatiquement au nom complet s'il n'y a pas d'ambiguïté.
+        const KNOWN_RIDERS = [
+            'Violette Novack', 'Toscane Novack', 'Ombeline Hald', 'Auxane Chanez', 'Philippe Chanez',
+            'Maya Legrand', 'Rose Fekete', 'Gina Albert Raux', 'Esther Chopin',
+            'Amandine Wojciekowski', 'Joséphine Cordahi'
+        ];
+        const KNOWN_HORSES = [
+            'Juice Of May', 'Inaya Du Ron', 'Halfa Des Petits Pres', 'Lithium Du Gevaudan',
+            'Top Secret', "Dhyor D'Othon"
+        ];
+        const KNOWN_FULL_NAMES = [...KNOWN_RIDERS, ...KNOWN_HORSES];
+        // Noms de famille isolés à ignorer
+        const KNOWN_SURNAMES = new Set(['novack', 'hald', 'chanez', 'legrand', 'fekete', 'delannoy']);
         // Mots à ignorer côté cheval (ex: "Non" = pas de cheval renseigné)
         const INVALID_CHEVAL_WORDS = new Set(['non']);
-        // Noms de chevaux à deux mots (ou plus) : à traiter comme un seul nom,
-        // sinon le découpage par espace les couperait en deux (ex: "Top Secret").
-        const MULTIWORD_HORSE_NAMES = ['Top Secret'];
 
-        // Découpe un champ (cavalier ou cheval) en mots individuels, en gardant
-        // groupés les noms à plusieurs mots connus (ex: "Top Secret" reste entier).
-        function splitNameField(field) {
-            let working = field;
-            const placeholders = {};
-            MULTIWORD_HORSE_NAMES.forEach((phrase, idx) => {
-                const key = `__MW${idx}__`;
-                const re = new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-                working = working.replace(re, key);
-                placeholders[key] = phrase;
+        // Prénom (premier mot) -> nom complet, seulement si un seul nom complet commence par ce mot
+        const FIRST_WORD_ALIAS = (() => {
+            const count = {}, map = {};
+            KNOWN_FULL_NAMES.forEach(n => {
+                const w = n.split(' ')[0].toLowerCase();
+                count[w] = (count[w] || 0) + 1;
+                map[w] = n;
             });
-            return working.split(/\s+/).map(w => placeholders[w] || w).filter(Boolean);
+            Object.keys(map).forEach(w => { if (count[w] > 1) delete map[w]; });
+            return map;
+        })();
+        const FULL_NAMES_BY_LENGTH = [...KNOWN_FULL_NAMES]
+            .map(n => ({ name: n, tokens: n.toLowerCase().split(' ') }))
+            .sort((x, y) => y.tokens.length - x.tokens.length);
+
+        // Découpe un champ (cavalier ou cheval) en noms individuels : les noms complets connus restent
+        // entiers ("Gina Albert Raux", "Juice Of May"), les autres mots sont pris un par un.
+        function splitNameField(field) {
+            const tokens = (field || '').split(/\s+/).filter(Boolean);
+            const lower = tokens.map(t => t.toLowerCase());
+            const out = [];
+            let i = 0;
+            while (i < tokens.length) {
+                const hit = FULL_NAMES_BY_LENGTH.find(f => f.tokens.every((t, k) => lower[i + k] === t));
+                if (hit) { out.push(hit.name); i += hit.tokens.length; continue; }
+                out.push(FIRST_WORD_ALIAS[lower[i]] || tokens[i]);
+                i++;
+            }
+            return [...new Set(out)];
         }
 
         let canonicalCavaliers = [];
